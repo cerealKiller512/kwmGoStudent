@@ -1,0 +1,22 @@
+<!-- input in book-list-component.html file to know book variable here!-->
+
+<!-- alle properties mit '?' abfragen, um possibly undefined errors vorzubeugen!-->
+
+
+<div class="content">
+  <div class="header">
+    {{subject?.title}}
+  </div>
+  <div class="description">
+    {{subject?.description}}
+  </div>
+  <div class="metadata">
+
+          {{subject?.user.firstName}} {{subject?.user.lastName}}
+
+     
+  </div>
+  <div class="extra">ID {{subject?.id}}</div>
+
+
+</div>

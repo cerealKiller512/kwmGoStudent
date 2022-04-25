@@ -17,11 +17,10 @@ class CreateSubjectsTable extends Migration
             $table->id()->unique();
             $table->string('title');
             $table->text('description')->nullable();
-            $table->integer('rating')->default('1');
+            $table->integer('price')->default(0);
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->foreignId('student_id')->nullable()->constrained();
-            $table->foreignId('category_id')->onDelete('cascade');
-            $table->foreignId('level_id')->onDelete('cascade');
+            $table->foreignId('category_id')->constrained()->onDelete('cascade');
+            $table->foreignId('level_id')->constrained()->onDelete('cascade');
             $table->timestamps();
         });
     }
