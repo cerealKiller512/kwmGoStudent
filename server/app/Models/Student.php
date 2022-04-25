@@ -7,10 +7,13 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use \Illuminate\Database\Eloquent\Relations\HasMany;
+use Tymon\JWTAuth\Contracts\JWTSubject;
 
 class Student extends Authenticatable
 {
     use HasFactory, Notifiable;
+
+    protected $guard = 'student';
 
     /**
      * The attributes that are mass assignable.
@@ -18,7 +21,7 @@ class Student extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'firstName', 'lastName', 'id', 'email', 'password', 'phone'
+        'firstName', 'lastName', 'id', 'email', 'password', 'phone', 'image_url'
     ];
 
     /**
@@ -40,16 +43,19 @@ class Student extends Authenticatable
     ];
 
     /**
-     * student has many subjects (1:n)
+     * student might have many appointments (1:n)
      * @return HasMany
      */
 
-    public function subjects() : HasMany{
-       return $this->hasMany(Subject::class);
+    public function appointments() : HasMany{
+       return $this->hasMany(Appointment::class);
     }
 
-    // students belongs to many subjects (m:n)
-    //public function subjects(): \Illuminate\Database\Eloquent\Relations\BelongsToMany{
-    //return $this->belongsToMany(Subject::class)->withTimestamps();
-    //}
+
+    public function messages():HasMany{
+        return $this->hasMany(Message::class);
+    }
+
+
+
 }

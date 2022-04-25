@@ -74,7 +74,7 @@ class UserController extends Controller
         }
         catch (\Exception $e){
             DB::rollBack();
-            return response()->json("saving user failed: ". $e->getMessage(), 420);
+            return response()->json("saving users failed: ". $e->getMessage(), 420);
         }
     }
 
@@ -120,12 +120,12 @@ class UserController extends Controller
         }
         catch (\Exception $e){
             DB::rollBack();
-            return response()->json("updating user failed: ". $e->getMessage(), 420);
+            return response()->json("updating users failed: ". $e->getMessage(), 420);
         }
     }
 
     /**
-     * returns 200 if user deleted successfully, throws exception if not
+     * returns 200 if users deleted successfully, throws exception if not
      */
 
     public function delete(int $id):JsonResponse{
@@ -134,8 +134,8 @@ class UserController extends Controller
             $user->delete();
         }
         else
-            throw new \Exception("user couldn't be deleted - it does not exist");
-        return response()->json('user ('. $id. ') successfully deleted', 200);
+            throw new \Exception("users couldn't be deleted - it does not exist");
+        return response()->json('users ('. $id. ') successfully deleted', 200);
     }
 
 }

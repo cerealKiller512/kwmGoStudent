@@ -6,7 +6,9 @@ export class ErrorMessage {
   ) { }
 }
 export const SubjectFormErrorMessages = [
-  new ErrorMessage('title', 'required', 'Ein Titel muss angegeben werden'),
-  new ErrorMessage('published', 'required', 'Es muss ein Erscheinungsdatum angegeben werden'),
-  new ErrorMessage('user', 'required', 'Es muss ein Autor angegeben werden'),
- ];
+  new ErrorMessage("title", "required", "Ein Buchtitel muss angegeben werden"),
+  new ErrorMessage("id", "required", "Es muss eine ID eingegeben werden"),
+  new ErrorMessage("published", "required", "Es muss ein Erscheinungsdatum angegeben werden"),
+  new ErrorMessage("user", "required", "Es muss ein Lehrer angegeben werden!"),
+  new ErrorMessage("appointments", "required", "Es muss zumindest ein Termin angegeben werden")
+];

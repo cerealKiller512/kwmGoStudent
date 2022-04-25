@@ -1,13 +1,15 @@
 
 
+<div class="container c-grid-3 mt-5">
 
-
-
-<div class="ui middle aligned selection divided list">
-
-  <a *ngFor="let category of categories" class="item">
-    <div class="content">
-      <div class="header">{{category.name}}</div>
+  <button *ngFor="let category of categories" type="button"
+    class="btn btn-light border border-dark" (click)="selectCategory(category)">
+    <div class="icon">
+      <!--TODO: add items-->
+      <i class="fa-solid "></i>
     </div>
-  </a>
+    <div class="btn-label">
+      {{category.name}}
+    </div>
+  </button>
 </div>

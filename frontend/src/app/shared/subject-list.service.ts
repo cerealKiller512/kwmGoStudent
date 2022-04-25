@@ -1,22 +1,30 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
-import {catchError, count, Observable, retry, throwError} from "rxjs";
+import {BehaviorSubject, catchError, count, Observable, retry, throwError} from "rxjs";
 import {Subject} from "../components/subject";
+
 
 @Injectable({
   providedIn: 'root'
 })
+
 export class SubjectListService {
 
+
+  public selectedSubject = new BehaviorSubject<Subject>(null);
   private api = 'http://kwmgostudent.s1910456021.student.kwmhgb.at/api'
 
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient) { }
+
+
+  getAll(categoryId: number, levelId: number):Observable<Array<Subject>>{
+    return this.http.get<Array<Subject>>(`${this.api}/subjects`)
+      .pipe(retry(3)).pipe(catchError(this.errorHandler));
   }
 
-
-  getAll():Observable<Array<Subject>>{
-    return this.http.get<Array<Subject>>(`${this.api}/subjects`)
+  getAllSearch(searchTerm: string):Observable<Array<Subject>>{
+    return this.http.get<Subject>(`${this.api}/subjects/search/${searchTerm}`)
       .pipe(retry(3)).pipe(catchError(this.errorHandler));
   }
 
@@ -40,6 +48,11 @@ export class SubjectListService {
     return this.http.delete(`${this.api}/subjects/${id}`)
       .pipe(retry(3)).pipe(catchError(this.errorHandler));
 
+  }
+
+  check(id:number):Observable<Boolean>{
+    return this.http.get<Boolean>(`${this.api}/subjects/checkId/${id}`)
+      .pipe(catchError(this.errorHandler))
   }
 
 

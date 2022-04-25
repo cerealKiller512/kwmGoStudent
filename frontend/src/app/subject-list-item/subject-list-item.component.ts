@@ -2,7 +2,7 @@ import {Component, Input, OnInit} from '@angular/core';
 import {Subject} from "../components/subject";
 
 @Component({
-  selector: 'bs-subject-list-item',
+  selector: 'a.bs-subject-list-item',
   templateUrl: './subject-list-item.component.html',
   styles: [
   ]

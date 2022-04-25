@@ -18,6 +18,7 @@ class CreateSubjectsTable extends Migration
             $table->string('title');
             $table->text('description')->nullable();
             $table->integer('price')->default(0);
+            $table->string('icon')->default('fa-light fa-alien-8bit');
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->foreignId('category_id')->constrained()->onDelete('cascade');
             $table->foreignId('level_id')->constrained()->onDelete('cascade');

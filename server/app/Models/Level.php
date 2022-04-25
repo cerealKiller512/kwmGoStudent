@@ -9,6 +9,8 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Level extends Model
 {
+
+    protected $fillable= ['id', 'level'];
     use HasFactory;
 
     /**

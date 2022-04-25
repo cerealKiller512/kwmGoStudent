@@ -60,7 +60,7 @@ class LevelController extends Controller
         }
         catch (\Exception $e){
             DB::rollBack();
-            return response()->jaon("saving level failed: ". $e->getMessage(), 420);
+            return response()->json("saving level failed: ". $e->getMessage(), 420);
         }
     }
 

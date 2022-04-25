@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {Category} from "../components/category";
 import {Level} from "../components/level";
+import {LevelListService} from "../shared/level-list.service";
 
 @Component({
   selector: 'bs-level-list',
@@ -13,14 +14,15 @@ export class LevelListComponent implements OnInit {
 
   levels: Level[] = [];
 
+  constructor(private levelListService:LevelListService) {
+  }
+
   ngOnInit(){
+    this.levelListService.getAll().subscribe(res => this.levels = res);
+  }
 
-    this.levels.push(new Level(1, 'Volksschule'));
-    this.levels.push(new Level(2, 'Unterstufe'));
-    this.levels.push(new Level(3, 'Oberstufe'));
-    this.levels.push(new Level(4, 'Studium'));
-
-    console.log(this.levels)
+  selectLevel(level: Level) {
+    this.levelListService.selectedLevel.next(level);
   }
 
 }

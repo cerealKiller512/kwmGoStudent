@@ -9,11 +9,15 @@ import {SubjectListService} from '../shared/subject-list.service';
   styles: []
 })
 export class SearchComponent implements OnInit {
+  keyup = new EventEmitter<string>();
   foundSubjects: Subject[] = [];
   isLoading = false;
-  keyup = new EventEmitter<string>();
   @Output() subjectSelected = new EventEmitter<Subject>();
-  constructor(private bs: SubjectListService){}
+
+  constructor(private bs: SubjectListService){
+
+  }
+
   ngOnInit() {
     this.keyup.pipe(filter(term => term!=""))
       .pipe(debounceTime(500))
@@ -21,6 +25,9 @@ export class SearchComponent implements OnInit {
       .pipe(tap(() => this.isLoading = true))
       .pipe(switchMap(searchTerm => this.bs.getAllSearch(searchTerm)))
       .pipe(tap(() => this.isLoading = false))
-      .subscribe(books => this.foundSubjects = books);
+      .subscribe(subjects => {
+        console.log(subjects)
+        this.foundSubjects = subjects;
+      });
   }
 }

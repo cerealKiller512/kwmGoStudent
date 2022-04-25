@@ -7,28 +7,16 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Subject extends Model
 {
-    protected $fillable = ['title', 'rating', 'description', 'user_id', 'student_id', 'category_id', 'level_id'];
+    protected $fillable = ['title', 'description', 'price', 'icon', 'user_id', 'category_id', 'level_id',];
 
-    public function scopeFavourite($query)
-    {
-        return $query->where('rating', '>=', 8);
 
-    }
 
     /**
-     * subject has many images
-     */
-
-    public function images(): HasMany
-    {
-        return $this->hasMany(Image::class);
-    }
-
-    /**
-     * subject is assigned to user (n:1)
+     * subject is assigned to users (n:1)
      */
 
     public function user(): BelongsTo
@@ -39,9 +27,6 @@ class Subject extends Model
     /**
      * subject belongs to many students (m:n) ?????
      */
-    public function students():HasOne{
-      return $this->hasOne(Student::class);
-    }
 
     public function category():BelongsTo{
         return $this->belongsTo(Category::class);
@@ -49,5 +34,13 @@ class Subject extends Model
 
     public function level():BelongsTo{
         return $this->belongsTo(Category::class);
+    }
+
+    public function appointments():HasMany{
+        return $this->hasMany(Appointment::class);
+    }
+
+    public function messages():HasMany{
+        return $this->hasMany(Message::class);
     }
 }

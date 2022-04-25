@@ -1,14 +1,16 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
-import {catchError, count, Observable, retry, throwError} from "rxjs";
-import {Category} from "./category";
+import {BehaviorSubject, catchError, count, Observable, retry, throwError} from "rxjs";
+import {Category} from "../components/category";
 
 @Injectable({
   providedIn: 'root'
 })
 export class CategoryListService {
 
-  private api = 'http://bookstore22test.s1910456021.student.kwmhgb.at/api'
+  public selectedCategory = new BehaviorSubject<Category>(null);
+
+  private api = 'http://kwmgostudent.s1910456021.student.kwmhgb.at/api'
 
 
   constructor(private http: HttpClient) {

@@ -33,10 +33,6 @@ class LevelsTableSeeder extends Seeder
 
         $level4->save();
 
-        $level5 = new \App\Models\Level();
-        $level5->level = "Universität / Fachhochschule";
-
-        $level5->save();
 
     }
 }

@@ -5,6 +5,7 @@
 
 <div class="content">
   <div class="header">
+    {{subject?.icon}}
     {{subject?.title}}
   </div>
   <div class="description">
@@ -14,9 +15,16 @@
 
           {{subject?.user.firstName}} {{subject?.user.lastName}}
 
-     
+
   </div>
-  <div class="extra">ID {{subject?.id}}</div>
+
+  <div class="metadata">
+    <span *ngFor="let appointment of subject?.appointments; last as l">
+      {{appointment?.day}} {{appointment?.from}} {{appointment?.to}}
+      <span *ngIf="!l">,</span>
+    </span>
+  </div>
+
 
 
 </div>

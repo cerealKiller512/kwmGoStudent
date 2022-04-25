@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Appointment;
 use App\Models\Subject;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
@@ -15,14 +16,14 @@ class SubjectController extends Controller
         /* load all books and relations with eager loading,
         which means "load all related objects"*/
 
-        $subjects = Subject::with(['images', 'user'])->get();
+        $subjects = Subject::with(['user'])->get();
         return $subjects;
     }
 
-    public function show(Subject $subject){
+    /*public function show(Subject $subject){
         return view('subjects.show', compact('subject'));
 
-    }
+    }*/
 
     /**
      * find subject by given id
@@ -70,17 +71,19 @@ class SubjectController extends Controller
         try{
             $subject = Subject::create($request->all());
 
-            if(isset($request['images']) && is_array($request['images'])){
-                foreach ($request['images'] as $img){
-                    $image = Image::firstOrNew(['url'=>$img['url'],'title'=>$img['title']]);
-                    $subject->images()->save($image);
+            if(isset($request['appointments']) && is_array($request['appointments'])){
+                foreach ($request['appointments'] as $appointment){
+                    $newAppointment = Appointment::firstOrNew(['day'=>$appointment['day'],
+                        'from'=>$appointment['from'],
+                        'to'=>$appointment['to']]);
+                    $subject->appointments()->save($newAppointment);
                 }
             }
 
             //save users ??????
 
             DB::commit();
-            return response()->json($subject, 201);
+            return response()->json($subject, 200);
         }
 
         catch (\Exception $e){
@@ -104,26 +107,26 @@ class SubjectController extends Controller
         DB::beginTransaction();
 
         try{
-            $subject = Subject::with(['images', 'user'])
+            $subject = Subject::with(['user', 'appointments'])
                 ->where('id', $id)->first();
             if($subject != null){
                 $request = $this->parseRequest($request);
                 $subject->update($request->all());
+                $subject->appointments()->delete();
 
-                //delete all old images
-                $subject->images()->delete();
-                //save images
-                if(isset($request['images']) && is_array($request['images'])){
-                    foreach ($request['images'] as $img){
-                        $image = Image::firstOrNew(['url'=>$img['url'], 'title'=>$img['title']]);
-                        $subject->images()->save($image);
+                if(isset($request['appointments']) && is_array($request['appointments'])){
+                    foreach ($request['appointments'] as $app){
+                        $appointment = Appointment::firstOrNew(['day'=>$app['day'],
+                            'from'=>$app['from'],
+                            'to'=>$app['to']]);
+                        $subject->appointments()->save($appointment);
                     }
                 }
                 $subject->save();
             }
 
             DB::commit();
-            $subject1 = Subject::with(['images', 'user'])
+            $subject1 = Subject::with(['user', 'appointments'])
                 ->where('id', $id)->first();
             return response()->json($subject1, 201);
         }

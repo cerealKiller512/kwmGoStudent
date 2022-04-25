@@ -1,1 +1,70 @@
-<p>subject-details works!</p>
+<div class="column">
+  <h1 class="ui header">{{subject.title}}</h1>
+  <h3 class="ui header">{{subject.description}}</h3>
+  <h3>{{subject.user.firstName}} {{subject.user.lastName}}</h3>
+  <div class="ui grid">
+    <div>
+      <h4>Termine</h4>
+      <span *ngFor="let appointment of subject.appointments; last as l">
+        {{appointment.day}} {{appointment.from}} {{appointment.to}}
+        <button type="checkbox"></button>
+        <span *ngIf="!l">,</span>
+        <button type="submit">Anmelden</button>
+      </span>
+
+    </div>
+  </div>
+
+</div>
+
+<button routerLink="/subjects">Zurück zur Übersicht</button>
+<button *ngIf="authService.isLoggedIn()" class="ui tiny red labaled icon button"
+        (click)="removeSubject()">
+  <i class="remove icon"></i> Angebot löschen
+</button>
+
+<button *ngIf="authService.isLoggedIn()" class="ui tiny yellow labaled icon button"
+   [routerLink]="['../../admin', subject?.id]">
+  <i class="write icon">Angebot bearbeiten</i>
+</button>
+
+
+
+
+<!--<div class="ui grid" *ngIf="subject">
+  <div class="twelve wide column">
+    <h1 class="ui header">{{ subject.title }}</h1>
+
+    <div class="ui divider"></div>
+    <div class="ui grid">
+      <div class="four wide column">
+        <h4 class="ui header">Lehrer</h4>
+         {{ subject.users.firstName }} {{subject.users.lastName}}
+      </div>
+    </div>
+  </div>
+  <div class="sixteen wide column">
+    <h3 class="ui header">Beschreibung</h3>
+    {{ subject.description }}
+  </div>
+</div>
+
+<button routerLink="/subjects" class="ui red button">Zurück zur Übersicht</button>
+<button class="ui tiny red labeled icon button" (click)="removeSubject()"><i class="remove icon">
+  Angebot löschen
+</i></button>
+
+<a class="ui tiny yellow labeled icon button" [routerLink]="['../../admin', subject?.id]">
+  <i class="write icon">Angebot bearbeiten</i>
+</a>
+
+
+<button *ngIf="authenticationService.isLoggedIn()" class="ui tiny red labaled icon button"
+(click)="removeSubject()">
+  <i class="remove icon"></i>Angebot löschen
+
+</button>
+<a *nfIf="authenticationService.isLoggedIn()" class="ui tiny yellow labeled icon button"
+   [routerLink]="['../../admin', subject?.id]">
+  <i class="write icon"></i> Angebot bearbeiten
+</a>-->

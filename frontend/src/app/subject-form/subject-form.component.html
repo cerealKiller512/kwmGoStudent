@@ -1,30 +1,100 @@
-<h1>Nachhilfe-Angebots Formular</h1>
-<form class="ui large form" [formGroup]="subjectForm"
+<h1>Nachhilfe-Formular</h1>
+<hr>
+<form class="form-group">
+  <div class="form-row" [formGroup]="subjectForm"
       (ngSubmit)="submitForm()">
-  <input type="hidden" name="id">
-  <div class="field">
-    <label>Angebots-Titel</label>
-    <input formControlName="title">
-    <div *ngIf="errors.title" class="ui negative message"> {{ errors.title
-      }} </div>
-  </div>
-  <div class="field">
-    <label>Beschreibung</label>
-    <input formControlName="description">
-  </div>
-  <div class="field" [class.disabled]="isUpdatingSubject">
-    <label>ID</label>
-    <input formControlName="id">
-    <div *ngIf="errors.id" class="ui negative message">{{ errors.id }}
+    <input type="hidden" formControlName="id">
+    <div class="field">
+      <label>Nachhilfe-Angebot-Titel</label>
+      <br>
+      <input formControlName="title">
+      <div *ngIf="errors['title']">
+        {{errors['title']}}
+      </div>
     </div>
-  </div>
-  <div class="field">
-    <label>Erscheinungsdatum</label>
-    <input type="date" formControlName="published">
-    <div *ngIf="errors.published" class="ui negative message">{{
-      errors.published }}</div>
+<hr>
+    <div class="form-group">
+    <select class="btn btn-outline-secondary dropdown-toggle gap-5" aria-label=".form-select-lg example">
+      <input type="hidden" formControlName="category_id">
+      <option selected>Kategorie</option>
+      <option value="1">Deutsch</option>
+      <option value="2">Englisch</option>
+      <option value="3">Mathematik</option>
+      <hr>
+    </select>
+    </div>
+<hr>
+    <div class="form-group">
+    <select class="btn btn-outline-secondary dropdown-toggle gap-5" aria-label=".form-select-lg example">
+      <input type="hidden" formControlName="level_id">
+      <option selected>Level</option>
+      <option value="1">Volksschule</option>
+      <option value="2">Neue Mittelschule</option>
+      <option value="3">Gymnasium Unterstufe</option>
+      <option value="4">Gymnasium Oberstufe</option>
+      <option value="5">Studium</option>
+      <hr>
+    </select>
+    </div>
+
+  <hr>
+
+</div>
+
+  <div class="form-group col-md-6">
+    <label for="description">Beschreibung</label>
+    <textarea formControlName="description" id="description" class="form-control" placeholder="Beschreibung">
+    </textarea>
+    <hr>
   </div>
 
-  <button type="submit" class="ui button"
+
+  <div class="form-group col-md-6" [class.disabled]="isUpdatingSubject">
+    <label for="id">ID</label>
+    <input formControlName="id" id="id" class="form-control" placeholder="10">
+    <div *ngIf="errors['id']" class="ui negative message">{{ errors['id'] }}
+    </div>
+
+    <hr>
+
+  </div>
+  <div class="form-group col-md-6">
+    <label type="date">Erscheinungsdatum</label>
+    <input type="date" formControlName="published">
+    <div *ngIf="errors['published']" class="ui negative message">{{ errors['published'] }}</div>
+    <hr>
+  </div>
+
+
+
+  <!-- TODO: add appointments to form!-->
+
+  <div class="field">
+    <label>Termine</label>
+    <div formArrayName="appointments">
+      <div class="fields" *ngFor="let control of appointments?.controls; index as i; last as l"
+           [formGroupName]="i">
+
+        <input type="hidden" formControlName="id">
+        <div>
+          <input formControlName="day" placeholder="Montag">
+        </div>
+        <div>
+          <input formControlName="from" placeholder="08:00:00">
+        </div>
+        <div>
+          <input formControlName="to" placeholder="12:00:00">
+        </div>
+        <div *ngIf="l">
+          <button (click)="addAppointmentControl()" type="button">+</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="errors['appointments']">{{errors['appointments']}}</div>
+
+
+  <button type="submit" class="btn btn-primary"
           [disabled]="subjectForm.invalid">Speichern</button>
+
 </form>

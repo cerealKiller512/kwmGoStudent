@@ -1,8 +1,13 @@
-<div class="ui middle aligned selection divided list">
+<div class="container c-grid-3 mt-5">
 
-  <a *ngFor="let level of levels" class="item">
-    <div class="content">
-      <div class="header">{{level.level}}</div>
-    </div>
-  </a>
+  <button *ngFor="let level of levels" type="button" class="btn btn-light border border-dark" (onclick)="selectLevel(level)">
+   <div class="icon">
+     <i class="fa-solid"></i>
+   </div>
+   <div class="btn-label">
+
+    {{level.level}}
+  </div>
+  </button>
 </div>
+

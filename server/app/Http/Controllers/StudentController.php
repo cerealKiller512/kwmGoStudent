@@ -11,8 +11,13 @@ use Illuminate\Support\Facades\DB;
 
 class StudentController extends Controller
 {
+
+    public function __construct(){
+        $this->middleware('auth:student');
+
+    }
     public function index(){
-        $students = Student::with(['subjects'])
+        $students = Student::with(['appointments'])
             ->get();
 
         return $students;
@@ -21,7 +26,7 @@ class StudentController extends Controller
 
     public function findById(int $id): Student{
         $student = Student::where('id', $id)
-            ->with(['subjects'])
+            ->with(['appointments'])
             ->first();
 
         return $student;
@@ -33,15 +38,10 @@ class StudentController extends Controller
     }
 
     public function findBySearchTerm(string $searchTerm){
-        $student = Student::with(['subjects'])
+        $student = Student::all()
             ->where('firstName', 'LIKE', '%' . $searchTerm. '%')
             ->orWhere('lastName', 'LIKE', '%' . $searchTerm . '%')
-            ->orWhere('information', 'LIKE', '%' . $searchTerm. '%')
-
-            ->orWhereHas('subjects', function($query) use ($searchTerm){
-                $query->where('title', 'LIKE', '%' . $searchTerm. '%')
-                    ->orWhere('description', 'LIKE', '%' . $searchTerm . '%');
-            })->get();
+            ->orWhere('information', 'LIKE', '%' . $searchTerm. '%')->get();
 
         return $student;
     }
@@ -55,12 +55,6 @@ class StudentController extends Controller
         try{
             $student = Student::create($request->all());
 
-            if(isset($request['subjects']) && is_array($request['subjects'])){
-                foreach ($request['subjects'] as $subj){
-                    $subject = Subject::firstOrNew(['title'=>$subj['title']]);
-                    $student->subjets()->save($subject);
-                }
-            }
 
            DB::commit();
             return response()->json($student, 201);
@@ -81,31 +75,19 @@ class StudentController extends Controller
         DB::beginTransaction();
 
         try{
-            $student = Student::with(['subjects'])
+            $student = Student::all()
                 ->where('id', $id)->first();
             if($student != null){
                 $request = $this->parseRequest($request);
                 $student->update($request->all());
-
-
-                //delete old subjects
-
-                $student->subjects()->delete();
-
-                //save new subjects
-                if(isset($request['subjects']) && is_array($request['subjects'])){
-                    foreach ($request['subjects'] as $subj){
-                        $subject = Subject::firstOrNew(['title'=>$subj['title']]);
-                        $student->subjects()->save($subject);
-                    }
                 }
 
                 $student->save();
 
-            }
+
                 DB::commit();
 
-                $student1 = Student::with(['subjects'])
+                $student1 = Student::all()
                     ->where('id', $id)->first();
                 return response()->json($student1, 201);
 
