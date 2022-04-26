@@ -16,7 +16,7 @@ interface Response{
 })
 export class LoginComponent implements OnInit {
   @Output() user = new EventEmitter<User>();
-  @Input() showHeadline: boolean = true;
+
   @Input() buttonLabel: string = "Anmelden";
 
   loginForm: FormGroup;
@@ -35,7 +35,7 @@ export class LoginComponent implements OnInit {
     });
 
     if(this.authService.isLoggedIn()){
-      this.currentUser.id = this.authService.getCurrentUserId();
+      this.currentUser = this.authService.getCurrentUser();
       this.user.emit(this.currentUser);
     }
   }
@@ -47,11 +47,6 @@ export class LoginComponent implements OnInit {
       this.authService.login(val.email, val.password).subscribe((res:any) => {
         console.log(res);
         this.authService.setSessionStorage((res as Response).access_token);
-        this.currentUser.id = this.authService.getCurrentUserId();
-
-
-        //TODO: check if user is teacher or student !
-        this.user.emit(this.currentUser);
         this.router.navigateByUrl("/");
       });
     }
@@ -65,5 +60,11 @@ export class LoginComponent implements OnInit {
   logout(){
     this.authService.logout();
   }
+
+  onLogout(){
+    this.authService.logout();
+  }
+
+
 
 }

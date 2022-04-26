@@ -7,6 +7,8 @@ import { SubjectFactory } from "../components/subject-factory";
 import { SubjectListService } from "../shared/subject-list.service";
 import { Subject } from "../components/subject";
 import { SubjectValidators } from "../shared/subject-validators";
+import {Category} from "../components/category";
+import {Level} from "../components/level";
 @Component({
   selector: "bs-subject-form",
   templateUrl: "./subject-form.component.html",
@@ -21,6 +23,18 @@ export class SubjectFormComponent implements OnInit {
   isUpdatingSubject = false;
 
   appointments: FormArray;
+
+  categories: Category[] = [
+    { id: 0, name: "Deutsch" },
+    { id: 3, name: "Mathe" },
+    { id: 2, name: "Spanisch" },
+  ];
+
+  levels: Level[] = [
+    { id: 0, level: "Ezpz" },
+    { id: 3, level: "semi" },
+    { id: 2, level: "mega" },
+  ];
 
   constructor(
     private fb: FormBuilder,
@@ -37,8 +51,12 @@ export class SubjectFormComponent implements OnInit {
     if (id) {
       //Update-Modus
       this.isUpdatingSubject = true;
+
+      // getAllCategories(cats => this.categories = cats;)
+      // getAllLevels(levels => this.levels = levels;)
       this.bs.getSingle(id).subscribe(subject => {
         this.subject = subject;
+        console.log(subject)
         this.initSubject();
       });
     }
@@ -53,7 +71,9 @@ export class SubjectFormComponent implements OnInit {
       title: [this.subject.title, Validators.required],
       description: this.subject.description,
       published: [this.subject.published, Validators.required],
-      appointments: this.appointments
+      appointments: this.appointments,
+      categoryId: this.subject.category_id,
+      levelId: this.subject.level_id,
     });
     this.subjectForm.statusChanges.subscribe(() => {
       this.updateErrorMessages()

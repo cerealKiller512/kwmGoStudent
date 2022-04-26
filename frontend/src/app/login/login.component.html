@@ -1,9 +1,9 @@
-<div *ngIf="!isLoggedIn(); Else Onlogout">
+<div *ngIf="!isLoggedIn()">
   <h1>Login</h1>
   <form  class="ui large form" [formGroup]="loginForm" (ngSubmit)="login()">
     <div class="field">
       <label>E-Mail</label>
-      <input type="email" id="username" formControlName="username">
+      <input type="email" id="username" formControlName="email">
       <div *ngIf="loginForm.get('username')?.invalid &&
     (loginForm.get('username')?.dirty || loginForm.get('username')?.touched) &&
     loginForm.get('username')?.hasError('required')" class="ui negative message">
@@ -23,84 +23,6 @@
     <button type="submit" class="ui button" [disabled]="loginForm.invalid">Login</button>
   </form>
 </div>
-<!--</div *ngIf="isLoggedIn()">
-  <button type="button" class="ui button" (click)="logout()">Logout</button>
-</div>-->
-
-<ng-template #Onlogout>
-  <div class="ui container logout-container">
-    <table class="ui celled table">
-      <thead>
-      <tr>
-        <th colspan="2">Sie sind angemeldet als: </th>
-      </tr>
-      </thead>
-      <tbody>
-      <tr>
-        <td>Name</td>
-        <td>{{currentUser.firstName + " "+ currentUser.lastName}}</td>
-      </tr>
-      <tr>
-        <td>Email</td>
-        <td>{{currentUser.email}}</td>
-      </tr>
-      </tbody>
-    </table>
-
-    <button type="button" class="ui secondary button" (click)="logout()">Logout</button>
-  </div>
-</ng-template>
-
-
-
-<!--<div class="sidenav" *ngIf="!isLoggedIn()">
-  <div class="login-main-text">
-    <h2>KWM Go Student <br> Anmeldung </h2>
-  </div>
-</div>
-
-<div class="main">
-  <div class="col-md-6 col-sm-12">
-    <div class="login-form">
-  <form class="form-group" [formGroup]="loginForm" (ngSubmit)="login()">
-      <label>E-Mail</label>
-      <input type="email" id="username" formControlName="username">
-      <div *ngIf="loginForm.get('username').invalid
-        && (loginForm.get('username').dirty
-            || loginForm.get('username').touched)
-        && loginForm.get('username').hasError('required')"
-           class="ui negative message">
-        Email ist ein Pflichtfeld.
-      </div>
-      <div *ngIf="loginForm.get('username').invalid
-        && (loginForm.get('username').dirty
-            || loginForm.get('username').touched)
-        && loginForm.get('username').hasError('email')"
-           class="ui negative message">
-        Keine gültige Email-Adresse.
-      </div>
-
-    <div class="form-group">
-      <label for="password">Passwort</label>
-      <input type="password" id="password" formControlName="password">
-      <div *ngIf="loginForm.get('password').invalid
-        && (loginForm.get('password').dirty
-            || loginForm.get('password').touched)"
-           class="ui negative message">
-        Passwort ist ein Pflichtfeld.
-      </div>
-
-    <button type="submit" class="ui button"
-            [disabled]="loginForm.invalid">Login</button>
-
-    </div>
-
-
-
-  </form>
-  </div>
-  </div>
-</div>
 <div *ngIf="isLoggedIn()">
   <button type="button" class="ui button" (click)="logout()">Logout</button>
-</div>-->
+</div>

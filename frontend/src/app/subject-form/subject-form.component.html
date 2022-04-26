@@ -1,8 +1,7 @@
 <h1>Nachhilfe-Formular</h1>
 <hr>
-<form class="form-group">
-  <div class="form-row" [formGroup]="subjectForm"
-      (ngSubmit)="submitForm()">
+<form class="form-group" [formGroup]="subjectForm" (ngSubmit)="submitForm()">
+  <div class="form-row">
     <input type="hidden" formControlName="id">
     <div class="field">
       <label>Nachhilfe-Angebot-Titel</label>
@@ -12,34 +11,24 @@
         {{errors['title']}}
       </div>
     </div>
-<hr>
-    <div class="form-group">
-    <select class="btn btn-outline-secondary dropdown-toggle gap-5" aria-label=".form-select-lg example">
-      <input type="hidden" formControlName="category_id">
-      <option selected>Kategorie</option>
-      <option value="1">Deutsch</option>
-      <option value="2">Englisch</option>
-      <option value="3">Mathematik</option>
-      <hr>
-    </select>
-    </div>
-<hr>
-    <div class="form-group">
-    <select class="btn btn-outline-secondary dropdown-toggle gap-5" aria-label=".form-select-lg example">
-      <input type="hidden" formControlName="level_id">
-      <option selected>Level</option>
-      <option value="1">Volksschule</option>
-      <option value="2">Neue Mittelschule</option>
-      <option value="3">Gymnasium Unterstufe</option>
-      <option value="4">Gymnasium Oberstufe</option>
-      <option value="5">Studium</option>
-      <hr>
-    </select>
-    </div>
 
-  <hr>
+    <hr>
 
-</div>
+    <select formControlName="categoryId">
+      <option [ngValue]="null" disabled>Choose your category</option>
+      <option *ngFor="let cat of categories" [ngValue]="cat.id">
+        {{ cat.name }}
+      </option>
+    </select>
+
+
+    <select formControlName="levelId">
+      <option [ngValue]="null" disabled>Choose your level</option>
+      <option *ngFor="let level of levels" [ngValue]="level.id">
+        {{ level.level }}
+      </option>
+    </select>
+  </div>
 
   <div class="form-group col-md-6">
     <label for="description">Beschreibung</label>
@@ -69,21 +58,24 @@
 
   <!-- TODO: add appointments to form!-->
 
+
   <div class="field">
     <label>Termine</label>
-    <div formArrayName="appointments">
-      <div class="fields" *ngFor="let control of appointments?.controls; index as i; last as l"
-           [formGroupName]="i">
-
-        <input type="hidden" formControlName="id">
+    <div formControlName="appointments">
+      <div *ngFor="let appointment of subject.appointments last as l">
         <div>
-          <input formControlName="day" placeholder="Montag">
+          <label>Tag:</label>
+          <input formControlName="day" placeholder="Montag" value="{{appointment.day}}">
         </div>
         <div>
-          <input formControlName="from" placeholder="08:00:00">
+          <label>Von:</label>
+          <input formControlName="from" placeholder="08:00:00"
+          value="{{appointment.from}}">
         </div>
         <div>
-          <input formControlName="to" placeholder="12:00:00">
+          <label>Bis:</label>
+          <input formControlName="to" placeholder="12:00:00"
+          value="{{appointment.to}}">
         </div>
         <div *ngIf="l">
           <button (click)="addAppointmentControl()" type="button">+</button>

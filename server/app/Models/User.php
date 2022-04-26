@@ -58,7 +58,11 @@ class User extends Authenticatable implements JWTSubject
     public function getJWTCustomClaims()
     {
         //TODO: add boolean if user is admin (teacher) or not
-        return ['user' => ['id' => $this->id]];
+        return ['user' => ['id' => $this->id,
+            'email' => $this->email,
+            'firstName' => $this->firstName,
+            'lastName' => $this->lastName]
+        ];
     }
 
 }

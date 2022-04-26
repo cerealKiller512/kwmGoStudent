@@ -6,6 +6,7 @@
     <div>
       <h4>Termine</h4>
       <span *ngFor="let appointment of subject.appointments; last as l">
+
         {{appointment.day}} {{appointment.from}} {{appointment.to}}
         <button type="checkbox"></button>
         <span *ngIf="!l">,</span>

@@ -18,7 +18,7 @@ export class SubjectDetailsComponent implements OnInit {
   subject: Subject = SubjectFactory.empty();
 
   constructor(
-    private bs:SubjectListService,
+    private subjectListService:SubjectListService,
     private route:ActivatedRoute, //wie sieht die derzeitige Route im Browser aus
     private router: Router,
     private toastr: ToastrService,
@@ -27,14 +27,16 @@ export class SubjectDetailsComponent implements OnInit {
 
   ngOnInit(): void {
     const params = this.route.snapshot.params; //snapshot der url -> mit params alle Parameter der Url
-    this.bs.getSingle(params['id']).subscribe(b =>{
+    this.subjectListService.getSingle(params['id']).subscribe(b =>{
       this.subject = b});
+    console.log(this.subject);
+    console.log(this.subject.appointments);
   }
 
   removeSubject(){
     this.toastr.success("Angebot gelöscht!", "Angebot erfolgreich gelöscht");
     if(confirm('Wollen Sie das Angebot wirklich löschen?')){
-      this.bs.remove(this.subject.id).subscribe(res => this.router.navigate(['../'],
+      this.subjectListService.remove(this.subject.id).subscribe(res => this.router.navigate(['../'],
         {relativeTo:this.route}));
     }
   }

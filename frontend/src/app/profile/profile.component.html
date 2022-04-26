@@ -3,7 +3,7 @@
 
   <div class="row">
       <div class="col-md-3 border-right">
-          <div class="d-flex flex-column align-items-center text-center p-3 py-5"><img class="rounded-circle mt-5" width="150px" src="https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg"><span class="font-weight-bold">Edogaru</span><span class="text-black-50">edogaru@mail.com.my</span><span> </span></div>
+          <div class="d-flex flex-column align-items-center text-center p-3 py-5"><img class="rounded-circle mt-5" width="150px" src="{{currentUser.image}}"><span class="font-weight-bold">{{currentUser.firstName}} {{currentUser.lastName}}</span><span class="text-black-50">{{currentUser.email}}</span><span> </span></div>
       </div>
       <div class="col-md-5 border-right">
           <div class="p-3 py-5">
@@ -11,22 +11,20 @@
                   <h4 class="text-right">Profil Einstellungen</h4>
               </div>
               <div class="row mt-2">
-                  <div class="col-md-6"><label class="labels">Vorname</label><input type="text" class="form-control" placeholder="first name" value=""></div>
-                  <div class="col-md-6"><label class="labels">Nachname</label><input type="text" class="form-control" value="" placeholder="surname"></div>
+                  <div class="col-md-6"><label class="labels">Vorname</label><input type="text" class="form-control" value="{{currentUser.firstName}}"></div>
+
+                  <div class="col-md-6"><label class="labels"></label><input type="text" class="form-control" value="{{currentUser.lastName}}" ></div>
               </div>
               <div class="row mt-3">
-                  <div class="col-md-12"><label class="labels">Telefonnummer</label><input type="text" class="form-control" placeholder="enter phone number" value=""></div>
+                  <div class="col-md-12"><label class="labels">Telefonnummer</label><input type="text" class="form-control" placeholder="enter phone number" value="{{currentUser.phone}}"></div>
                   <div class="col-md-12"><label class="labels">Straße</label><input type="text" class="form-control" placeholder="enter address line 1" value=""></div>
                   <div class="col-md-12"><label class="labels">Hausnummer</label><input type="text" class="form-control" placeholder="enter address line 2" value=""></div>
                   <div class="col-md-12"><label class="labels">Postleitzahl</label><input type="text" class="form-control" placeholder="enter address line 2" value=""></div>
                   <div class="col-md-12"><label class="labels">Ort</label><input type="text" class="form-control" placeholder="enter address line 2" value=""></div>
-                    <div class="col-md-12"><label class="labels">Email</label><input type="text" class="form-control" placeholder="enter email id" value=""></div>
+                    <div class="col-md-12"><label class="labels">E-Mail</label><input type="text" class="form-control" placeholder="enter email id" value="{{currentUser.email}}"></div>
                   <div class="col-md-12"><label class="labels">Ausbildung</label><input type="text" class="form-control" placeholder="education" value=""></div>
               </div>
-              <div class="row mt-3">
-                  <div class="col-md-6"><label class="labels">Land</label><input type="text" class="form-control" placeholder="country" value=""></div>
-                  <div class="col-md-6"><label class="labels">Bundesland</label><input type="text" class="form-control" value="" placeholder="state"></div>
-              </div>
+
               <div class="mt-5 text-center"><button class="btn btn-primary profile-button" type="button">Speichern</button></div>
           </div>
       </div>

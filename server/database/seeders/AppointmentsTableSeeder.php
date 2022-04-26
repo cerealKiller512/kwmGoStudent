@@ -2,6 +2,9 @@
 
 namespace Database\Seeders;
 
+use App\Http\Controllers\SubjectController;
+use App\Models\Appointment;
+use App\Models\Subject;
 use Illuminate\Database\Seeder;
 
 class AppointmentsTableSeeder extends Seeder
@@ -13,6 +16,21 @@ class AppointmentsTableSeeder extends Seeder
      */
     public function run()
     {
+        $appointment7 = new Appointment();
+        $appointment7->day="Montag";
+        $appointment7->from="04:00:00";
+        $appointment7->to="06:00:00";
+
+
+        $appointment7->subject()->associate(Subject::find(0));
+
+        $appointment8 = new Appointment();
+        $appointment8->day="Mittwoch";
+        $appointment8->from="09:00:00";
+        $appointment8->to="12:00:00";
+
+        $appointment8->subject()->associate(Subject::find(0));
+
         $appointment = new \App\Models\Appointment;
         $appointment->day = "Montag";
         $appointment->from = \Carbon\Carbon::createFromFormat('H:i:s','16:00:00')->format('h:i');

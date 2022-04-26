@@ -31,7 +31,7 @@ class SubjectController extends Controller
 
     public function findById(int $id):Subject{
         $subject = Subject::where('id', $id)
-                ->with(['images', 'user'])
+                ->with(['user', 'appointments'])
                 ->first();
 
                 return $subject;
@@ -49,7 +49,7 @@ class SubjectController extends Controller
      */
 
     public function findBySearchTerm(string $searchTerm){
-        $subject = Subject::with(['images', 'user'])
+        $subject = Subject::with(['user'])
             ->where('title', 'LIKE', '%' . $searchTerm. '%')
             ->orWhere('description', 'LIKE', '%' . $searchTerm . '%')
 
