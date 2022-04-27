@@ -23,6 +23,7 @@ Route::middleware('auth:api')->get('/users', function (Request $request) {
 });
 
 
+
 //Route::middleware('auth:student')->get('/students', function (Request $request) {
   //  return $request->student();
 //});
@@ -162,10 +163,11 @@ Route::group(['middleware' => ['api', 'auth.jwt']], function(){
 });
 
 
+
 //login with authentication User (Teacher)
 Route::post('auth/login', [AuthController::class, 'login']);
 
 //Route::post('auth/studentLogin', [AuthController::class, 'student']);
 
-
+//Route::post('auth/login', [\App\Http\Controllers\AuthController::class, 'studentLogin']);
 

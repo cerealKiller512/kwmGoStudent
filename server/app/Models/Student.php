@@ -9,7 +9,7 @@ use Illuminate\Notifications\Notifiable;
 use \Illuminate\Database\Eloquent\Relations\HasMany;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 
-class Student extends Authenticatable
+class Student extends Authenticatable implements JWTSubject
 {
     use HasFactory, Notifiable;
 
@@ -41,6 +41,20 @@ class Student extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function getJWTIdentifier()
+    {
+        return $this->getKey();
+    }
+
+    public function getJWTCustomClaims()
+    {
+        return['student' => ['id' => $this->id,
+            'email' => $this->email,
+            'firstName' => $this->firstName,
+            'lastName' => $this->lastName]
+        ];
+    }
 
     /**
      * student might have many appointments (1:n)
