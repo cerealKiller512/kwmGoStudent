@@ -5,6 +5,7 @@ import {SubjectListService} from "../shared/subject-list.service";
 import {SubjectFactory} from "../components/subject-factory";
 import {ToastrModule, ToastrService} from "ngx-toastr";
 import {AuthService} from "../shared/auth.service";
+import {AppointmentService} from "../shared/appointment.service";
 
 @Component({
   selector: 'bs-subject-details',
@@ -19,6 +20,7 @@ export class SubjectDetailsComponent implements OnInit {
 
   constructor(
     private subjectListService:SubjectListService,
+    private appointmentservice: AppointmentService,
     private route:ActivatedRoute, //wie sieht die derzeitige Route im Browser aus
     private router: Router,
     private toastr: ToastrService,
@@ -34,13 +36,19 @@ export class SubjectDetailsComponent implements OnInit {
   }
 
   removeSubject(){
-    this.toastr.success("Angebot gelöscht!", "Angebot erfolgreich gelöscht");
     if(confirm('Wollen Sie das Angebot wirklich löschen?')){
+      this.toastr.success("Angebot gelöscht!", "Angebot erfolgreich gelöscht");
       this.subjectListService.remove(this.subject.id).subscribe(res => this.router.navigate(['../'],
         {relativeTo:this.route}));
     }
   }
 
-
+  request(){
+    console.log('Request was sent');
+    if(confirm('Wollen Sie sich für die ausgewählten Termine verbindlich anmelden?')){
+      this.toastr.success("du kannst die ausgewählen Termine im Menüpunkt 'meine Termine' finden", "Erfolgreiche Anmeldung")
+      this.appointmentservice.getBooked()
+    }
+  }
 
 }

@@ -52,7 +52,8 @@ class Student extends Authenticatable implements JWTSubject
         return['student' => ['id' => $this->id,
             'email' => $this->email,
             'firstName' => $this->firstName,
-            'lastName' => $this->lastName]
+            'lastName' => $this->lastName,
+            'isTeacher' => false]
         ];
     }
 

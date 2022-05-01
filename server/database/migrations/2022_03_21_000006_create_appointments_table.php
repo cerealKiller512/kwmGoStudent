@@ -20,6 +20,7 @@ class CreateAppointmentsTable extends Migration
             $table->time('to');
             $table->foreignId('subject_id')->constrained()->onDelete('cascade');
             $table->foreignId('student_id')->nullable();
+            $table->boolean('booked')->default(false);
             $table->timestamps();
         });
     }

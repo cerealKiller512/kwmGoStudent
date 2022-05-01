@@ -1,13 +1,17 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
 <div class="ui {{isLoggedIn()?'six':'seven'}} item tabs menu">
   <a routerLink="home" routerLinkActive="active" class="navbar-brand">Home</a> <!--routerLinkActive: Wenn link active, dann klasse active-->
-  <a routerLink="categories" routerLinkActive="active" class="navbar-brand">Kategorien</a>
-  <a routerLink="levels" routerLinkActive="active" class="navbar-brand">Levels</a>
-  <a routerLink="subjects" routerLinkActive="active" class="navbar-brand">Angebote</a>
+  <a *ngIf="!isTeacher" routerLink="categories" routerLinkActive="active" class="navbar-brand">Kategorien</a>
+  <a *ngIf="!isTeacher" routerLink="levels" routerLinkActive="active" class="navbar-brand">Levels</a>
+  <a *ngIf="!isTeacher" routerLink="subjects" routerLinkActive="active" class="navbar-brand">Angebote</a>
   <a *ngIf="isLoggedIn()" routerLink="profile" routerLinkActive="active" class="navbar-brand">mein Profil</a>
 
-  <a *ngIf="isLoggedIn()" routerLink="admin" routerLinkActive="active"
+  <a *ngIf="isLoggedIn() && isTeacher" routerLink="admin" routerLinkActive="active"
      class="navbar-brand">Administration</a>
+  <a *ngIf="isLoggedIn && isTeacher" routerLink="mySubjects" routerLinkActive="active" class="navbar-brand">meine Angebote</a>
+  <a *ngIf="isLoggedIn && isTeacher" routerLink="myRequests" routerLinkActive="active" class="navbar-brand">Anfragen</a>
+  <a *ngIf="isLoggedIn && isTeacher" routerLink="myAppointments" routerLinkActive="active" class="navbar-brand">meine Termine</a>
+
   <a routerLink="login" routerLinkActive="active"
      class="navbar-brand">{{getLoginLabel()}}</a>
 </div>

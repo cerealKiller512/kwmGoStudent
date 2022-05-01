@@ -1,19 +1,29 @@
-import { Component } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Subject} from "./components/subject";
 import {AuthService} from "./shared/auth.service";
+import {Student} from "./components/student";
 
 @Component({
   selector: 'bs-root',
   templateUrl: './app.component.html',
   styles: []
 })
-export class AppComponent {
-  constructor(private authService:AuthService) {}
+export class AppComponent implements OnInit{
+    isTeacher: boolean = false;
 
+    constructor(private authService:AuthService) {}
+
+    ngOnInit(): void {
+      this.authService.isLoggedInAsTeacher.subscribe(flag => {
+        console.log("isTeacher: ", flag);
+        this.isTeacher = flag;
+      })
+    }
 
     isLoggedIn(){
       return this.authService.isLoggedIn();
     }
+
 
     getLoginLabel(){
     if(this.isLoggedIn()){

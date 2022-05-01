@@ -4,25 +4,34 @@ namespace App\Http\Controllers;
 
 use App\Models\Appointment;
 use App\Models\Subject;
+use http\Exception\BadQueryStringException;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Database\Eloquent;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\BeginTransaction;
+use function PHPUnit\Framework\isTrue;
 
 class AppointmentController extends Controller
 {
     public function index(){
 
 
-        $apppintments = Appointment::with(['subject'])->get();
-        return $apppintments;
+        $appointments = Appointment::with(['subject'])->get();
+        return $appointments;
     }
 
     public function show(Appointment $appointment){
         return view('appointment.show', compact('appointment'));
 
+    }
+
+
+    //TODO: showBooked function does not work
+    public function showBooked(){
+        $appointments = Appointment::with(['subject'])->where("booked", true)->get();
+        return $appointments;
     }
 
     /**
@@ -42,6 +51,8 @@ class AppointmentController extends Controller
         return $appointment !=null ? response()->json(true,200) : response()->json(false, 200);
 
     }
+
+
 
 
 

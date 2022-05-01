@@ -1,6 +1,7 @@
 <h1>Nachhilfe-Formular</h1>
 <hr>
-<form class="form-group" [formGroup]="subjectForm" (ngSubmit)="submitForm()">
+<form class="form-group" [formGroup]="subjectForm"
+      (ngSubmit)="submitForm()">
   <div class="form-row">
     <input type="hidden" formControlName="id">
     <div class="field">
@@ -61,7 +62,12 @@
 
   <div class="field">
     <label>Termine</label>
+    <br>
+    <input type="date">
+    <button (click)="addAppointmentControl()" type="button">+</button>
     <div formControlName="appointments">
+
+
       <div *ngFor="let appointment of subject.appointments last as l">
         <div>
           <label>Tag:</label>

@@ -22,6 +22,12 @@ Route::middleware('auth:api')->get('/users', function (Request $request) {
     return $request->user();
 });
 
+Route::group(['middleware' => ['api','assign.guard:users']], function() {
+    Route::post('auth/login', [AuthController::class, 'login']);
+});
+Route::group(['middleware' => ['api','assign.guard:students']], function() {
+    Route::post('auth/login/student', [AuthController::class, 'login']);
+});
 
 
 //Route::middleware('auth:student')->get('/students', function (Request $request) {
@@ -135,7 +141,7 @@ Route::get('appointments', [\App\Http\Controllers\AppointmentController::class, 
 
 Route::get('appointments/{id}', [\App\Http\Controllers\AppointmentController::class, 'findById']);
 
-Route::get('appointmens/checkId/{id}', [\App\Http\Controllers\AppointmentController::class, 'checkId']);
+Route::get('appointments/checkId/{id}', [\App\Http\Controllers\AppointmentController::class, 'checkId']);
 
 Route::group(['middleware' => ['api', 'auth.jwt']], function(){
     Route::post('appointments', [\App\Http\Controllers\AppointmentController::class, 'save']);
@@ -145,6 +151,47 @@ Route::group(['middleware' => ['api', 'auth.jwt']], function(){
 
 });
 
+/*-----------------------------------My APPOINTMENTS------------------------*/
+Route::get('myAppointments', [\App\Http\Controllers\AppointmentController::class, 'index']);
+
+
+Route::group(['middleware' => ['api', 'auth.jwt']], function(){
+    Route::delete('myAppointments/{id}', [\App\Http\Controllers\AppointmentController::class, 'delete']);
+    Route::post('auth/logout', [\App\Http\Controllers\AuthController::class, 'logout']);
+
+});
+
+/*--------------------------------------- MY SUBJECTS ------------------------------------*/
+
+Route::get('mySubjects', [\App\Http\Controllers\SubjectController::class, 'index']);
+
+
+Route::group(['middleware' => ['api', 'auth.jwt']], function(){
+    Route::delete('mySubjects/{id}', [\App\Http\Controllers\SubjectController::class, 'delete']);
+    Route::post('auth/logout', [\App\Http\Controllers\AuthController::class, 'logout']);
+
+});
+
+/*--------------------------------- My REQUESTS---------------------------------*/
+Route::get('myRequests', [\App\Http\Controllers\SubjectController::class, 'index']);
+
+
+Route::group(['middleware' => ['api', 'auth.jwt']], function(){
+    Route::delete('myRequests/{id}', [\App\Http\Controllers\SubjectController::class, 'delete']);
+    Route::post('auth/logout', [\App\Http\Controllers\AuthController::class, 'logout']);
+
+});
+
+
+/*-------------------------------- SHOW REQUESTS --------------------------*/
+
+Route::get('bookedAppointments', [\App\Http\Controllers\AppointmentController::class, 'showBooked']);
+
+
+Route::group(['middleware' => ['api', 'auth.jwt']], function(){
+    Route::post('auth/logout', [\App\Http\Controllers\AuthController::class, 'logout']);
+
+});
 
 /*--------------------------------- MESSAGES ----------------------------------*/
 
@@ -164,8 +211,10 @@ Route::group(['middleware' => ['api', 'auth.jwt']], function(){
 
 
 
+
 //login with authentication User (Teacher)
 Route::post('auth/login', [AuthController::class, 'login']);
+
 
 //Route::post('auth/studentLogin', [AuthController::class, 'student']);
 

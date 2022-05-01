@@ -1,6 +1,6 @@
 <div *ngIf="!isLoggedIn()">
   <h1>Login</h1>
-  <form  class="ui large form" [formGroup]="loginForm" (ngSubmit)="login()">
+  <form  class="ui large form" [formGroup]="loginForm" >
     <div class="field">
       <label>E-Mail</label>
       <input type="email" id="username" formControlName="email">
@@ -20,7 +20,8 @@
     (loginForm.get('password')?.dirty || loginForm.get('password')?.touched)" class="ui negative message">
         Passwort ist verpflichtend </div>
     </div>
-    <button type="submit" class="ui button" [disabled]="loginForm.invalid">Login</button>
+    <button type="submit" (click)="login('teacher')" class="ui button" [disabled]="loginForm.invalid">Login als Lehrer</button>
+    <button type="submit" (click)="login('student')" class="ui button" [disabled]="loginForm.invalid">Login als Schüler</button>
   </form>
 </div>
 <div *ngIf="isLoggedIn()">

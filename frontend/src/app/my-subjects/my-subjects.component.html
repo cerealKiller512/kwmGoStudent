@@ -1,0 +1,15 @@
+<div class="container c-grid-3 mt-5">
+
+  <div *ngFor="let subject of subjects">
+      <h1>{{subject.title}}</h1>
+      <p>{{subject.description}}</p>
+
+        <div *ngFor="let appointment of subject.appointments">
+          <h1>{{appointment.day}}</h1>
+          <p>{{appointment.from}}</p>
+          <p>{{appointment.to}}</p>
+        </div>
+
+  </div>
+</div>
+

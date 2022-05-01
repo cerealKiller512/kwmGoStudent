@@ -29,6 +29,8 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    console.log("..... login component")
+    console.log(this.authService.isLoggedIn())
     this.loginForm = this.fb.group({
       email: ["", [Validators.required, Validators.email]],
       password: ["", [Validators.required]]
@@ -36,22 +38,25 @@ export class LoginComponent implements OnInit {
 
     if(this.authService.isLoggedIn()){
       this.currentUser = this.authService.getCurrentUser();
+      console.log(this.currentUser)
       this.user.emit(this.currentUser);
     }
   }
 
 
-  login(){
+  login(loginType: "teacher" | "student"){
     const val = this.loginForm.value;
     if(val.email && val.password){
-      this.authService.login(val.email, val.password).subscribe((res:any) => {
-        console.log(res);
-        this.authService.setSessionStorage((res as Response).access_token);
-        this.router.navigateByUrl("/");
-      });
+        this.authService.login(loginType, val.email, val.password).subscribe((res:any) => {
+          console.log(res);
+          this.authService.setSessionStorage((res as Response).access_token);
+          this.router.navigateByUrl("/");
+        });
     }
 
   }
+
+
 
   isLoggedIn(){
     return this.authService.isLoggedIn();
@@ -64,6 +69,7 @@ export class LoginComponent implements OnInit {
   onLogout(){
     this.authService.logout();
   }
+
 
 
 

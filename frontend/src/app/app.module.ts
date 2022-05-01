@@ -23,10 +23,17 @@ import { ProfileComponent } from './profile/profile.component';
 import {AuthService} from "./shared/auth.service";
 import {LoginInterceptorService} from "./shared/login-interceptor.service";
 import { TokenInterceptorService } from './shared/token-interceptor.service';
+import { MyRequestsComponent } from './my-requests/my-requests.component';
+import { MyAppointmentsComponent } from './my-appointments/my-appointments.component';
+import {AppointmentService} from "./shared/appointment.service";
+import { MySubjectsComponent } from './my-subjects/my-subjects.component';
+import {SubjectService} from "./shared/subject.service";
+import { BookedAppointmentsComponent } from './booked-appointments/booked-appointments.component';
 
 @NgModule({
   declarations: [
     AppComponent,
+    MyAppointmentsComponent,
     SubjectListComponent,
     CategoryListComponent,
     LevelListComponent,
@@ -37,12 +44,16 @@ import { TokenInterceptorService } from './shared/token-interceptor.service';
     SubjectFormComponent,
     LoginComponent,
     ProfileComponent,
+    MyRequestsComponent,
+    MyAppointmentsComponent,
+    MySubjectsComponent,
+    BookedAppointmentsComponent,
   ],
   imports: [
     BrowserModule, AppRoutingModule, HttpClientModule, ReactiveFormsModule, BrowserAnimationsModule,
     ToastrModule.forRoot()
   ],
-  providers: [SubjectListService, CategoryListService, LevelListService,
+  providers: [SubjectListService, CategoryListService, LevelListService, AppointmentService, SubjectService,
   AuthService, {
     provide: HTTP_INTERCEPTORS,
       useClass:TokenInterceptorService,

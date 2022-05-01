@@ -12,8 +12,6 @@ class User extends Authenticatable implements JWTSubject
 {
     use HasFactory, Notifiable;
 
-
-
     /**
      * The attributes that are mass assignable.
      *
@@ -57,11 +55,11 @@ class User extends Authenticatable implements JWTSubject
 
     public function getJWTCustomClaims()
     {
-        //TODO: add boolean if user is admin (teacher) or not
         return ['user' => ['id' => $this->id,
             'email' => $this->email,
             'firstName' => $this->firstName,
-            'lastName' => $this->lastName]
+            'lastName' => $this->lastName,
+            'isTeacher' => true],
         ];
     }
 

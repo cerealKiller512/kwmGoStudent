@@ -6,7 +6,8 @@ export class Appointment{
               public from:Time,
               public to:Time,
               public subject_id:number,
-              public student_id:number
+              public student_id:number,
+              public booked:boolean
   ){
   }
 }

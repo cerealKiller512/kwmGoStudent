@@ -1,10 +1,10 @@
-
+<p class="text-3xl text-red font-bold underline">Test Tailwind</p>
 
 
   <div class="bg-image"></div>
 
   <div class="bg-text">
     <h1>Willkommen bei KWM Go Student!</h1>
-    <a routerLink="../categories" class="btn btn-primary">Kategorien ansehen</a>
+    <a *ngIf="isLoggedIn() && !isLoggedInAsTeacher" routerLink="../categories" class="btn btn-primary">Kategorien ansehen</a>
     <bs-search class="column" (subjectSelected)="subjectSelected($event)"></bs-search>
   </div>

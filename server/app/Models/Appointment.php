@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 class Appointment extends Model
 {
 
-    protected $fillable = ['day', 'from', 'to', 'subject_id', 'student_id'];
+    protected $fillable = ['booked','day', 'from', 'to', 'subject_id', 'student_id'];
 
     use HasFactory;
 

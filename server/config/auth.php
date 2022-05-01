@@ -143,6 +143,11 @@ return [
             'expire' => 60,
             'throttle' => 60,
         ],
+        'students'=> [
+            'provider' => 'students',
+            'expire' => 60,
+            'throttle' =>60,
+        ]
     ],
 
     /*'passwords' => [
