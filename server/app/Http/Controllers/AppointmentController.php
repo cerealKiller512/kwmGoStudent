@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Appointment;
 use App\Models\Subject;
+use App\Models\User;
+use App\Models\Student;
 use http\Exception\BadQueryStringException;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
@@ -16,10 +18,16 @@ use function PHPUnit\Framework\isTrue;
 class AppointmentController extends Controller
 {
     public function index(){
+        $appointments = Appointment::with(['subject', 'student'])->get();
 
+        $returnObj = [];
 
-        $appointments = Appointment::with(['subject'])->get();
-        return $appointments;
+        foreach ($appointments as $appointment) {
+            $appointment['user'] = User::find($appointment["subject"]["user_id"]);
+            $returnObj[] = $appointment;
+        }
+
+        return $returnObj;
     }
 
     public function show(Appointment $appointment){
@@ -27,12 +35,47 @@ class AppointmentController extends Controller
 
     }
 
-
-    //TODO: showBooked function does not work
     public function showBooked(){
-        $appointments = Appointment::with(['subject'])->where("booked", true)->get();
-        return $appointments;
+        $appointments = Appointment::where('booked', true)
+            ->with(['subject', 'student'])
+            ->get();
+
+        $returnObj = [];
+
+        foreach ($appointments as $appointment) {
+            $appointment['user'] = User::find($appointment["subject"]["user_id"]);
+            $returnObj[] = $appointment;
+        }
+
+        return $returnObj;
     }
+
+    public function getAppointmentsByStudentId(int $student_id){
+        $appointments = Appointment::where('student_id', $student_id)
+            ->with(['subject'])
+            ->get();
+
+
+        $returnObj = [];
+
+        foreach ($appointments as $appointment) {
+            $appointment['user'] = User::find($appointment["subject"]["user_id"]);
+            $returnObj[] = $appointment;
+        }
+
+        return $returnObj;
+
+        //return $appointments;
+    }
+
+    /*public function getAppointmentsByUserId(int $user_id){
+        $appointments = Appointment::where('user_id', $user_id)
+            ->with(['subject'])
+            ->get();
+
+
+        return $appointments;
+    }*/
 
     /**
      * find appointment by given id
@@ -45,6 +88,15 @@ class AppointmentController extends Controller
 
         return $appointment;
     }
+
+    public function findBookedById(int $id):Appointment{
+        $appointment = Appointment::where('id', $id)
+            ->with(['subject'])
+            ->first();
+        return $appointment;
+    }
+
+
 
     public function checkId(int $id){
         $appointment = Appointment::where('id', $id)->first();
@@ -86,6 +138,30 @@ class AppointmentController extends Controller
         $date = new \DateTime($request->published);
         $request['published'] = $date;
         return $request;
+    }
+
+    public function setAppointmentsForUser(Request $request){
+      $appointments = $request['appointments'];
+      $student_id = $request['student_id'];
+      $result = [];
+
+      foreach ($appointments as $appId){
+          $appointment = Appointment::find($appId);
+
+          if ($appointment) {
+              $appointment->booked = true;
+              $appointment->student_id = $student_id;
+              $appointment->save();
+              $result[] = $appointment;
+          }
+      }
+
+      return $result;
+        /*student_id: 1, /--> this.authService.currentUser
+        *  appointments: [ 1, 2, 3, ...] / ids of checked appointments
+        * }
+* foreach appointments as app -> update Appointment::find(app->id)
+*  set booked = true, set studentId = request["student_id"]*/
     }
 
     public function update(Request $request, int $id):JsonResponse{

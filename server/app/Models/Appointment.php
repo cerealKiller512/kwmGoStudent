@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 class Appointment extends Model
 {
 
-    protected $fillable = ['booked','day', 'from', 'to', 'subject_id', 'student_id'];
+    protected $fillable = ['status','completed','booked','day', 'from', 'to', 'subject_id', 'student_id'];
 
     use HasFactory;
 
@@ -26,7 +26,7 @@ class Appointment extends Model
     /**
      * apointment belongs to one or no student
      */
-    public function students():HasOne{
-        return $this->hasOne(Student::class);
+    public function student(): BelongsTo{
+        return $this->belongsTo(Student::class);
     }
 }

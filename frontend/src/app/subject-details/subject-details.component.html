@@ -1,22 +1,37 @@
 <div class="column">
-  <h1 class="ui header">{{subject.title}}</h1>
-  <h3 class="ui header">{{subject.description}}</h3>
-  <h3>{{subject.user.firstName}} {{subject.user.lastName}} {{subject.user.image}}</h3>
+  <h1 class="card-header">{{subject.title}}</h1>
+  <h3 class="card-body">{{subject.description}}</h3>
+  <h3 class="card-header">{{subject.price}}€</h3>
+  <h3>{{subject.user.firstName}} {{subject.user.lastName}}</h3>
+    <img class="rounded-circle mt-5" width="150px" src="{{subject.user.image_url}}">
   <div class="ui grid">
     <div>
       <h4>verfügbare Termine</h4>
-      <span *ngFor="let appointment of subject.appointments; last as l">
-        {{appointment.day}} {{appointment.from}} {{appointment.to}}
-        <input *ngIf="authService.isLoggedIn && !authService.isLoggedInAsTeacher.value" type="checkbox">
-        <span *ngIf="!l"><br></span>
-           </span>
-      <br>
-      <button *ngIf="authService.isLoggedIn && !authService.isLoggedInAsTeacher.value" type="submit" (click)="request()">Anmelden</button>
+      <form class="form-group" [formGroup]="appointmentBookingForm"
+            (ngSubmit)="submitForm()">
+        <span *ngFor="let appointment of subject.appointments; last as l">
+          <div *ngIf="appointment.booked == false">
+            <ul class="list-group list-group-light list-group-small">
+              <li class="list-group-item">Tag: {{appointment.day}}</li>
+              <li class="list-group-item">Von: {{appointment.from}}</li>
+              <li class="list-group-item"> Bis:{{appointment.to}}</li>
+              <input formControlName="{{appointment.id}}" *ngIf="authService.isLoggedIn && !authService.isLoggedInAsTeacher.value" type="checkbox">
+
+
+            </ul>
+            </div>
+        </span>
+      </form>
+    </div>
+
+        <br>
+        <!-- TODO: get all checked appointments, request() -> set booked status to true-->
+       <button *ngIf="authService.isLoggedIn && !authService.isLoggedInAsTeacher.value"
+               (click)="submitForm()" type="submit">Anmelden</button>
 
     </div>
   </div>
 
-</div>
 
 <button routerLink="/subjects">Zurück zur Übersicht</button>
 <button *ngIf="authService.isLoggedIn() && authService.isLoggedInAsTeacher.value" class="ui tiny red labaled icon button"
@@ -30,42 +45,84 @@
 </button>
 
 
+<nav *ngIf="authService.isLoggedIn && !authService.isLoggedInAsTeacher.value" class="navbar navbar-expand-sm navbar-dark">
+  <img src="https://i.imgur.com/CFpa3nK.jpg" width="20" height="20" class="d-inline-block align-top rounded-circle" alt="">
+  <a class="navbar-brand ml-2" href="#" data-abc="true">Rib Simpson</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor02" aria-controls="navbarColor02" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="end">
+    <div class="collapse navbar-collapse" id="navbarColor02">
+      <ul class="navbar-nav">
+        <li class="nav-item"> <a class="nav-link" href="#" data-abc="true">Work</a> </li>
+        <li class="nav-item"> <a class="nav-link" href="#" data-abc="true">Capabilities</a> </li>
+        <li class="nav-item "> <a class="nav-link" href="#" data-abc="true">Articles</a> </li>
+        <li class="nav-item active"> <a class="nav-link mt-2" href="#" data-abc="true" id="clicked">Contact<span class="sr-only">(current)</span></a> </li>
+      </ul>
+    </div>
+  </div>
+</nav>
 
+<br/>
+<hr>
+<br>
+<!-- Main Body -->
+<section *ngIf="authService.isLoggedIn && !authService.isLoggedInAsTeacher.value" >
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-5 col-md-6 col-12 pb-4">
+        <h3>Kommentare</h3>
+        <div class="comment mt-4 text-justify float-left">
+          <img src="https://i.imgur.com/yTFUilP.jpg" alt="" class="rounded-circle" width="40" height="40">
+          <h4>Jhon Doe</h4>
+          <span>- 20 October, 2018</span>
+          <br>
+          <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Accusamus numquam assumenda hic aliquam vero sequi velit molestias doloremque molestiae dicta?</p>
+        </div>
+        <div class="text-justify darker mt-4 float-right">
+          <img src="https://i.imgur.com/CFpa3nK.jpg" alt="" class="rounded-circle" width="40" height="40">
+          <h4>Rob Simpson</h4>
+          <span>- 20 October, 2018</span>
+          <br>
+          <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Accusamus numquam assumenda hic aliquam vero sequi velit molestias doloremque molestiae dicta?</p>
+        </div>
+        <div class="comment mt-4 text-justify">
+          <img src="https://i.imgur.com/yTFUilP.jpg" alt="" class="rounded-circle" width="40" height="40">
+          <h4>Jhon Doe</h4>
+          <span>- 20 October, 2018</span>
+          <br>
+          <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Accusamus numquam assumenda hic aliquam vero sequi velit molestias doloremque molestiae dicta?</p>
+        </div>
+        <div class="darker mt-4 text-justify">
+          <img src="https://i.imgur.com/CFpa3nK.jpg" alt="" class="rounded-circle" width="40" height="40">
+          <h4>Rob Simpson</h4>
+          <span>- 20 October, 2018</span>
+          <br>
+          <p >Lorem ipsum dolor sit, amet consectetur adipisicing elit. Accusamus numquam assumenda hic aliquam vero sequi velit molestias doloremque molestiae dicta?</p>
+        </div>
+      </div>
+      <div class="col-lg-4 col-md-5 col-sm-4 offset-md-1 offset-sm-1 col-12 mt-4">
+        <form id="algin-form">
+          <div class="form-group">
+            <h4>Kein passender Termin dabei? Jetzt Nachhilfe-Lehrer kontaktieren!</h4>
+            <label for="message">Message</label>
+            <textarea name="msg" id=""msg cols="30" rows="5" class="form-control" style="background-color: white;"></textarea>
+          </div>
+          <div class="form-group">
+            <label for="name">Name</label>
+            <input type="text" name="name" id="fullname" class="form-control">
+          </div>
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input type="text" name="email" id="email" class="form-control">
+          </div>
 
-<!--<div class="ui grid" *ngIf="subject">
-  <div class="twelve wide column">
-    <h1 class="ui header">{{ subject.title }}</h1>
-
-    <div class="ui divider"></div>
-    <div class="ui grid">
-      <div class="four wide column">
-        <h4 class="ui header">Lehrer</h4>
-         {{ subject.users.firstName }} {{subject.users.lastName}}
+          <div class="form-group">
+            <button type="button" id="post" class="btn btn-primary" (click)="sendComment()">Kommentar Absenden</button>
+          </div>
+        </form>
       </div>
     </div>
   </div>
-  <div class="sixteen wide column">
-    <h3 class="ui header">Beschreibung</h3>
-    {{ subject.description }}
-  </div>
-</div>
+</section>
 
-<button routerLink="/subjects" class="ui red button">Zurück zur Übersicht</button>
-<button class="ui tiny red labeled icon button" (click)="removeSubject()"><i class="remove icon">
-  Angebot löschen
-</i></button>
-
-<a class="ui tiny yellow labeled icon button" [routerLink]="['../../admin', subject?.id]">
-  <i class="write icon">Angebot bearbeiten</i>
-</a>
-
-
-<button *ngIf="authenticationService.isLoggedIn()" class="ui tiny red labaled icon button"
-(click)="removeSubject()">
-  <i class="remove icon"></i>Angebot löschen
-
-</button>
-<a *nfIf="authenticationService.isLoggedIn()" class="ui tiny yellow labeled icon button"
-   [routerLink]="['../../admin', subject?.id]">
-  <i class="write icon"></i> Angebot bearbeiten
-</a>-->

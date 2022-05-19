@@ -1,11 +1,75 @@
 <div class="container c-grid-3 mt-5">
-
+  <h1>Laufende Nachhilfe-Stunden:</h1>
   <div *ngFor="let appointment of appointments">
-    <h1>{{appointment.day}}</h1>
-    <p>{{appointment.from}}</p>
-    <p>{{appointment.to}}</p>
-    <p>{{appointment.student_id}}</p>
+<br>
+    <div *ngIf="appointment.booked== true && appointment.completed == false">
+    <ul class="list-group">
+      <li class="list-group-item">
+        <h3>Fach: {{appointment.subject.title}}</h3>
+      </li>
+      <li class="list-group-item">
+        <p>Tag: {{appointment.day}}</p>
+      </li>
+      <li class="list-group-item">
+        <p>Von: {{appointment.from}}</p>
+      </li>
+      <li class="list-group-item">
+        <p>Bis: {{appointment.to}}</p>
+      </li>
+      <li class="list-group-item">
+        <p><b>Gebucht von: <br/>{{appointment.student.firstName}} {{appointment.student.lastName}}</b></p>
+
+      </li>
+      <li class="list-group-item">
+      <div class="select">
+      <select [(ngModel)]="selectedOption" (change)="appointment.status = selectedOption">
+        <option *ngFor="let o of options">
+        {{o.name}}
+        </option>
+        </select>
+      </div>
+      </li>
+      <button class="btn-smb btn-danger"(click)="completeAppointment(appointment)">Nachhilfe abschließen</button>
+    </ul>
+    </div>
 
   </div>
+<br>
+  <br>
+  <br>
+  <br>
+  <h1>Abgeschlossene Nachhilfe-Stunden:</h1>
+  <div *ngFor="let appointment of appointments">
+<br>
+    <div *ngIf="appointment.booked== true && appointment.completed == true">
+      <ul class="list-group">
+        <li class="list-group-item">
+          <h3>Fach: {{appointment.subject.title}}</h3>
+        </li>
+        <li class="list-group-item">
+          <p>Tag: {{appointment.day}}</p>
+        </li>
+        <li class="list-group-item">
+          <p>Von: {{appointment.from}}</p>
+        </li>
+        <li class="list-group-item">
+          <p>Bis: {{appointment.to}}</p>
+        </li>
+        <li class="list-group-item">
+          <p><b>Gebucht von: <br/>{{appointment.student.firstName}} {{appointment.student.lastName}}</b></p>
+
+        </li>
+        <li class="list-group-item">
+          <p *ngIf="appointment.status">Status:{{appointment.status}}</p>
+
+        </li>
+
+
+
+        </ul>
+    </div>
+  </div>
+
+
 </div>
 

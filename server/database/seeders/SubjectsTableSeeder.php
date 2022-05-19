@@ -22,6 +22,7 @@ class SubjectsTableSeeder extends Seeder
        $subject->title = "Programmierung in Java";
        $subject->description = "Einführung in Java, Objektorientierte Programmierung, Hilfe bei Hausübungen";
        $subject->icon = "fa-brands fa-java";
+       $subject->price = 30;
 
 
        $subject->user()->associate(\App\Models\User::find(1));
@@ -49,6 +50,7 @@ class SubjectsTableSeeder extends Seeder
         $subject1->title = "Mathematik";
         $subject1->description = "Grundlagen der Mathematik für AHS Oberstufen";
         $subject1->icon = "fa-duotone fa-function";
+        $subject1->price = 30;
 
 
         $subject1->user()->associate(User::find(1));
@@ -75,6 +77,7 @@ class SubjectsTableSeeder extends Seeder
         $subject2->title = "Englisch";
         $subject2->description = "Englisch in Wort und Schrift - Prüfungs- oder Maturavorbereitungen";
         $subject2->icon = "fa-solid fa-earth-americas";
+        $subject2->price = 30;
 
 
         $subject2->user()->associate(User::find(1));
@@ -101,6 +104,7 @@ class SubjectsTableSeeder extends Seeder
         $subject3->title = "Einführung in Java";
         $subject3->description = "Grundwissen zur Programmierung mit Java für Prüfungsvorbereitung und Hausübungen";
         $subject3->icon = "fa-brands fa-java";
+        $subject3->price = 30;
         $subject3->user()->associate(User::find(1));
         $subject3->category()->associate(\App\Models\Category::find(2));
         $subject3->level()->associate(\App\Models\Level::find(2));
@@ -125,6 +129,7 @@ class SubjectsTableSeeder extends Seeder
         $subject4->title = "Wahrnehmungspsychologie";
         $subject4->description = "Prüfungsvorbereitung auf Hochschulniveau";
         $subject4->icon="fa-solid fa-book";
+        $subject4->price = 30;
         $subject4->user()->associate(User::find(1));
         $subject4->category()->associate(\App\Models\Category::find(2));
         $subject4->level()->associate(\App\Models\Level::find(2));
@@ -149,6 +154,7 @@ class SubjectsTableSeeder extends Seeder
         $subject5->title = "Webentwicklung mit JavaScript";
         $subject5->description = "Grundlagen zu JavaScript; JQuery und AJAX; Prüfungsvorbereitung für Hochschulniveau";
         $subject5->icon = "fa-brands fa-js";
+        $subject5->price = 30;
         $subject5->user()->associate(User::find(1));
         $subject5->category()->associate(\App\Models\Category::find(2));
         $subject5->level()->associate(\App\Models\Level::find(2));
@@ -173,6 +179,7 @@ class SubjectsTableSeeder extends Seeder
         $subject6->title = "serverseitige Webentwicklung mit PHP";
         $subject6->description = "Grundlagen zu PHP, Praxisbeispiele und Hilfe bei Projekten sowie Prüfungsvorbereitung für Studierende";
         $subject6->icon = "fa-brands fa-php";
+        $subject6->price = 30;
         $subject6->user()->associate(User::find(1));
         $subject6->category()->associate(\App\Models\Category::find(2));
         $subject6->level()->associate(\App\Models\Level::find(2));

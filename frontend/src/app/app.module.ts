@@ -17,7 +17,7 @@ import {CategoryListService} from "./shared/category-list.service";
 import {LevelListService} from "./shared/level-list.service";
 import { SearchComponent } from './search/search.component';
 import { SubjectFormComponent } from './subject-form/subject-form.component';
-import {ReactiveFormsModule} from "@angular/forms";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import { LoginComponent } from './login/login.component';
 import { ProfileComponent } from './profile/profile.component';
 import {AuthService} from "./shared/auth.service";
@@ -29,6 +29,8 @@ import {AppointmentService} from "./shared/appointment.service";
 import { MySubjectsComponent } from './my-subjects/my-subjects.component';
 import {SubjectService} from "./shared/subject.service";
 import { BookedAppointmentsComponent } from './booked-appointments/booked-appointments.component';
+import { StudentAppointmentsComponent } from './student-appointments/student-appointments.component';
+import { MySubjectsDetailsComponent } from './my-subjects-details/my-subjects-details.component';
 
 @NgModule({
   declarations: [
@@ -48,11 +50,13 @@ import { BookedAppointmentsComponent } from './booked-appointments/booked-appoin
     MyAppointmentsComponent,
     MySubjectsComponent,
     BookedAppointmentsComponent,
+    StudentAppointmentsComponent,
+    MySubjectsDetailsComponent,
   ],
-  imports: [
-    BrowserModule, AppRoutingModule, HttpClientModule, ReactiveFormsModule, BrowserAnimationsModule,
-    ToastrModule.forRoot()
-  ],
+    imports: [
+        BrowserModule, AppRoutingModule, HttpClientModule, ReactiveFormsModule, BrowserAnimationsModule,
+        ToastrModule.forRoot(), FormsModule
+    ],
   providers: [SubjectListService, CategoryListService, LevelListService, AppointmentService, SubjectService,
   AuthService, {
     provide: HTTP_INTERCEPTORS,

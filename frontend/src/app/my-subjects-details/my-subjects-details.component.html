@@ -1,0 +1,45 @@
+<div class="column">
+  <h1 class="ui header">{{subject.title}}</h1>
+  <h3 class="ui header">{{subject.description}}</h3>
+  <h3>{{subject.user.firstName}} {{subject.user.lastName}}</h3>
+  <img class="rounded-circle mt-5" width="150px" src="{{subject.user.image_url}}">
+  <div class="ui grid">
+    <div>
+      <h4>verfügbare Termine</h4>
+      <span *ngFor="let appointment of subject.appointments; last as l">
+        <ul class="list-group list-group-light list-group-small">
+          <li class="list-group-item col-md-2">
+             Tag: {{appointment.day}}
+          </li>
+          <li class="list-group-item col-md-2">
+           Von: {{appointment.from}}
+          </li>
+          <li class="list-group-item col-md-2">
+            Bis: {{appointment.to}}
+          </li>
+
+
+        </ul>
+        <input *ngIf="authService.isLoggedIn && !authService.isLoggedInAsTeacher.value" type="checkbox">
+        <span *ngIf="!l"><br></span>
+           </span>
+      <br>
+    </div>
+  </div>
+
+</div>
+
+<button class="btn btn-outline-dark" routerLink="/subjects">Zurück zur Übersicht</button>
+<button *ngIf="authService.isLoggedIn() && authService.isLoggedInAsTeacher.value"
+        (click)="removeSubject()" class="btn btn-outline-dark">
+  Angebot löschen
+</button>
+
+<button *ngIf="authService.isLoggedIn() && authService.isLoggedInAsTeacher.value"
+        [routerLink]="['../../admin', subject?.id]" class="btn btn-outline-dark">
+Angebot bearbeiten
+</button>
+
+
+
+

@@ -10,17 +10,22 @@ import {Student} from "./components/student";
 })
 export class AppComponent implements OnInit{
     isTeacher: boolean = false;
+    userId: number = null;
 
     constructor(private authService:AuthService) {}
 
     ngOnInit(): void {
       this.authService.isLoggedInAsTeacher.subscribe(flag => {
-        console.log("isTeacher: ", flag);
+        // console.log("isTeacher: ", flag);
         this.isTeacher = flag;
+        if (!this.isTeacher)
+          this.userId = this.authService.getCurrentUser().id;
       })
+
     }
 
     isLoggedIn(){
+      // console.log("... isLoggedIn")
       return this.authService.isLoggedIn();
     }
 

@@ -1,57 +1,57 @@
 <h1>Nachhilfe-Formular</h1>
 <hr>
-<form class="form-group" [formGroup]="subjectForm"
-      (ngSubmit)="submitForm()">
-  <div class="form-row">
-    <input type="hidden" formControlName="id">
-    <div class="field">
-      <label>Nachhilfe-Angebot-Titel</label>
+<form [formGroup]="subjectForm"
+      (ngSubmit)="submitForm()" class="row">
+  <div class="col-md-6">
+    <input class="form-control" type="hidden" formControlName="id">
+    <div class="col-md-6">
+      <label class="form-label" >Nachhilfe-Angebot-Titel</label>
       <br>
-      <input formControlName="title">
-      <div *ngIf="errors['title']">
+      <input class="form-control" formControlName="title">
+      <div *ngIf="errors['title']" class="alert-danger">
         {{errors['title']}}
       </div>
     </div>
 
     <hr>
 
-    <select formControlName="categoryId">
-      <option [ngValue]="null" disabled>Choose your category</option>
-      <option *ngFor="let cat of categories" [ngValue]="cat.id">
+    <select class="form-select" formControlName="categoryId">
+      <option class="form-check-input" [ngValue]="null" disabled>Choose your category</option>
+      <option class="form-check-input" *ngFor="let cat of categories" [ngValue]="cat.id">
         {{ cat.name }}
       </option>
     </select>
 
 
-    <select formControlName="levelId">
-      <option [ngValue]="null" disabled>Choose your level</option>
-      <option *ngFor="let level of levels" [ngValue]="level.id">
+    <select class="form-select" formControlName="levelId">
+      <option class="form-check-input" [ngValue]="" disabled>Choose your level</option>
+      <option class="form-check-input" *ngFor="let level of levels" [ngValue]="level.id">
         {{ level.level }}
       </option>
     </select>
   </div>
 
-  <div class="form-group col-md-6">
-    <label for="description">Beschreibung</label>
-    <textarea formControlName="description" id="description" class="form-control" placeholder="Beschreibung">
+  <div class="col-md-6">
+    <label class="form-label" for="description">Beschreibung</label>
+    <textarea class="form-text" formControlName="description" id="description" placeholder="Beschreibung">
     </textarea>
     <hr>
   </div>
 
 
-  <div class="form-group col-md-6" [class.disabled]="isUpdatingSubject">
-    <label for="id">ID</label>
-    <input formControlName="id" id="id" class="form-control" placeholder="10">
-    <div *ngIf="errors['id']" class="ui negative message">{{ errors['id'] }}
+  <div class="col-md-6" [class.disabled]="isUpdatingSubject">
+    <label class="form-label" for="id">ID</label>
+    <input class="form-control" formControlName="id" id="id" placeholder="10">
+    <div *ngIf="errors['id']" class="alert-danger">{{ errors['id'] }}
     </div>
 
     <hr>
 
   </div>
-  <div class="form-group col-md-6">
-    <label type="date">Erscheinungsdatum</label>
-    <input type="date" formControlName="published">
-    <div *ngIf="errors['published']" class="ui negative message">{{ errors['published'] }}</div>
+  <div class="col-md-4">
+    <label class="form-label" type="date">Erscheinungsdatum</label>
+    <input class="form-control" type="date" formControlName="published">
+    <div *ngIf="errors['published']" class="alert-danger">{{ errors['published'] }}</div>
     <hr>
   </div>
 
@@ -60,39 +60,49 @@
   <!-- TODO: add appointments to form!-->
 
 
-  <div class="field">
-    <label>Termine</label>
-    <br>
-    <input type="date">
-    <button (click)="addAppointmentControl()" type="button">+</button>
-    <div formControlName="appointments">
+  <div class="col-md-6">
 
 
-      <div *ngFor="let appointment of subject.appointments last as l">
+      <div class="col-md-6" *ngFor="let appointment of subject.appointments last as l">
         <div>
-          <label>Tag:</label>
-          <input formControlName="day" placeholder="Montag" value="{{appointment.day}}">
+          <label class="form-label">Tag:</label>
+          <input class="form-control" formControlName="day" placeholder="Montag" value="{{appointment.day}}">
         </div>
         <div>
-          <label>Von:</label>
-          <input formControlName="from" placeholder="08:00:00"
+          <label class="form-label">Von:</label>
+          <input class="form-control" formControlName="from" placeholder="08:00:00"
           value="{{appointment.from}}">
         </div>
         <div>
-          <label>Bis:</label>
-          <input formControlName="to" placeholder="12:00:00"
+          <label class="form-label">Bis:</label>
+          <input class="form-control" formControlName="to" placeholder="12:00:00"
           value="{{appointment.to}}">
         </div>
         <div *ngIf="l">
-          <button (click)="addAppointmentControl()" type="button">+</button>
+         <!-- <button (click)="addAppointmentControl()" type="button">+</button>-->
         </div>
+        <hr>
       </div>
+
+    <label class="col-md-4">Neue Termine</label>
+
+    <br>
+    <div class="col-md-4" formArrayName="appointments">
+      <label class="form-label">Tag: </label>
+      <input class="form-control" formControlName="day" placeholder="Montag">
+      <br>
+      <label class="form-label">Von: </label>
+      <input class="form-control" formControlName="from" placeholder="09:00:00">
+      <br>
+      <label class="form-label">Bis: </label>
+      <input class="form-control" formControlName="to" placeholder="12:00:00">
+
+      <button (click)="addAppointmentControl()" type="button">+</button>
     </div>
   </div>
   <div *ngIf="errors['appointments']">{{errors['appointments']}}</div>
 
 
-  <button type="submit" class="btn btn-primary"
-          [disabled]="subjectForm.invalid">Speichern</button>
+  <button  class="btn btn-primary" [disabled]="subjectForm.invalid">Speichern</button>
 
 </form>

@@ -6,6 +6,7 @@ import {AppointmentService} from "../shared/appointment.service";
 import {AuthService} from "../shared/auth.service";
 import {Subject} from "../components/subject";
 import {SubjectService} from "../shared/subject.service";
+import {SubjectListService} from "../shared/subject-list.service";
 
 @Component({
   selector: 'bs-my-subjects',
@@ -20,7 +21,7 @@ export class MySubjectsComponent implements OnInit {
 
   subjects: Subject[] = [];
 
-  constructor(private subjectService:SubjectService, private authService:AuthService) {
+  constructor(private subjectService:SubjectService, private subjectListService:SubjectListService, private authService:AuthService) {
   }
 
   ngOnInit(): void {
@@ -35,6 +36,10 @@ export class MySubjectsComponent implements OnInit {
 
   isLoggedIn(){
     return this.authService.isLoggedIn();
+  }
+
+  selectSubject(subject: Subject): void {
+    this.subjectListService.selectedSubject.next(subject);
   }
 
 }

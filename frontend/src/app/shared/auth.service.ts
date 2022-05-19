@@ -20,7 +20,8 @@ interface Token {
     email: string,
     firstName: string,
     lastName:string,
-    phone?:string
+    phone?:string,
+    image_url?:string
   }
 
   student: {
@@ -66,13 +67,11 @@ export class AuthService {
   decodeToken(): User | Student {
     if(sessionStorage.getItem("token")){
       const decodedToken = jwtDecode(sessionStorage.getItem("token")) as Token;
-      console.log(decodedToken);
       if (decodedToken.user) {
-
         this.isLoggedInAsTeacher.next(decodedToken.user.isTeacher)
         return new User(+decodedToken.user.id,
           decodedToken.user.firstName, decodedToken.user.lastName,
-          decodedToken.user.email,);
+          decodedToken.user.email,decodedToken.user.image_url);
       } else if (decodedToken.student) {
         this.isLoggedInAsTeacher.next(decodedToken.student.isTeacher)
         return new Student(+decodedToken.student.id,

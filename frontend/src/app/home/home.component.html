@@ -1,10 +1,44 @@
-<p class="text-3xl text-red font-bold underline">Test Tailwind</p>
+
+    <!--<bs-search class="column" (subjectSelected)="subjectSelected($event)"></bs-search>-->
 
 
-  <div class="bg-image"></div>
 
-  <div class="bg-text">
-    <h1>Willkommen bei KWM Go Student!</h1>
-    <a *ngIf="isLoggedIn() && !isLoggedInAsTeacher" routerLink="../categories" class="btn btn-primary">Kategorien ansehen</a>
-    <bs-search class="column" (subjectSelected)="subjectSelected($event)"></bs-search>
-  </div>
+  <header>
+    <div class="overlay"></div>
+
+    <img class="modal-fullscreen" src="https://www.meetnlearn.ch/images/mustard/landingImage-1200x630.png">
+<br>
+    <br>
+    <section class="my-5">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-8 mx-auto">
+          <h1 class="display-3">Willkommen bei KWM Go Student!</h1>
+            <p class="lead mb-0">Deine zertifizierte Nachhilfe-Plattform für Jung bis Alt</p>
+    <br>
+            <br>
+            <a routerLink="../categories" class="btn btn-primary">Kategorien ansehen</a>
+            <br>
+            <br>
+            <a routerLink="../login" class="btn btn-primary">Jetzt anmelden</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+  </header>
+
+  <section class="my-5">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-8 mx-auto">
+          <p>Bei KWM Go Student kannst du dich als Nachhilfe-Suchender oder Nachhilfe-Lehrer anmelden.</p>
+          <p>Alle Lehrer wurden auf Qualifikationen überprüft, außerdem kannst du aussuchen,
+          welcher Termin für dich passt und ob du online oder Vor-Ort Nachhilfe machen möchtest.</p>
+          <p>Durch transparente Preise und Termin-Auswahl kannst du deinen optimalen Nachhilfe-Lehrer finden!</p>
+
+        </div>
+      </div>
+    </div>
+  </section>

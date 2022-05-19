@@ -11,8 +11,10 @@ import {ProfileComponent} from "./profile/profile.component";
 import {CanNavigateToAdminGuard} from "./can-navigate-to-admin.guard";
 import {MyAppointmentsComponent} from "./my-appointments/my-appointments.component";
 import {MySubjectsComponent} from "./my-subjects/my-subjects.component";
+import {MySubjectsDetailsComponent} from "./my-subjects-details/my-subjects-details.component";
 import {MyRequestsComponent} from "./my-requests/my-requests.component";
 import {BookedAppointmentsComponent} from "./booked-appointments/booked-appointments.component";
+import {StudentAppointmentsComponent} from "./student-appointments/student-appointments.component";
 
 const routes: Routes = [
   {path: '', redirectTo:'home', pathMatch: 'full'},
@@ -25,11 +27,13 @@ const routes: Routes = [
   {path: 'admin/:id', component: SubjectFormComponent, canActivate: [CanNavigateToAdminGuard]},
   {path: 'login', component: LoginComponent},
   {path: 'profile', component: ProfileComponent},
-  {path: 'myAppointments', component:MyAppointmentsComponent},
+  //{path: 'myAppointments', component:MyAppointmentsComponent},
   {path: 'mySubjects', component:MySubjectsComponent},
-  {path: 'myRequests', component:MyRequestsComponent},
+  {path:'mySubjects/:id', component:MySubjectsDetailsComponent},
+  //{path: 'myRequests', component:MyRequestsComponent},
   {path: 'bookedAppointments', component: BookedAppointmentsComponent},
-
+  {path:'bookedAppointments/:id', component: BookedAppointmentsComponent},
+  {path: 'studentAppointments/:id', component:StudentAppointmentsComponent},
  ];
 
 @NgModule({

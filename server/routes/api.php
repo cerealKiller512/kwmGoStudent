@@ -48,6 +48,7 @@ Route::get('subjects/search/{searchTerm}',
 Route::group(['middleware' => ['api', 'auth.jwt']], function(){
     Route::post('subjects', [SubjectController::class, 'save']);
     Route::put('subjects/{id}', [SubjectController::class, 'update']);
+
     route::delete('subjects/{id}', [SubjectController::class, 'delete']);
     Route::post('auth/logout', [\App\Http\Controllers\AuthController::class, 'logout']);
 });
@@ -146,17 +147,26 @@ Route::get('appointments/checkId/{id}', [\App\Http\Controllers\AppointmentContro
 Route::group(['middleware' => ['api', 'auth.jwt']], function(){
     Route::post('appointments', [\App\Http\Controllers\AppointmentController::class, 'save']);
     Route::put('appointments/{id}', [\App\Http\Controllers\AppointmentController::class, 'update']);
+    Route::put('setAppointmentsForUser', [\App\Http\Controllers\AppointmentController::class, 'setAppointmentsForUser']);
     Route::delete('appointments/{id}', [\App\Http\Controllers\AppointmentController::class, 'delete']);
     Route::post('auth/logout', [\App\Http\Controllers\AuthController::class, 'logout']);
 
 });
 
 /*-----------------------------------My APPOINTMENTS------------------------*/
-Route::get('myAppointments', [\App\Http\Controllers\AppointmentController::class, 'index']);
+//Route::get('myAppointments', [\App\Http\Controllers\AppointmentController::class, 'index']);
 
+
+//Route::group(['middleware' => ['api', 'auth.jwt']], function(){
+  //  Route::get('myAppointments/{id}', [\App\Http\Controllers\AppointmentController::class, 'getAppointmentsByUserId']);
+  //  Route::delete('myAppointments/{id}', [\App\Http\Controllers\AppointmentController::class, 'delete']);
+  //  Route::post('auth/logout', [\App\Http\Controllers\AuthController::class, 'logout']);
+
+//});
 
 Route::group(['middleware' => ['api', 'auth.jwt']], function(){
-    Route::delete('myAppointments/{id}', [\App\Http\Controllers\AppointmentController::class, 'delete']);
+    Route::get('studentAppointments/{id}', [\App\Http\Controllers\AppointmentController::class, 'getAppointmentsByStudentId']);
+    Route::delete('studentAppointments/{id}', [\App\Http\Controllers\AppointmentController::class, 'delete']);
     Route::post('auth/logout', [\App\Http\Controllers\AuthController::class, 'logout']);
 
 });
@@ -164,7 +174,7 @@ Route::group(['middleware' => ['api', 'auth.jwt']], function(){
 /*--------------------------------------- MY SUBJECTS ------------------------------------*/
 
 Route::get('mySubjects', [\App\Http\Controllers\SubjectController::class, 'index']);
-
+Route::get('mySubjects/{id}', [SubjectController::class, 'findById']);
 
 Route::group(['middleware' => ['api', 'auth.jwt']], function(){
     Route::delete('mySubjects/{id}', [\App\Http\Controllers\SubjectController::class, 'delete']);
@@ -186,12 +196,19 @@ Route::group(['middleware' => ['api', 'auth.jwt']], function(){
 /*-------------------------------- SHOW REQUESTS --------------------------*/
 
 Route::get('bookedAppointments', [\App\Http\Controllers\AppointmentController::class, 'showBooked']);
+Route::get('bookedAppointments/{id}', [\App\Http\Controllers\AppointmentController::class, 'findBookedById']);
+Route::put('bookedAppointments/{id}', [\App\Http\Controllers\AppointmentController::class, 'update']);
+
+
 
 
 Route::group(['middleware' => ['api', 'auth.jwt']], function(){
     Route::post('auth/logout', [\App\Http\Controllers\AuthController::class, 'logout']);
 
 });
+
+
+/*------------------------------ GET STUDENT APPOINTMENTS------------------------*/
 
 /*--------------------------------- MESSAGES ----------------------------------*/
 
@@ -220,3 +237,17 @@ Route::post('auth/login', [AuthController::class, 'login']);
 
 //Route::post('auth/login', [\App\Http\Controllers\AuthController::class, 'studentLogin']);
 
+
+
+
+/**
+ * Mögl. 1:
+ * backend PUT: route setAppointmentsForUser
+ * {
+ *  student_id: 1, /--> this.authService.currentUser
+ *  appointments: [ 1, 2, 3, ...] / ids of checked appointments
+ * }
+ * foreach appointments as app -> update Appointment::find(app->id)
+ *  set booked = true, set studentId = request["student_id"]
+ *
+ */

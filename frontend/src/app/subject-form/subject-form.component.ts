@@ -9,6 +9,9 @@ import { Subject } from "../components/subject";
 import { SubjectValidators } from "../shared/subject-validators";
 import {Category} from "../components/category";
 import {Level} from "../components/level";
+import {AuthService} from "../shared/auth.service";
+import {CategoryListService} from "../shared/category-list.service";
+import {LevelListService} from "../shared/level-list.service";
 @Component({
   selector: "bs-subject-form",
   templateUrl: "./subject-form.component.html",
@@ -24,23 +27,17 @@ export class SubjectFormComponent implements OnInit {
 
   appointments: FormArray;
 
-  categories: Category[] = [
-    { id: 0, name: "Deutsch" },
-    { id: 3, name: "Mathe" },
-    { id: 2, name: "Spanisch" },
-  ];
-
-  levels: Level[] = [
-    { id: 0, level: "Ezpz" },
-    { id: 3, level: "semi" },
-    { id: 2, level: "mega" },
-  ];
+  categories: Category[] = [];
+  levels: Level[] = [];
 
   constructor(
     private fb: FormBuilder,
     private bs: SubjectListService,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private authService: AuthService,
+    private catService: CategoryListService,
+    private levelService: LevelListService
   ) {
     this.subjectForm = this.fb.group({});
     this.appointments = this.fb.array([]);
@@ -52,19 +49,17 @@ export class SubjectFormComponent implements OnInit {
       //Update-Modus
       this.isUpdatingSubject = true;
 
-      // getAllCategories(cats => this.categories = cats;)
-      // getAllLevels(levels => this.levels = levels;)
       this.bs.getSingle(id).subscribe(subject => {
         this.subject = subject;
         console.log(subject)
-        this.initSubject();
+        this.initSubjectForm();
       });
     }
-    this.initSubject();
+    this.initSubjectForm();
   }
 
 
-  initSubject() {
+  initSubjectForm() {
     this.buildAppointmentsArray();
     this.subjectForm = this.fb.group({
       id: this.subject.id,
@@ -78,6 +73,17 @@ export class SubjectFormComponent implements OnInit {
     this.subjectForm.statusChanges.subscribe(() => {
       this.updateErrorMessages()
     });
+
+    this.levelService.getAll().subscribe(levels => {
+      console.log("level...", levels)
+      this.levels = levels;
+      this.subjectForm.controls['levelId'].setValue(this.levels[0].id);
+    })
+    this.catService.getAll().subscribe(categories => {
+      console.log("categories...", categories)
+      this.categories = categories;
+      this.subjectForm.controls['categoryId'].setValue(this.categories[0].id);
+    })
   }
 
   buildAppointmentsArray(){
@@ -104,21 +110,21 @@ export class SubjectFormComponent implements OnInit {
 
 
   submitForm() {
-
-    const subject: Subject = SubjectFactory.fromObject(this.subjectForm.value);
-    console.log(this.subjectForm.value);
+    console.log("submit form")
+    const currUserId: number = this.authService.getCurrentUserId();
+    const subject: Subject = SubjectFactory.fromObject(this.subjectForm.value, currUserId);
     subject.appointments = this.subject.appointments;
-    console.log(this.subject);
+    console.log("formValue: ", this.subjectForm.value);
+    console.log("subject", subject);
+
     if (this.isUpdatingSubject) {
       this.bs.update(subject).subscribe(res => {
         this.router.navigate(["../../subjects", subject.id], {
           relativeTo: this.route});
       })
     } else {
-      subject.user_id = 1;
       console.log(subject);
-
-      this.bs.create(subject).subscribe(res => {
+      this.bs.create(subject, currUserId).subscribe(res => {
         this.subject = SubjectFactory.empty();
         this.subjectForm.reset(subject);
         this.router.navigate(["../subjects"], { relativeTo: this.route

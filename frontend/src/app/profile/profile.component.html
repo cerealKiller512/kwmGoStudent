@@ -3,7 +3,7 @@
 
   <div class="row">
       <div class="col-md-3 border-right">
-          <div class="d-flex flex-column align-items-center text-center p-3 py-5"><img class="rounded-circle mt-5" width="150px" src="{{currentUser.image}}"><span class="font-weight-bold">{{currentUser.firstName}} {{currentUser.lastName}}</span><span class="text-black-50">{{currentUser.email}}</span><span> </span></div>
+          <div class="d-flex flex-column align-items-center text-center p-3 py-5"><img class="rounded-circle mt-5" width="150px" src="{{currentUser.image_url}}"><span class="font-weight-bold">{{currentUser.firstName}} {{currentUser.lastName}}</span><span class="text-black-50">{{currentUser.email}}</span><span> </span></div>
       </div>
       <div class="col-md-5 border-right">
           <div class="p-3 py-5">
@@ -17,12 +17,12 @@
               </div>
               <div class="row mt-3">
                   <div class="col-md-12"><label class="labels">Telefonnummer</label><input type="text" class="form-control" placeholder="enter phone number" value="{{currentUser.phone}}"></div>
-                  <div class="col-md-12"><label class="labels">Straße</label><input type="text" class="form-control" placeholder="enter address line 1" value=""></div>
-                  <div class="col-md-12"><label class="labels">Hausnummer</label><input type="text" class="form-control" placeholder="enter address line 2" value=""></div>
-                  <div class="col-md-12"><label class="labels">Postleitzahl</label><input type="text" class="form-control" placeholder="enter address line 2" value=""></div>
-                  <div class="col-md-12"><label class="labels">Ort</label><input type="text" class="form-control" placeholder="enter address line 2" value=""></div>
+                  <div class="col-md-12"><label class="labels">Straße</label><input type="text" class="form-control" placeholder="enter address line 1" value="Musterstrasse"></div>
+                  <div class="col-md-12"><label class="labels">Hausnummer</label><input type="text" class="form-control" placeholder="enter address line 2" value="1"></div>
+                  <div class="col-md-12"><label class="labels">Postleitzahl</label><input type="text" class="form-control" placeholder="enter address line 2" value="4020"></div>
+                  <div class="col-md-12"><label class="labels">Ort</label><input type="text" class="form-control" placeholder="enter address line 2" value="Linz"></div>
                     <div class="col-md-12"><label class="labels">E-Mail</label><input type="text" class="form-control" placeholder="enter email id" value="{{currentUser.email}}"></div>
-                  <div class="col-md-12"><label class="labels">Ausbildung</label><input type="text" class="form-control" placeholder="education" value=""></div>
+
               </div>
 
               <div class="mt-5 text-center"><button class="btn btn-primary profile-button" type="button">Speichern</button></div>
@@ -30,9 +30,9 @@
       </div>
       <div class="col-md-4">
           <div class="p-3 py-5">
-              <div class="d-flex justify-content-between align-items-center experience"><span>Ausbildung bearbeiten</span><span class="border px-3 p-1 add-experience"><i class="fa fa-plus"></i>&nbsp;Experience</span></div><br>
-              <div class="col-md-12"><label class="labels">Mathematik Studium JKU Linz</label><input type="text" class="form-control" placeholder="experience" value=""></div> <br>
-              <div class="col-md-12"><label class="labels">Zusätzliche Erfahrungen</label><input type="text" class="form-control" placeholder="additional details" value=""></div>
+              <div class="d-flex justify-content-between align-items-center experience"><span>Ausbildung bearbeiten</span><span class="border px-3 p-1 add-experience"><i class="fa fa-plus"></i>&nbsp;Ausbildung</span></div><br>
+              <div class="col-md-12"><label class="labels">Ausbildiung</label><input type="text" class="form-control" value="{{currentUser.education}}"></div> <br>
+              <div class="col-md-12"><label class="labels">Über Mich</label><input type="text" class="form-control" value="{{currentUser.description}}"></div>
           </div>
       </div>
   </div>

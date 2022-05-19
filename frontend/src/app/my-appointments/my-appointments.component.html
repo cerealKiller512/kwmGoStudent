@@ -2,11 +2,11 @@
 
   <div *ngFor="let appointment of appointments">
     <div *ngIf="appointment.student_id">
-      <h1>{{appointment.day}}</h1>
-      <p>{{appointment.from}}</p>
-      <p>{{appointment.to}}</p>
-      <p>{{appointment.student_id}}</p>
-      <p>{{appointment.requested.toString()}}</p>
+      <h1>Tag: {{appointment.day}}</h1>
+      <p>Von: {{appointment.from}}</p>
+      <p>Bis: {{appointment.to}}</p>
+      <p>Gebucht von: {{appointment.student}}</p>
+      <p>ist gebucht: {{appointment.booked.toString()}}</p>
    </div>
   </div>
 </div>

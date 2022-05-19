@@ -1,0 +1,20 @@
+<div class="container c-grid-3 mt-5">
+
+  <div *ngFor="let appointment of appointments">
+    <div *ngIf="appointment.booked == true && appointment.completed==false" >
+      <button type="button"
+              class="btn btn-light border border-dark">
+    <h3 class="btn-label">{{appointment.subject.title}}</h3>
+    <p>{{appointment.user.firstName}}</p>
+    <p>{{appointment.user.lastName}}</p>
+      <p>{{appointment.day}}</p>
+      <p>{{appointment.from}}</p>
+      <p>{{appointment.to}}</p>
+      <button (click)="completeAppointment(appointment)">Nachhilfe beenden</button>
+      </button>
+    </div>
+
+    </div>
+  </div>
+
+

@@ -6,8 +6,10 @@ export class User{
               public lastName:string,
               public email:string,
               public phone?:string,
-              public image?:string,
-              public appointments?: Appointment[]
+              public image_url?:string,
+              public appointments?: Appointment[],
+              public education?:string,
+              public description?:string
               ) {
   }
 }

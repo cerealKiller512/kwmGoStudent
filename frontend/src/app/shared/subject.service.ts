@@ -14,6 +14,13 @@ export class SubjectService {
       .pipe(retry(3)).pipe(catchError(this.errorHandler));
   }
 
+  setAppointmentsForUser(studentId: number, checkedAppointments: number[]){
+    return this.http.put(`${this.api}/setAppointmentsForUser`, {
+      "student_id": studentId,
+      "appointments": checkedAppointments
+    }).pipe(retry(3)).pipe(catchError(this.errorHandler));
+  }
+
 
 
   private errorHandler(error:Error | any): Observable<any>{

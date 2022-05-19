@@ -34,8 +34,17 @@ export class SubjectListService {
 
   }
 
-  create(subject:Subject):Observable<any>{
-    return this.http.post(`${this.api}/subjects`, subject)
+  create(subject:Subject, userId: number):Observable<any>{
+    const body = {
+      "title": subject.title,
+      "description": subject.description,
+      "user_id": userId,
+      "category_id": subject.category_id,
+      "level_id": subject.level_id,
+      "icon": "fa-solid fa-graduation-cap"
+    };
+    console.log("=== ", body)
+    return this.http.post(`${this.api}/subjects`, body)
       .pipe(retry(3)).pipe(catchError(this.errorHandler));
   }
 

@@ -28,7 +28,10 @@ export class MyAppointmentsComponent implements OnInit {
       this.currentUser = this.authService.getCurrentUser();
       console.log(this.currentUser);
       this.user.emit(this.currentUser);
-      this.appointmentService.getAll().subscribe(res => this.appointments = res);
+      this.appointmentService.getAll().subscribe(res => {
+        this.appointments = res;
+        console.log("**=", this.appointments);
+      });
     }
   }
 

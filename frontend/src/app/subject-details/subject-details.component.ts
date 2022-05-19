@@ -6,6 +6,10 @@ import {SubjectFactory} from "../components/subject-factory";
 import {ToastrModule, ToastrService} from "ngx-toastr";
 import {AuthService} from "../shared/auth.service";
 import {AppointmentService} from "../shared/appointment.service";
+import {Appointment} from "../components/appointment";
+import {FormBuilder, FormControl, FormGroup} from "@angular/forms";
+import {SubjectService} from "../shared/subject.service";
+
 
 @Component({
   selector: 'bs-subject-details',
@@ -14,13 +18,14 @@ import {AppointmentService} from "../shared/appointment.service";
   ]
 })
 export class SubjectDetailsComponent implements OnInit {
-
-
   subject: Subject = SubjectFactory.empty();
+  appointmentBookingForm: FormGroup;
 
   constructor(
+    private fb: FormBuilder,
+    private subjectService: SubjectService,
     private subjectListService:SubjectListService,
-    private appointmentservice: AppointmentService,
+    private appointmentService: AppointmentService,
     private route:ActivatedRoute, //wie sieht die derzeitige Route im Browser aus
     private router: Router,
     private toastr: ToastrService,
@@ -28,11 +33,18 @@ export class SubjectDetailsComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    const params = this.route.snapshot.params; //snapshot der url -> mit params alle Parameter der Url
-    this.subjectListService.getSingle(params['id']).subscribe(b =>{
-      this.subject = b});
-    console.log(this.subject);
-    console.log(this.subject.appointments);
+    this.initForm();
+  }
+
+  initForm() {
+    this.appointmentBookingForm = this.fb.group({});
+
+    this.subjectListService.getSingle(this.route.snapshot.params['id']).subscribe(subject =>{
+      this.subject = subject;
+      for (const appointment of this.subject.appointments) {
+        this.appointmentBookingForm.addControl(appointment.id.toString(), new FormControl());
+      };
+    });
   }
 
   removeSubject(){
@@ -43,12 +55,24 @@ export class SubjectDetailsComponent implements OnInit {
     }
   }
 
-  request(){
+  //TODO: get all checked appointments and set booked to true
+
+  submitForm(){
+    const checkedAppointments = Object.entries(this.appointmentBookingForm.value).filter(item => item[1] == true).map(item => Number(item[0]));
+    const student_id = this.authService.getCurrentUserId();
+    console.log("=== ", Object.entries(this.appointmentBookingForm.value).filter(item => item[1] == true).map(item => item[0]))
     console.log('Request was sent');
-    if(confirm('Wollen Sie sich für die ausgewählten Termine verbindlich anmelden?')){
-      this.toastr.success("du kannst die ausgewählen Termine im Menüpunkt 'meine Termine' finden", "Erfolgreiche Anmeldung")
-      this.appointmentservice.getBooked()
+    if(confirm("Wollen Sie sich verbindlich für die ausgewählten Nachhilfe-Termine anmelden?")){
+      this.toastr.success("Erfolgreich angemeldet!");
+      window.location.reload();
     }
+    // update request
+    this.subjectService.setAppointmentsForUser(student_id, checkedAppointments).subscribe(res => this.router.navigate(['../'],
+      {relativeTo:this.route}));
+  }
+
+  sendComment(){
+    this.toastr.success("Der Nachhilfe-Lehrer wurde verständigt und wird nach Möglichkeit einen neuen Termin zur Liste hinzufügen.", "Nachricht erfolgreich gesendet!")
   }
 
 }

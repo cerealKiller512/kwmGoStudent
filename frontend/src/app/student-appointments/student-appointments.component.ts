@@ -1,35 +1,27 @@
 import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {User} from "../components/user";
 import {FormGroup} from "@angular/forms";
-import {Subject} from "../components/subject";
-import {SubjectService} from "../shared/subject.service";
-import {AuthService} from "../shared/auth.service";
 import {Appointment} from "../components/appointment";
 import {AppointmentService} from "../shared/appointment.service";
+import {AuthService} from "../shared/auth.service";
+import {Subject} from "rxjs";
 import {ToastrService} from "ngx-toastr";
 import {ActivatedRoute, Router} from "@angular/router";
 
 @Component({
-  selector: 'bs-booked-appointments',
-  templateUrl: './booked-appointments.component.html',
+  selector: 'bs-student-appointments',
+  templateUrl: './student-appointments.component.html',
   styles: [
   ]
 })
-export class BookedAppointmentsComponent implements OnInit {
+export class StudentAppointmentsComponent implements OnInit {
+
+
   @Output() user = new EventEmitter<User>();
   loginForm: FormGroup;
   currentUser: User;
-  printedOption:string;
-  selectedOption:string;
 
-  options = [
-    {name:"ordnungsgemäß durchgeführt", value:1},
-    {name:"Suchende*r nicht erschienen", value:2},
-    {name:"Termin verschoben", value:3},
-    {name:"Anderes", value:4}
-
-  ]
-
+  subject: Subject<User>;
   appointments: Appointment[] = [];
 
   constructor(private appointmentService:AppointmentService, private authService:AuthService,
@@ -42,7 +34,7 @@ export class BookedAppointmentsComponent implements OnInit {
       this.currentUser = this.authService.getCurrentUser();
       console.log(this.currentUser);
       this.user.emit(this.currentUser);
-      this.appointmentService.getBooked().subscribe(res => this.appointments = res);
+      this.appointmentService.getAppointmentsByStudentId(this.currentUser.id).subscribe(res => this.appointments = res);
     }
   }
 
@@ -56,17 +48,9 @@ export class BookedAppointmentsComponent implements OnInit {
 
   }
 
-  print(){
-    this.printedOption = this.selectedOption;
-  }
-
-  onChangeStatus() {
-
-  }
-
-
   isLoggedIn(){
     return this.authService.isLoggedIn();
   }
+
 
 }

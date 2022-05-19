@@ -2,7 +2,8 @@ import {Component, EventEmitter, Output} from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
 import {AuthService} from "../shared/auth.service";
 import {Subject, User} from "../components/subject";
-import {FormGroup} from "@angular/forms";
+import {FormBuilder, FormGroup} from "@angular/forms";
+
 
 @Component({
   selector: 'bs-profile',
@@ -12,13 +13,18 @@ import {FormGroup} from "@angular/forms";
 })
 export class ProfileComponent {
   @Output() user = new EventEmitter<User>();
-  loginForm: FormGroup;
+  userForm: FormGroup;
   currentUser: User;
+  isUpdatingProfile = true;
 
-  constructor(private router: Router, private route: ActivatedRoute, private authService: AuthService) {
+  //private userService: userService
+  constructor(private fb: FormBuilder,private router: Router, private route: ActivatedRoute, private authService: AuthService) {
+    this.userForm = this.fb.group({});
+
   }
 
   ngOnInit(): void {
+
     if(this.authService.isLoggedIn()){
       this.currentUser = this.authService.getCurrentUser();
       console.log(this.currentUser);
@@ -27,9 +33,15 @@ export class ProfileComponent {
   }
 
 
+
+
   isLoggedIn(){
     return this.authService.isLoggedIn();
   }
+
+  /*updateProfile(){
+
+  }*/
 
 
 

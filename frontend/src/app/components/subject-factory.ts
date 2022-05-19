@@ -9,18 +9,18 @@ export class SubjectFactory {
       new Date(), 0, 0, 0, 0, '', '');
   }
 
-  static fromObject(rawSubject: any):Subject{
+  static fromObject(rawSubject: any, userId: number):Subject{
     //cast from JSON Object via REST to Book Domain Object
     return new Subject(
-    rawSubject.id,
+      rawSubject.id,
       rawSubject.title,
       rawSubject.user,
       rawSubject.appointments,
       rawSubject.published,
-      rawSubject.user_id,
+      userId,
       rawSubject.price,
-      rawSubject.category_id,
-      rawSubject.level_id,
+      rawSubject.categoryId,
+      rawSubject.levelId,
       rawSubject.description,
       rawSubject.icon
     );

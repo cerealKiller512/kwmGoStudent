@@ -26,25 +26,25 @@
 
 <div class="container c-grid-3 mt-5">
 
-  <button *ngFor="let subject of subjects" type="button"
-    class="btn btn-light border border-dark"
-          [routerLink]="subject.id.toString()"
-         (click)="selectSubject(subject)">
+  <div *ngFor="let subject of subjects"
+    class="card shadow-1-strong">
 
-    <div [ngClass]="subject.icon">
+    <div class="card-body text-black">
+      <h5 class="card-title">{{subject.title}}</h5>
+      <div [ngClass]="subject.icon">
 
-      <i [ngClass]="subject.icon"></i>
+        <i [ngClass]="subject.icon"></i>
+
+      </div>
+        <p class="card-text">{{subject.user.firstName}}
+          {{subject.user.lastName}}</p>
+       <div>
+         <a class="btn btn-outline-dark"
+                 [routerLink]="subject.id.toString()"
+            (click)="selectSubject(subject)">Details</a>
 
     </div>
-    <div class="btn-label">
-      {{subject.title}}
-      <img class="d-inline-block img-fluid mb-4" src={{subject.user.image}}>
-      <div>
-      {{subject.user.firstName}}
-      {{subject.user.lastName}}
-    </div>
-    </div>
-  </button>
+
 </div>
 
 
@@ -57,3 +57,4 @@
   <p *ngIf="subjects && !subjects.length">Es wurden noch keine Angebote
     eingetragen.</p>
 </div>
+  </div>

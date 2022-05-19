@@ -17,11 +17,15 @@ export class AppointmentService {
   }
 
   getAll():Observable<Array<Appointment>>{
-    return this.http.get<Array<Appointment>>(`${this.api}/myAppointments`)
+    return this.http.get<Array<Appointment>>(`${this.api}/appointments/`)
       .pipe(retry(3)).pipe(catchError(this.errorHandler));
   }
 
 
+  getAppointmentsByStudentId(id:number):Observable<Array<Appointment>>{
+    return this.http.get<Array<Appointment>>(`${this.api}/studentAppointments/${id}`)
+      .pipe(retry(3)).pipe(catchError(this.errorHandler));
+  }
 
 
   getBooked(){
@@ -29,8 +33,17 @@ export class AppointmentService {
       .pipe(retry(3)).pipe(catchError(this.errorHandler));
   }
 
+  getBookedById(id:number):Observable<Array<Appointment>>{
+    return this.http.get<Array<Appointment>>(`${this.api}/bookedAppointments/${id}`)
+      .pipe(retry(3)).pipe(catchError(this.errorHandler));
+  }
 
 
+  update(appointment:Appointment):Observable<any>{
+    localStorage.setItem('appointment', JSON.stringify(appointment));
+    return this.http.put(`${this.api}/bookedAppointments/${appointment.id}`, appointment)
+      .pipe(retry(3)).pipe(catchError(this.errorHandler));
+  }
 
   private errorHandler(error:Error | any): Observable<any>{
     return throwError(error)

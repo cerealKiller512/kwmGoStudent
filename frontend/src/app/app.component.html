@@ -1,26 +1,66 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
-<div class="ui {{isLoggedIn()?'six':'seven'}} item tabs menu">
-  <a routerLink="home" routerLinkActive="active" class="navbar-brand">Home</a> <!--routerLinkActive: Wenn link active, dann klasse active-->
-  <a *ngIf="!isTeacher" routerLink="categories" routerLinkActive="active" class="navbar-brand">Kategorien</a>
-  <a *ngIf="!isTeacher" routerLink="levels" routerLinkActive="active" class="navbar-brand">Levels</a>
-  <a *ngIf="!isTeacher" routerLink="subjects" routerLinkActive="active" class="navbar-brand">Angebote</a>
-  <a *ngIf="isLoggedIn()" routerLink="profile" routerLinkActive="active" class="navbar-brand">mein Profil</a>
+  <div class="container-fluid">
+    <ul class="navbar-nav">
 
-  <a *ngIf="isLoggedIn() && isTeacher" routerLink="admin" routerLinkActive="active"
-     class="navbar-brand">Administration</a>
-  <a *ngIf="isLoggedIn && isTeacher" routerLink="mySubjects" routerLinkActive="active" class="navbar-brand">meine Angebote</a>
-  <a *ngIf="isLoggedIn && isTeacher" routerLink="myRequests" routerLinkActive="active" class="navbar-brand">Anfragen</a>
+
+        <a
+          class="nav-link dropdown-toggle"
+          href="#"
+          id="navbarDropdownMenuLink"
+
+        >
+          <i class="fas fa-bell"></i>
+          <span class="badge rounded-pill badge-notification bg-danger">1</span>
+        </a>
+        <a class="nav-link" routerLink="home" routerLinkActive="active">Home</a> <!--routerLinkActive: Wenn link active, dann klasse active-->
+
+        <a class="nav-link" *ngIf="!isTeacher" routerLink="categories" routerLinkActive="active">Kategorien</a>
+        <a class="nav-link" *ngIf="!isTeacher" routerLink="levels" routerLinkActive="active">Levels</a>
+        <a class="nav-link" *ngIf="!isTeacher" routerLink="subjects" routerLinkActive="active" >Angebote</a>
+
+        <a class="nav-link" *ngIf="isLoggedIn() && !isTeacher" [routerLink]="['studentAppointments', userId]" routerLinkActive="active">Meine Termine</a>
+
+        <a class="nav-link" *ngIf="isLoggedIn()" routerLink="profile" routerLinkActive="active">mein Profil</a>
+
+        <a class="nav-link" *ngIf="isLoggedIn() && isTeacher" routerLink="admin" routerLinkActive="active">Administration</a>
+
+        <a class="nav-link" *ngIf="isLoggedIn && isTeacher" routerLink="mySubjects" routerLinkActive="active">meine Angebote</a>
+
+
+        <a class="nav-link" *ngIf="isLoggedIn && isTeacher" routerLink="bookedAppointments" routerLinkActive="active">Gebuchte Termine</a>
+
+
+        <a routerLink="login" routerLinkActive="active"
+               class="nav-link">{{getLoginLabel()}}</a>
+
+
+
+
+         </ul>
+
+  </div>
+<!--<div class="ui {{isLoggedIn()?'six':'seven'}} item tabs menu">
+   <a *ngIf="isLoggedIn && isTeacher" routerLink="myRequests" routerLinkActive="active" class="navbar-brand">Anfragen</a>
   <a *ngIf="isLoggedIn && isTeacher" routerLink="myAppointments" routerLinkActive="active" class="navbar-brand">meine Termine</a>
+-->
 
-  <a routerLink="login" routerLinkActive="active"
-     class="navbar-brand">{{getLoginLabel()}}</a>
-</div>
+  <form class="form-inline">
+
+    <bs-search></bs-search></form>
 </nav>
-<form class="form-inline">
-  <bs-search></bs-search>
 
-</form>
+
+
 <router-outlet></router-outlet>
+
+<footer class="bg-light text-center text-lg-start">
+
+  <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">
+    © 2022 Moser Lisa-Marie
+    <a class="text-dark" href="https://mdbootstrap.com/">Kommunikation, Wissen, Medien</a>
+  </div>
+  <!-- Copyright -->
+</footer>
 
 
 <!--<nav class="navbar navbar-light bg-light justify content-between">

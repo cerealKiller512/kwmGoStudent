@@ -21,6 +21,8 @@ class CreateAppointmentsTable extends Migration
             $table->foreignId('subject_id')->constrained()->onDelete('cascade');
             $table->foreignId('student_id')->nullable();
             $table->boolean('booked')->default(false);
+            $table->boolean('completed')->default(false);
+            $table->string('status')->default('')->nullable();
             $table->timestamps();
         });
     }
