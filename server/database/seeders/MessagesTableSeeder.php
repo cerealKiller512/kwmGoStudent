@@ -18,7 +18,7 @@ class MessagesTableSeeder extends Seeder
         $message->text = "Kommentar Test Text";
 
 
-        $message->subject()->associate(\App\Models\Subject::find(1));
+        $message->user()->associate(\App\Models\User::find(1));
 
         $message->student()->associate(Student::find(1));
 
@@ -28,7 +28,7 @@ class MessagesTableSeeder extends Seeder
         $message1->text = "Zweiter Kommentar Test Text";
 
 
-        $message1->subject()->associate(\App\Models\Subject::find(2));
+        $message1->user()->associate(\App\Models\User::find(2));
 
         $message1->student()->associate(Student::find(1));
 
@@ -38,7 +38,7 @@ class MessagesTableSeeder extends Seeder
         $message2->text = "Dritter Kommentar Test Text";
 
 
-        $message2->subject()->associate(\App\Models\Subject::find(1));
+        $message2->user()->associate(\App\Models\User::find(1));
 
         $message2->student()->associate(Student::find(2));
 

@@ -1,11 +1,11 @@
 <h1>Nachhilfe-Formular</h1>
 <hr>
-<form [formGroup]="subjectForm"
-      (ngSubmit)="submitForm()" class="row">
+<form class="list-group-item" [formGroup]="subjectForm"
+      (ngSubmit)="submitForm()">
   <div class="col-md-6">
     <input class="form-control" type="hidden" formControlName="id">
     <div class="col-md-6">
-      <label class="form-label" >Nachhilfe-Angebot-Titel</label>
+      <label class="form-label" ><b>Angebots-Titel *</b></label>
       <br>
       <input class="form-control" formControlName="title">
       <div *ngIf="errors['title']" class="alert-danger">
@@ -13,57 +13,81 @@
       </div>
     </div>
 
-    <hr>
 
+<br/>
     <select class="form-select" formControlName="categoryId">
-      <option class="form-check-input" [ngValue]="null" disabled>Choose your category</option>
+      <option class="form-check-input" [ngValue]="null" disabled>Wählen Sie eine Kategorie aus</option>
       <option class="form-check-input" *ngFor="let cat of categories" [ngValue]="cat.id">
-        {{ cat.name }}
+        {{ cat.name }} *
       </option>
     </select>
 
-
+<br/>
     <select class="form-select" formControlName="levelId">
       <option class="form-check-input" [ngValue]="" disabled>Choose your level</option>
       <option class="form-check-input" *ngFor="let level of levels" [ngValue]="level.id">
-        {{ level.level }}
+        {{ level.level }} *
       </option>
     </select>
   </div>
+<br/>
 
+  <div class="col-md-4">
+    <label class="form-label" type="price">Preis * </label>
+    <input class="form-control" type="price" formControlName="price">
+
+  </div>
+<br/>
+  <br/>
   <div class="col-md-6">
-    <label class="form-label" for="description">Beschreibung</label>
+    <label class="form-label" for="description">Beschreibung </label>
     <textarea class="form-text" formControlName="description" id="description" placeholder="Beschreibung">
     </textarea>
-    <hr>
-  </div>
-
-
-  <div class="col-md-6" [class.disabled]="isUpdatingSubject">
-    <label class="form-label" for="id">ID</label>
-    <input class="form-control" formControlName="id" id="id" placeholder="10">
-    <div *ngIf="errors['id']" class="alert-danger">{{ errors['id'] }}
-    </div>
-
-    <hr>
 
   </div>
+
+
+<br/>
   <div class="col-md-4">
     <label class="form-label" type="date">Erscheinungsdatum</label>
     <input class="form-control" type="date" formControlName="published">
     <div *ngIf="errors['published']" class="alert-danger">{{ errors['published'] }}</div>
-    <hr>
+
   </div>
 
-
+<br/>
 
   <!-- TODO: add appointments to form!-->
 
 
   <div class="col-md-6">
+    <label>Termine *</label>
+    <div formArrayName="appointments">
+      <div class="col-md-6" *ngFor="let control of appointments?.controls; index as i; last as l" [formGroupName]="i">
+        <input type="hidden" formControlName="id">
+        <br/>
+        <div class="col-md-3">
+          <input formControlName="day" placeholder="Montag">
+        </div>
+        <br/>
+        <div class="col-md-3">
+          <input formControlName="from" placeholder="09:00:00">
+        </div>
+        <br/>
+        <div class="col-md-3">
+          <input formControlName="to" placeholder="12:00:00">
+        </div>
+        <br/>
+        <div class="col-md-6" *ngIf="l">
+          <button (click)="addAppointmentControl()" class="btn btn-primary" type="button">+</button>
+        </div>
+      <br/>
+      </div>
+
+    </div>
 
 
-      <div class="col-md-6" *ngFor="let appointment of subject.appointments last as l">
+      <!--<div class="col-md-6" *ngFor="let appointment of subject.appointments last as l">
         <div>
           <label class="form-label">Tag:</label>
           <input class="form-control" formControlName="day" placeholder="Montag" value="{{appointment.day}}">
@@ -79,12 +103,12 @@
           value="{{appointment.to}}">
         </div>
         <div *ngIf="l">
-         <!-- <button (click)="addAppointmentControl()" type="button">+</button>-->
+          <button (click)="addAppointmentControl()" type="button">+</button>
         </div>
         <hr>
-      </div>
+      </div>-->
 
-    <label class="col-md-4">Neue Termine</label>
+    <!--<label class="col-md-4">Neue Termine</label>
 
     <br>
     <div class="col-md-4" formArrayName="appointments">
@@ -99,10 +123,12 @@
 
       <button (click)="addAppointmentControl()" type="button">+</button>
     </div>
-  </div>
+  </div>-->
   <div *ngIf="errors['appointments']">{{errors['appointments']}}</div>
 
 
   <button  class="btn btn-primary" [disabled]="subjectForm.invalid">Speichern</button>
-
+  </div>
 </form>
+
+<p>Mit * gekennzeichnete Felder sind verpflichtend</p>

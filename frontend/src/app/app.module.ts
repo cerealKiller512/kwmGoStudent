@@ -31,6 +31,7 @@ import {SubjectService} from "./shared/subject.service";
 import { BookedAppointmentsComponent } from './booked-appointments/booked-appointments.component';
 import { StudentAppointmentsComponent } from './student-appointments/student-appointments.component';
 import { MySubjectsDetailsComponent } from './my-subjects-details/my-subjects-details.component';
+import { MessagesComponent } from './messages/messages.component';
 
 @NgModule({
   declarations: [
@@ -52,6 +53,7 @@ import { MySubjectsDetailsComponent } from './my-subjects-details/my-subjects-de
     BookedAppointmentsComponent,
     StudentAppointmentsComponent,
     MySubjectsDetailsComponent,
+    MessagesComponent,
   ],
     imports: [
         BrowserModule, AppRoutingModule, HttpClientModule, ReactiveFormsModule, BrowserAnimationsModule,

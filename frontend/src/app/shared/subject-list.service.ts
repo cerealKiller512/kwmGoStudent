@@ -44,7 +44,7 @@ export class SubjectListService {
       "icon": "fa-solid fa-graduation-cap"
     };
     console.log("=== ", body)
-    return this.http.post(`${this.api}/subjects`, body)
+    return this.http.post(`${this.api}/subjects`, subject)
       .pipe(retry(3)).pipe(catchError(this.errorHandler));
   }
 

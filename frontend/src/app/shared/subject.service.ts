@@ -14,6 +14,11 @@ export class SubjectService {
       .pipe(retry(3)).pipe(catchError(this.errorHandler));
   }
 
+  getSingle(id:number):Observable<Subject>{
+    return this.http.get<Subject>(`${this.api}/subjects/${id}`)
+      .pipe(retry(3)).pipe(catchError(this.errorHandler));
+  }
+
   setAppointmentsForUser(studentId: number, checkedAppointments: number[]){
     return this.http.put(`${this.api}/setAppointmentsForUser`, {
       "student_id": studentId,
@@ -21,6 +26,24 @@ export class SubjectService {
     }).pipe(retry(3)).pipe(catchError(this.errorHandler));
   }
 
+  create(subject:Subject, userId: number):Observable<any>{
+    const body = {
+      "title": subject.title,
+      "description": subject.description,
+      "user_id": userId,
+      "category_id": subject.category_id,
+      "level_id": subject.level_id,
+      "icon": "fa-solid fa-graduation-cap"
+    };
+    console.log("=== ", body)
+    return this.http.post(`${this.api}/subjects`, subject)
+      .pipe(retry(3)).pipe(catchError(this.errorHandler));
+  }
+
+  update(subject:Subject):Observable<any>{
+    return this.http.put(`${this.api}/subjects/${subject.id}`, subject)
+      .pipe(retry(3)).pipe(catchError(this.errorHandler));
+  }
 
 
   private errorHandler(error:Error | any): Observable<any>{

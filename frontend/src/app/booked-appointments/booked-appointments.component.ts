@@ -7,6 +7,7 @@ import {AuthService} from "../shared/auth.service";
 import {Appointment} from "../components/appointment";
 import {AppointmentService} from "../shared/appointment.service";
 import {ToastrService} from "ngx-toastr";
+import {ToastrModule} from "ngx-toastr";
 import {ActivatedRoute, Router} from "@angular/router";
 
 @Component({

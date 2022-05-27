@@ -1,7 +1,7 @@
 <div class="column">
   <h1 class="card-header">{{subject.title}}</h1>
   <h3 class="card-body">{{subject.description}}</h3>
-  <h3 class="card-header">{{subject.price}}€</h3>
+  <h3 class="card-header">{{subject.price}}€ / 60 Min</h3>
   <h3>{{subject.user.firstName}} {{subject.user.lastName}}</h3>
     <img class="rounded-circle mt-5" width="150px" src="{{subject.user.image_url}}">
   <div class="ui grid">
@@ -11,14 +11,18 @@
             (ngSubmit)="submitForm()">
         <span *ngFor="let appointment of subject.appointments; last as l">
           <div *ngIf="appointment.booked == false">
+            <div class="col-md-4">
             <ul class="list-group list-group-light list-group-small">
-              <li class="list-group-item">Tag: {{appointment.day}}</li>
+
+              <li class="list-group-item">Tag: {{appointment.day}} <input formControlName="{{appointment.id}}" *ngIf="authService.isLoggedIn && !authService.isLoggedInAsTeacher.value" type="checkbox">
+</li>
               <li class="list-group-item">Von: {{appointment.from}}</li>
               <li class="list-group-item"> Bis:{{appointment.to}}</li>
-              <input formControlName="{{appointment.id}}" *ngIf="authService.isLoggedIn && !authService.isLoggedInAsTeacher.value" type="checkbox">
-
+<br/>
 
             </ul>
+
+          </div>
             </div>
         </span>
       </form>
@@ -26,14 +30,15 @@
 
         <br>
         <!-- TODO: get all checked appointments, request() -> set booked status to true-->
-       <button *ngIf="authService.isLoggedIn && !authService.isLoggedInAsTeacher.value"
+       <button class="btn btn-primary" *ngIf="authService.isLoggedIn && !authService.isLoggedInAsTeacher.value"
                (click)="submitForm()" type="submit">Anmelden</button>
 
     </div>
   </div>
 
 
-<button routerLink="/subjects">Zurück zur Übersicht</button>
+<button class="btn btn-light border border-dark" routerLink="/subjects">Zurück zur Übersicht</button>
+<br/>
 <button *ngIf="authService.isLoggedIn() && authService.isLoggedInAsTeacher.value" class="ui tiny red labaled icon button"
         (click)="removeSubject()">
   <i class="remove icon"></i> Angebot löschen

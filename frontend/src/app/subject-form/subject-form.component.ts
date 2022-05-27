@@ -60,12 +60,13 @@ export class SubjectFormComponent implements OnInit {
 
 
   initSubjectForm() {
+    //TODO: set appointments to required
     this.buildAppointmentsArray();
     this.subjectForm = this.fb.group({
       id: this.subject.id,
       title: [this.subject.title, Validators.required],
       description: this.subject.description,
-      published: [this.subject.published, Validators.required],
+      published: this.subject.published,
       appointments: this.appointments,
       categoryId: this.subject.category_id,
       levelId: this.subject.level_id,
@@ -104,13 +105,18 @@ export class SubjectFormComponent implements OnInit {
   }
 
   addAppointmentControl(){
-    this.appointments.push(this.fb.group({id:0, day:null,
-    from:null, to:null}))
+    this.appointments.push(this.fb.group({id:0, day:null, from:null, to:null}))
   }
 
 
   submitForm() {
+    //this.subjectForm.value.appointments=this.subjectForm.value.images.filter(
+     // (day: {day:string})=>day.day
+    //)
     console.log("submit form")
+    this.subjectForm.value.appointments = this.subjectForm.value.appointments.filter(
+      (day:{day:string})=>day.day
+    )
     const currUserId: number = this.authService.getCurrentUserId();
     const subject: Subject = SubjectFactory.fromObject(this.subjectForm.value, currUserId);
     subject.appointments = this.subject.appointments;
@@ -124,6 +130,7 @@ export class SubjectFormComponent implements OnInit {
       })
     } else {
       console.log(subject);
+      subject.user_id=1;
       this.bs.create(subject, currUserId).subscribe(res => {
         this.subject = SubjectFactory.empty();
         this.subjectForm.reset(subject);

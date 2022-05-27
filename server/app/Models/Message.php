@@ -10,14 +10,14 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 class Message extends Model
 {
 
-    protected $fillable = ['text', 'subject_id', 'student_id'];
+    protected $fillable = ['text', 'user_id', 'student_id'];
 
     use HasFactory;
 
 
-    public function subject(): BelongsTo
+    public function user(): BelongsTo
     {
-        return $this->belongsTo(Subject::class);
+        return $this->belongsTo(User::class);
     }
 
     /**

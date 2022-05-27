@@ -25,7 +25,7 @@ export class SearchComponent implements OnInit {
       .pipe(tap(() => this.isLoading = true))
       .pipe(switchMap(searchTerm => this.bs.getAllSearch(searchTerm)))
       .pipe(tap(() => this.isLoading = false))
-      .subscribe(subjects => {
+      .subscribe((subjects) => {
         console.log(subjects)
         this.foundSubjects = subjects;
       });

@@ -1,7 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {Subject} from "./components/subject";
 import {AuthService} from "./shared/auth.service";
-import {Student} from "./components/student";
+import {ChatAdapter} from "ng-chat";
+//import {MyAdapter} from 'my-adapter';
 
 @Component({
   selector: 'bs-root',
@@ -9,6 +10,7 @@ import {Student} from "./components/student";
   styles: []
 })
 export class AppComponent implements OnInit{
+    title='kwmGoStudent';
     isTeacher: boolean = false;
     userId: number = null;
 
@@ -38,4 +40,6 @@ export class AppComponent implements OnInit{
     }
 
     }
+
+    //public adapter:ChatAdapter = MyAdapter();
 }

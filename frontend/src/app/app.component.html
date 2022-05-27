@@ -3,9 +3,7 @@
     <ul class="navbar-nav">
 
 
-        <a
-          class="nav-link dropdown-toggle"
-          href="#"
+        <a class="nav-link dropdown-toggle" *ngIf="isLoggedIn()" routerLink="messages" routerLinkActive="active"
           id="navbarDropdownMenuLink"
 
         >
@@ -47,13 +45,14 @@
   <form class="form-inline">
 
     <bs-search></bs-search></form>
+  <!--<ng-chat [adapter]="adapter" [userId]="userId"></ng-chat>-->
 </nav>
 
 
 
 <router-outlet></router-outlet>
 
-<footer class="bg-light text-center text-lg-start">
+<footer id="footer" class="bg-light text-center text-lg-start">
 
   <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">
     © 2022 Moser Lisa-Marie

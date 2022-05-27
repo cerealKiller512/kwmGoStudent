@@ -15,6 +15,7 @@ import {MySubjectsDetailsComponent} from "./my-subjects-details/my-subjects-deta
 import {MyRequestsComponent} from "./my-requests/my-requests.component";
 import {BookedAppointmentsComponent} from "./booked-appointments/booked-appointments.component";
 import {StudentAppointmentsComponent} from "./student-appointments/student-appointments.component";
+import {MessagesComponent} from "./messages/messages.component";
 
 const routes: Routes = [
   {path: '', redirectTo:'home', pathMatch: 'full'},
@@ -34,6 +35,8 @@ const routes: Routes = [
   {path: 'bookedAppointments', component: BookedAppointmentsComponent},
   {path:'bookedAppointments/:id', component: BookedAppointmentsComponent},
   {path: 'studentAppointments/:id', component:StudentAppointmentsComponent},
+  {path: 'messages', component:MessagesComponent},
+  {path:'messages/:id', component:MessagesComponent}
  ];
 
 @NgModule({
