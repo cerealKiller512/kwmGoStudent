@@ -1,13 +1,13 @@
 <div class="container c-grid-3 mt-5">
 
-  <button *ngFor="let level of levels" type="button" class="btn btn-light border border-dark" (onclick)="selectLevel(level)">
+  <button *ngFor="let level of levels" type="button" 
+      class="btn btn-level" (onclick)="selectLevel(level)">
    <div class="icon">
-     <i class="fa-solid"></i>
+    <i class="fa-solid fa-school"></i>
    </div>
-   <div class="btn-label">
-
-    {{level.level}}
-  </div>
+   <div class="btn-label fs-4">
+      {{level.level}}
+    </div>
   </button>
 </div>
 

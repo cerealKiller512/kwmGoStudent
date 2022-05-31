@@ -1,39 +1,41 @@
-
-<div *ngIf="isLoggedIn()" class="container rounded bg-white mt-5 mb-5">
-
+<form class="list-group-item" [formGroup]="userForm" (ngSubmit)="submitForm()" class="container d-flex flex-column gap-3">
+<div class="container rounded bg-white mt-5 mb-5">
   <div class="row">
-      <div class="col-md-3 border-right">
-          <div class="d-flex flex-column align-items-center text-center p-3 py-5"><img class="rounded-circle mt-5" width="150px" src="{{currentUser.image_url}}"><span class="font-weight-bold">{{currentUser.firstName}} {{currentUser.lastName}}</span><span class="text-black-50">{{currentUser.email}}</span><span> </span></div>
+      <div class="offset-3">
+          <h4 class="text-right">Profil Einstellungen</h4>
       </div>
-      <div class="col-md-5 border-right">
-          <div class="p-3 py-5">
-              <div class="d-flex justify-content-between align-items-center mb-3">
-                  <h4 class="text-right">Profil Einstellungen</h4>
-              </div>
-              <div class="row mt-2">
-                  <div class="col-md-6"><label class="labels">Vorname</label><input type="text" class="form-control" value="{{currentUser.firstName}}"></div>
-
-                  <div class="col-md-6"><label class="labels"></label><input type="text" class="form-control" value="{{currentUser.lastName}}" ></div>
-              </div>
-              <div class="row mt-3">
-                  <div class="col-md-12"><label class="labels">Telefonnummer</label><input type="text" class="form-control" placeholder="enter phone number" value="{{currentUser.phone}}"></div>
-                  <div class="col-md-12"><label class="labels">Straße</label><input type="text" class="form-control" placeholder="enter address line 1" value="Musterstrasse"></div>
-                  <div class="col-md-12"><label class="labels">Hausnummer</label><input type="text" class="form-control" placeholder="enter address line 2" value="1"></div>
-                  <div class="col-md-12"><label class="labels">Postleitzahl</label><input type="text" class="form-control" placeholder="enter address line 2" value="4020"></div>
-                  <div class="col-md-12"><label class="labels">Ort</label><input type="text" class="form-control" placeholder="enter address line 2" value="Linz"></div>
-                    <div class="col-md-12"><label class="labels">E-Mail</label><input type="text" class="form-control" placeholder="enter email id" value="{{currentUser.email}}"></div>
-
-              </div>
-
-              <div class="mt-5 text-center"><button class="btn btn-primary profile-button" type="button">Speichern</button></div>
-          </div>
+  </div>
+  <div class="row">
+      <div class="col-md-3">
+        <div class="d-flex flex-column justify-content-start align-items-center text-center p-3">
+            <img class="rounded-circle" width="150px" src="{{currentUser?.image_url ? currentUser?.image_url : 'https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png'}}">
+            <span class="font-weight-bold">{{currentUser.firstName}} {{currentUser.lastName}}</span>
+            <span class="text-black-50">{{currentUser.email}}</span><span> </span>
+        </div>
       </div>
-      <div class="col-md-4">
-          <div class="p-3 py-5">
-              <div class="d-flex justify-content-between align-items-center experience"><span>Ausbildung bearbeiten</span><span class="border px-3 p-1 add-experience"><i class="fa fa-plus"></i>&nbsp;Ausbildung</span></div><br>
-              <div class="col-md-12"><label class="labels">Ausbildiung</label><input type="text" class="form-control" value="{{currentUser?.education}}"></div> <br>
-              <div class="col-md-12"><label class="labels">Über Mich</label><input type="text" class="form-control" value="{{currentUser?.description}}"></div>
-          </div>
+      <div class="col-md-8 d-flex flex-column gap-3">
+        <div class="row">
+            <div class="col-md-6">
+                <label class="form-label">Vorname</label>
+                <input type="text" class="form-control" formControlName="firstName" >
+            </div>
+
+            <div class="col-md-6">
+                <label class="form-label">Nachname</label>
+                <input type="text" class="form-control" formControlName="lastName"  >
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <label class="form-label">E-Mail</label>
+                <input type="text" class="form-control" placeholder="enter email" formControlName="email" />
+            </div>
+        </div>
+
+        <div class="mt-5 text-center">
+            <button class="btn btn-primary" type="submit">Speichern</button>
+        </div>
       </div>
   </div>
 </div>
+</form>

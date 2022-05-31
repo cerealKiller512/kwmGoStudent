@@ -38,18 +38,30 @@ export class SubjectListService {
     const body = {
       "title": subject.title,
       "description": subject.description,
+      "price": subject.price,
+      "icon": "fa-solid fa-graduation-cap",
       "user_id": userId,
       "category_id": subject.category_id,
       "level_id": subject.level_id,
-      "icon": "fa-solid fa-graduation-cap"
+      "appointments": subject.appointments
     };
-    console.log("=== ", body)
-    return this.http.post(`${this.api}/subjects`, subject)
+
+    return this.http.post(`${this.api}/subjects`, body)
       .pipe(retry(3)).pipe(catchError(this.errorHandler));
   }
 
   update(subject:Subject):Observable<any>{
-    return this.http.put(`${this.api}/subjects/${subject.id}`, subject)
+    const body = {
+      "title": subject.title,
+      "description": subject.description,
+      "price": subject.price,
+      "icon": "fa-solid fa-graduation-cap",
+      "category_id": subject.category_id,
+      "level_id": subject.level_id,
+      "appointments": subject.appointments
+    };
+
+    return this.http.put(`${this.api}/subjects/${subject.id}`, body)
       .pipe(retry(3)).pipe(catchError(this.errorHandler));
   }
 

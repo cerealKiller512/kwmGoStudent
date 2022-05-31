@@ -18,21 +18,19 @@ import {LevelListService} from "../shared/level-list.service";
   styles: []
 })
 export class SubjectFormComponent implements OnInit {
-  subjectForm: FormGroup;
-  subject = SubjectFactory.empty();
+  isEditMode = false;
 
   errors: { [key: string]: string } = {};
-
-  isUpdatingSubject = false;
-
+  subjectForm: FormGroup;
   appointments: FormArray;
+  subject = SubjectFactory.empty();
 
   categories: Category[] = [];
   levels: Level[] = [];
 
   constructor(
     private fb: FormBuilder,
-    private bs: SubjectListService,
+    private subjectListService: SubjectListService,
     private route: ActivatedRoute,
     private router: Router,
     private authService: AuthService,
@@ -41,62 +39,61 @@ export class SubjectFormComponent implements OnInit {
   ) {
     this.subjectForm = this.fb.group({});
     this.appointments = this.fb.array([]);
-
   }
+
   ngOnInit():void {
     const id = this.route.snapshot.params["id"];
-    if (id) {
-      //Update-Modus
-      this.isUpdatingSubject = true;
 
-      this.bs.getSingle(id).subscribe(subject => {
+    if (id) { // Edit Mode
+      this.isEditMode = true;
+
+      this.subjectListService.getSingle(id).subscribe(subject => {
         this.subject = subject;
-        console.log(subject)
         this.initSubjectForm();
       });
     }
+
     this.initSubjectForm();
   }
 
 
   initSubjectForm() {
-    //TODO: set appointments to required
     this.buildAppointmentsArray();
+
     this.subjectForm = this.fb.group({
       id: this.subject.id,
       title: [this.subject.title, Validators.required],
       description: this.subject.description,
-      published: this.subject.published,
+      price: [this.subject.price, [Validators.required, Validators.min(0)]],
       appointments: this.appointments,
-      categoryId: this.subject.category_id,
-      levelId: this.subject.level_id,
+      categoryId: [this.subject.category_id, Validators.required],
+      levelId: [this.subject.level_id, Validators.required],
     });
+
     this.subjectForm.statusChanges.subscribe(() => {
       this.updateErrorMessages()
     });
 
     this.levelService.getAll().subscribe(levels => {
-      console.log("level...", levels)
       this.levels = levels;
       this.subjectForm.controls['levelId'].setValue(this.levels[0].id);
     })
     this.catService.getAll().subscribe(categories => {
-      console.log("categories...", categories)
       this.categories = categories;
       this.subjectForm.controls['categoryId'].setValue(this.categories[0].id);
     })
   }
 
   buildAppointmentsArray(){
-    if(this.subject.appointments){
-      this.appointments = this.fb.array([]);
+    if(this.subject.appointments.length > 0){
+      this.appointments = this.fb.array([], [Validators.required, Validators.minLength(1)]);
       for(let app of this.subject.appointments){
         let fg = this.fb.group(
           {
-            id: new FormControl(app.id),
-            day: new FormControl(app.day, [Validators.required]),
-            from: new FormControl(app.from, [Validators.required]),
-            to: new FormControl(app.to, [Validators.required])
+            id: app.id,
+            day: [app.day, Validators.required],
+            from: [app.from, Validators.required],
+            to: [app.to, Validators.required],
           }
         );
         this.appointments.push(fg);
@@ -105,33 +102,33 @@ export class SubjectFormComponent implements OnInit {
   }
 
   addAppointmentControl(){
-    this.appointments.push(this.fb.group({id:0, day:null, from:null, to:null}))
+    this.appointments.push(this.fb.group(
+      {
+        id: null,
+        day: 'Montag',
+        from: null,
+        to: null,
+    }));
+
   }
 
 
   submitForm() {
-    //this.subjectForm.value.appointments=this.subjectForm.value.images.filter(
-     // (day: {day:string})=>day.day
-    //)
-    console.log("submit form")
-    this.subjectForm.value.appointments = this.subjectForm.value.appointments.filter(
+    const appointments = this.subjectForm.value.appointments.filter(
       (day:{day:string})=>day.day
     )
-    const currUserId: number = this.authService.getCurrentUserId();
-    const subject: Subject = SubjectFactory.fromObject(this.subjectForm.value, currUserId);
-    subject.appointments = this.subject.appointments;
-    console.log("formValue: ", this.subjectForm.value);
-    console.log("subject", subject);
+    const currUserId = this.authService.getCurrentUserId();
+    const subject = SubjectFactory.fromObject(this.subjectForm.value, currUserId);
+    subject.appointments = appointments;
 
-    if (this.isUpdatingSubject) {
-      this.bs.update(subject).subscribe(res => {
+    if (this.isEditMode) {
+      this.subjectListService.update(subject).subscribe(res => {
         this.router.navigate(["../../subjects", subject.id], {
           relativeTo: this.route});
       })
     } else {
-      console.log(subject);
-      subject.user_id=1;
-      this.bs.create(subject, currUserId).subscribe(res => {
+      subject.user_id = currUserId;
+      this.subjectListService.create(subject, currUserId).subscribe(res => {
         this.subject = SubjectFactory.empty();
         this.subjectForm.reset(subject);
         this.router.navigate(["../subjects"], { relativeTo: this.route

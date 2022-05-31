@@ -12,6 +12,7 @@ import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {ToastrModule} from "ngx-toastr";
 import {SubjectListService} from "./shared/subject-list.service";
+import {ProfileService} from "./shared/profile.service";
 import { SubjectListItemComponent } from './subject-list-item/subject-list-item.component';
 import {CategoryListService} from "./shared/category-list.service";
 import {LevelListService} from "./shared/level-list.service";
@@ -32,6 +33,7 @@ import { BookedAppointmentsComponent } from './booked-appointments/booked-appoin
 import { StudentAppointmentsComponent } from './student-appointments/student-appointments.component';
 import { MySubjectsDetailsComponent } from './my-subjects-details/my-subjects-details.component';
 import { MessagesComponent } from './messages/messages.component';
+
 
 @NgModule({
   declarations: [
@@ -59,7 +61,7 @@ import { MessagesComponent } from './messages/messages.component';
         BrowserModule, AppRoutingModule, HttpClientModule, ReactiveFormsModule, BrowserAnimationsModule,
         ToastrModule.forRoot(), FormsModule
     ],
-  providers: [SubjectListService, CategoryListService, LevelListService, AppointmentService, SubjectService,
+  providers: [SubjectListService, CategoryListService, LevelListService, AppointmentService, SubjectService, ProfileService,
   AuthService, {
     provide: HTTP_INTERCEPTORS,
       useClass:TokenInterceptorService,

@@ -12,7 +12,7 @@ export class HomeComponent {
   }
 
   isLoggedIn(){
-    return this.authService.isLoggedIn();
+    return this.authService.validateLoginStateByToken();
   }
   isLoggedInAsTeacher(){
     return this.authService.isLoggedInAsTeacher

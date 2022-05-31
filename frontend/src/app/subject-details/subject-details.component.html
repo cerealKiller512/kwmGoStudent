@@ -1,133 +1,89 @@
-<div class="column">
-  <h1 class="card-header">{{subject.title}}</h1>
-  <h3 class="card-body">{{subject.description}}</h3>
-  <h3 class="card-header">{{subject.price}}€ / 60 Min</h3>
-  <h3>{{subject.user.firstName}} {{subject.user.lastName}}</h3>
-    <img class="rounded-circle mt-5" width="150px" src="{{subject.user.image_url}}">
-  <div class="ui grid">
-    <div>
-      <h4>verfügbare Termine</h4>
-      <form class="form-group" [formGroup]="appointmentBookingForm"
-            (ngSubmit)="submitForm()">
-        <span *ngFor="let appointment of subject.appointments; last as l">
-          <div *ngIf="appointment.booked == false">
-            <div class="col-md-4">
-            <ul class="list-group list-group-light list-group-small">
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-6 offset-md-1 d-flex gap-3">
+      <button class="btn btn-light border border-dark" routerLink="/subjects">
+        <i class="fa-solid fa-home"></i> Zurück zur Übersicht
+      </button>
+    </div>
+  </div>
 
-              <li class="list-group-item">Tag: {{appointment.day}} <input formControlName="{{appointment.id}}" *ngIf="authService.isLoggedIn && !authService.isLoggedInAsTeacher.value" type="checkbox">
-</li>
-              <li class="list-group-item">Von: {{appointment.from}}</li>
-              <li class="list-group-item"> Bis:{{appointment.to}}</li>
-<br/>
+  <hr />
 
-            </ul>
+  <div class="row">
 
+    <div class="col-md-8 offset-md-1">
+      <div class="row">
+        <h1>{{subject.title}}</h1>
+        <p>
+          {{subject.price}}€ / 60 Min
+        </p>
+        <p>
+          {{subject.description}}
+        </p>
+      </div>
+
+      <div class="row">
+        <div class="col-md-6">
+          <h4>Verfügbare Termine</h4>
+          <div class="row">
+            <form class="form-group d-flex flex-column gap-2" [formGroup]="appointmentBookingForm" (ngSubmit)="submitForm()">
+              <ng-container *ngFor="let appointment of subject.appointments; last as l">
+                <div *ngIf="appointment.booked == false">
+                  <div class="col-md-8 appointment-list-item border border-dark rounded">
+                    <div class="area_add" *ngIf="authService.isLoggedInSubject.value && !authService.isLoggedInAsTeacher.value">
+                      <input formControlName="{{appointment.id}}" type="checkbox">
+                    </div>
+                    <div class="area-day">Tag: {{appointment.day}}</div>
+                    <div class="area_time">Uhrzeit: {{appointment.from}} - {{appointment.to}}</div>
+                  </div>
+                </div>
+              </ng-container>
+    
+              <button class="btn btn-primary mt-3" 
+                      *ngIf="authService.isLoggedInSubject.value && !authService.isLoggedInAsTeacher.value"
+                      type="submit">Anmelden</button>
+            </form>
           </div>
-            </div>
-        </span>
-      </form>
-    </div>
-
-        <br>
-        <!-- TODO: get all checked appointments, request() -> set booked status to true-->
-       <button class="btn btn-primary" *ngIf="authService.isLoggedIn && !authService.isLoggedInAsTeacher.value"
-               (click)="submitForm()" type="submit">Anmelden</button>
-
-    </div>
-  </div>
-
-
-<button class="btn btn-light border border-dark" routerLink="/subjects">Zurück zur Übersicht</button>
-<br/>
-<button *ngIf="authService.isLoggedIn() && authService.isLoggedInAsTeacher.value" class="ui tiny red labaled icon button"
-        (click)="removeSubject()">
-  <i class="remove icon"></i> Angebot löschen
-</button>
-
-<button *ngIf="authService.isLoggedIn() && authService.isLoggedInAsTeacher.value" class="ui tiny yellow labaled icon button"
-   [routerLink]="['../../admin', subject?.id]">
-  <i class="write icon">Angebot bearbeiten</i>
-</button>
-
-
-<nav *ngIf="authService.isLoggedIn && !authService.isLoggedInAsTeacher.value" class="navbar navbar-expand-sm navbar-dark">
-  <img src="https://i.imgur.com/CFpa3nK.jpg" width="20" height="20" class="d-inline-block align-top rounded-circle" alt="">
-  <a class="navbar-brand ml-2" href="#" data-abc="true">Rib Simpson</a>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor02" aria-controls="navbarColor02" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
-  <div class="end">
-    <div class="collapse navbar-collapse" id="navbarColor02">
-      <ul class="navbar-nav">
-        <li class="nav-item"> <a class="nav-link" href="#" data-abc="true">Work</a> </li>
-        <li class="nav-item"> <a class="nav-link" href="#" data-abc="true">Capabilities</a> </li>
-        <li class="nav-item "> <a class="nav-link" href="#" data-abc="true">Articles</a> </li>
-        <li class="nav-item active"> <a class="nav-link mt-2" href="#" data-abc="true" id="clicked">Contact<span class="sr-only">(current)</span></a> </li>
-      </ul>
-    </div>
-  </div>
-</nav>
-
-<br/>
-<hr>
-<br>
-<!-- Main Body -->
-<section *ngIf="authService.isLoggedIn && !authService.isLoggedInAsTeacher.value" >
-  <div class="container">
-    <div class="row">
-      <div class="col-sm-5 col-md-6 col-12 pb-4">
-        <h3>Kommentare</h3>
-        <div class="comment mt-4 text-justify float-left">
-          <img src="https://i.imgur.com/yTFUilP.jpg" alt="" class="rounded-circle" width="40" height="40">
-          <h4>Jhon Doe</h4>
-          <span>- 20 October, 2018</span>
-          <br>
-          <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Accusamus numquam assumenda hic aliquam vero sequi velit molestias doloremque molestiae dicta?</p>
-        </div>
-        <div class="text-justify darker mt-4 float-right">
-          <img src="https://i.imgur.com/CFpa3nK.jpg" alt="" class="rounded-circle" width="40" height="40">
-          <h4>Rob Simpson</h4>
-          <span>- 20 October, 2018</span>
-          <br>
-          <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Accusamus numquam assumenda hic aliquam vero sequi velit molestias doloremque molestiae dicta?</p>
-        </div>
-        <div class="comment mt-4 text-justify">
-          <img src="https://i.imgur.com/yTFUilP.jpg" alt="" class="rounded-circle" width="40" height="40">
-          <h4>Jhon Doe</h4>
-          <span>- 20 October, 2018</span>
-          <br>
-          <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Accusamus numquam assumenda hic aliquam vero sequi velit molestias doloremque molestiae dicta?</p>
-        </div>
-        <div class="darker mt-4 text-justify">
-          <img src="https://i.imgur.com/CFpa3nK.jpg" alt="" class="rounded-circle" width="40" height="40">
-          <h4>Rob Simpson</h4>
-          <span>- 20 October, 2018</span>
-          <br>
-          <p >Lorem ipsum dolor sit, amet consectetur adipisicing elit. Accusamus numquam assumenda hic aliquam vero sequi velit molestias doloremque molestiae dicta?</p>
         </div>
       </div>
-      <div class="col-lg-4 col-md-5 col-sm-4 offset-md-1 offset-sm-1 col-12 mt-4">
-        <form id="algin-form">
-          <div class="form-group">
-            <h4>Kein passender Termin dabei? Jetzt Nachhilfe-Lehrer kontaktieren!</h4>
-            <label for="message">Message</label>
-            <textarea name="msg" id=""msg cols="30" rows="5" class="form-control" style="background-color: white;"></textarea>
-          </div>
-          <div class="form-group">
-            <label for="name">Name</label>
-            <input type="text" name="name" id="fullname" class="form-control">
-          </div>
-          <div class="form-group">
-            <label for="email">Email</label>
-            <input type="text" name="email" id="email" class="form-control">
-          </div>
 
-          <div class="form-group">
-            <button type="button" id="post" class="btn btn-primary" (click)="sendComment()">Kommentar Absenden</button>
+    </div>
+    <div class="col-md-2">
+        <div class="card card-trainer">
+          <div class="" style="width: 100%; height: auto">
+            <img class="card-img-top rounded-circle" src="{{subject.user.image_url}}">
           </div>
-        </form>
-      </div>
+          <div class="card-body">
+            <h4 class="card-title">Lehrer</h4>
+            <p class="card-text fs-5">Vorname: {{subject.user.firstName}}</p>
+            <p class="card-text fs-5">Nachname: {{subject.user.lastName}}</p>
+          </div>
+        </div>
     </div>
   </div>
-</section>
 
+</div>
+
+
+  
+<div class="container mt-5" *ngIf="authService.isLoggedInSubject.value && !authService.isLoggedInAsTeacher.value">
+  <form id="algin-form">
+    <div class="form-group">
+      <h4>Kein passender Termin dabei? Jetzt Nachhilfe-Lehrer kontaktieren!</h4>
+      <label for="message">Message</label>
+      <textarea name="msg" id=""msg cols="30" rows="5" class="form-control" style="background-color: white;"></textarea>
+    </div>
+    <div class="form-group">
+      <label for="name">Name</label>
+      <input type="text" name="name" id="fullname" class="form-control">
+    </div>
+    <div class="form-group">
+      <label for="email">Email</label>
+      <input type="text" name="email" id="email" class="form-control">
+    </div>
+
+    <div class="form-group">
+      <button type="button" id="post" class="btn btn-primary" (click)="sendComment()">Kommentar Absenden</button>
+    </div>
+  </form>
+</div>

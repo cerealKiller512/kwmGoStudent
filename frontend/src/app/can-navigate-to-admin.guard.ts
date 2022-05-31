@@ -22,7 +22,7 @@ export class CanNavigateToAdminGuard implements CanActivate {
   canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-    if(this.authService.isLoggedIn()){
+    if(this.authService.validateLoginStateByToken()){
       return true
     } else {
       window.alert("Sie müssen sich einloggen, um den Admin Bereich nutzen zu können!")

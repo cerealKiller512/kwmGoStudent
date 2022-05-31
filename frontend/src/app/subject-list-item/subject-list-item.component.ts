@@ -8,7 +8,7 @@ import {Subject} from "../components/subject";
   ]
 })
 export class SubjectListItemComponent implements OnInit {
-  @Input() subject:Subject | undefined //wir erwarten uns von außen einen Parameter vom Typ Buch -> @Input
+  @Input() subject:Subject | undefined
 
   constructor() { }
 

@@ -1,44 +1,35 @@
 
     <!--<bs-search class="column" (subjectSelected)="subjectSelected($event)"></bs-search>-->
 
-
-
-  <header>
-    <div class="overlay"></div>
-
-    <img class="modal-fullscreen" src="https://www.meetnlearn.ch/images/mustard/landingImage-1200x630.png">
-<br>
-    <br>
     <section class="my-5">
-      <div class="container">
-        <div class="row">
-          <div class="col-md-8 mx-auto">
-          <h1 class="display-3">Willkommen bei KWM Go Student!</h1>
-            <p class="lead mb-0">Deine zertifizierte Nachhilfe-Plattform für Jung bis Alt</p>
-    <br>
-            <br>
-            <a routerLink="../categories" class="btn btn-primary">Kategorien ansehen</a>
-            <br>
-            <br>
-            <a routerLink="../login" class="btn btn-primary">Jetzt anmelden</a>
-          </div>
-        </div>
+      <div class="container banner d-flex justify-content-center">
+        <img class="banner-image" src="https://www.meetnlearn.ch/images/mustard/landingImage-1200x630.png">
       </div>
     </section>
 
 
-  </header>
-
-  <section class="my-5">
+  <main class="my-5">
     <div class="container">
-      <div class="row">
+      <section class="row">
         <div class="col-md-8 mx-auto">
-          <p>Bei <b>KWM Go Student</b> kannst du dich als Nachhilfe-Suchender oder Nachhilfe-Lehrer anmelden.</p>
-          <p>Alle Lehrer wurden auf Qualifikationen überprüft, außerdem kannst du aussuchen,
-          welcher Termin für dich passt und ob du online oder Vor-Ort Nachhilfe abhalten möchtest.</p>
-          <p>Durch transparente Preise und Termin-Auswahl kannst du deinen optimalen Nachhilfe-Lehrer finden!</p>
-
+          <h1 class="display-4">Willkommen bei KWM Go Student!</h1>
+          <p class="fs-3 mb-4">Deine zertifizierte Nachhilfe-Plattform für Jung bis Alt</p>
         </div>
-      </div>
+      </section>
+      <section class="row">
+        <div class="col-md-8 mx-auto fs-5">
+            <p>Bei <b>KWM Go Student</b> kannst du dich als Nachhilfe-Suchender oder Nachhilfe-Lehrer anmelden.</p>
+            <p>Alle Lehrer wurden auf Qualifikationen überprüft, außerdem kannst du aussuchen,
+            welcher Termin für dich passt und ob du online oder Vor-Ort Nachhilfe abhalten möchtest.</p>
+            <p>Durch transparente Preise und Termin-Auswahl kannst du deinen optimalen Nachhilfe-Lehrer finden!</p>
+        </div>
+      </section>
+      <section class="row">
+        <div class="col-md-8 mx-auto">
+          <div class="d-flex flex-column gap-2">
+            <button routerLink="../login" class="btn btn-primary fs-5">Jetzt anmelden und profitieren!</button>
+          </div>
+        </div>
+      </section>
     </div>
-  </section>
+  </main>

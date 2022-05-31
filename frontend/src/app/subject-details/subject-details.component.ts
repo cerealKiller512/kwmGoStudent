@@ -25,7 +25,6 @@ export class SubjectDetailsComponent implements OnInit {
     private fb: FormBuilder,
     private subjectService: SubjectService,
     private subjectListService:SubjectListService,
-    private appointmentService: AppointmentService,
     private route:ActivatedRoute, //wie sieht die derzeitige Route im Browser aus
     private router: Router,
     private toastr: ToastrService,
@@ -33,12 +32,11 @@ export class SubjectDetailsComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.initForm();
+    this.init();
   }
-
-  initForm() {
+  
+  init() {
     this.appointmentBookingForm = this.fb.group({});
-
     this.subjectListService.getSingle(this.route.snapshot.params['id']).subscribe(subject =>{
       this.subject = subject;
       for (const appointment of this.subject.appointments) {
@@ -46,29 +44,18 @@ export class SubjectDetailsComponent implements OnInit {
       };
     });
   }
-
-  removeSubject(){
-    if(confirm('Wollen Sie das Angebot wirklich löschen?')){
-      this.toastr.success("Angebot gelöscht!", "Angebot erfolgreich gelöscht");
-      this.subjectListService.remove(this.subject.id).subscribe(res => this.router.navigate(['../'],
-        {relativeTo:this.route}));
-    }
-  }
-
-  //TODO: get all checked appointments and set booked to true
-
+  
   submitForm(){
     const checkedAppointments = Object.entries(this.appointmentBookingForm.value).filter(item => item[1] == true).map(item => Number(item[0]));
     const student_id = this.authService.getCurrentUserId();
-    console.log("=== ", Object.entries(this.appointmentBookingForm.value).filter(item => item[1] == true).map(item => item[0]))
-    console.log('Request was sent');
+
     if(confirm("Wollen Sie sich verbindlich für die ausgewählten Nachhilfe-Termine anmelden?")){
-      this.toastr.success("Erfolgreich angemeldet!");
-      window.location.reload();
+      // put / update appointments with userid
+      this.subjectService.setAppointmentsForUser(student_id, checkedAppointments).subscribe(res => {
+        this.toastr.success("Danke für deine Reservierung!", "Anmeldung erfolgreich.");
+        this.init();
+      });
     }
-    // update request
-    this.subjectService.setAppointmentsForUser(student_id, checkedAppointments).subscribe(res => this.router.navigate(['../'],
-      {relativeTo:this.route}));
   }
 
   sendComment(){

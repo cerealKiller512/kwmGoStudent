@@ -1,12 +1,8 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {Router} from "@angular/router";
-import {AuthService} from "../shared/auth.service";
+import {AuthService, Response} from "../shared/auth.service";
 import {User} from "../components/user";
-
-interface Response{
-  access_token:string;
-}
 
 @Component({
   selector: 'bs-login',
@@ -21,6 +17,7 @@ export class LoginComponent implements OnInit {
 
   loginForm: FormGroup;
   currentUser: User;
+  isLoggedIn: boolean = false;
 
   constructor( private fb: FormBuilder,
                private router: Router,
@@ -29,16 +26,15 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log("..... login component")
-    console.log(this.authService.isLoggedIn())
+    this.authService.isLoggedInSubject.subscribe(loginState => this.isLoggedIn = loginState)
+
     this.loginForm = this.fb.group({
       email: ["", [Validators.required, Validators.email]],
       password: ["", [Validators.required]]
     });
 
-    if(this.authService.isLoggedIn()){
+    if(this.authService.validateLoginStateByToken()){
       this.currentUser = this.authService.getCurrentUser();
-      console.log(this.currentUser)
       this.user.emit(this.currentUser);
     }
   }
@@ -48,18 +44,12 @@ export class LoginComponent implements OnInit {
     const val = this.loginForm.value;
     if(val.email && val.password){
         this.authService.login(loginType, val.email, val.password).subscribe((res:any) => {
-          console.log(res);
           this.authService.setSessionStorage((res as Response).access_token);
+          this.authService.validateLoginStateByToken();
           this.router.navigateByUrl("/");
         });
     }
 
-  }
-
-
-
-  isLoggedIn(){
-    return this.authService.isLoggedIn();
   }
 
   logout(){
@@ -69,8 +59,5 @@ export class LoginComponent implements OnInit {
   onLogout(){
     this.authService.logout();
   }
-
-
-
 
 }

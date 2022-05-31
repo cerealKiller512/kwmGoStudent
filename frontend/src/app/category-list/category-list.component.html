@@ -3,12 +3,11 @@
 <div class="container c-grid-3 mt-5">
 
   <button *ngFor="let category of categories" type="button"
-    class="btn btn-light border border-dark" (click)="selectCategory(category)">
+    class="btn btn-category" (click)="selectCategory(category)">
     <div class="icon">
-      <!--TODO: add items-->
-      <i class="fa-solid "></i>
+      <i class="fa-solid fa-layer-group"></i>
     </div>
-    <div class="btn-label">
+    <div class="btn-label fs-3">
       {{category.name}}
     </div>
   </button>

@@ -15,9 +15,6 @@ import {ActivatedRoute, Router} from "@angular/router";
   ]
 })
 export class StudentAppointmentsComponent implements OnInit {
-
-
-  @Output() user = new EventEmitter<User>();
   loginForm: FormGroup;
   currentUser: User;
 
@@ -25,15 +22,11 @@ export class StudentAppointmentsComponent implements OnInit {
   appointments: Appointment[] = [];
 
   constructor(private appointmentService:AppointmentService, private authService:AuthService,
-              private toastr: ToastrService,    private route:ActivatedRoute, //wie sieht die derzeitige Route im Browser aus
-              private router: Router) {
-  }
+              private toastr: ToastrService) { }
 
   ngOnInit(): void {
-    if(this.authService.isLoggedIn()){
+    if(this.authService.validateLoginStateByToken()){
       this.currentUser = this.authService.getCurrentUser();
-      console.log(this.currentUser);
-      this.user.emit(this.currentUser);
       this.appointmentService.getAppointmentsByStudentId(this.currentUser.id).subscribe(res => this.appointments = res);
     }
   }
@@ -41,15 +34,16 @@ export class StudentAppointmentsComponent implements OnInit {
   completeAppointment(appointment:Appointment){
     if(confirm('Wollen Sie die Nachhilfe wirklich beenden?')){
       appointment.completed = true;
-      this.toastr.warning("Nachhilfe abgeschlossen!", "Nachhilfe erfolgreich beendet");
-      this.appointmentService.update(appointment).subscribe(res => this.router.navigate(['../'],
-        {relativeTo:this.route}));
+      this.appointmentService.update(appointment).subscribe(res => {
+        // successful update
+        this.toastr.success("Nachhilfe abgeschlossen!", "Nachhilfe erfolgreich beendet");
+      });
     }
 
   }
 
   isLoggedIn(){
-    return this.authService.isLoggedIn();
+    return this.authService.validateLoginStateByToken();
   }
 
 

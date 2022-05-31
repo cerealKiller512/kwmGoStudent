@@ -1,15 +1,16 @@
-<div class="ui search" [ngClass]="{ loading: isLoading }">
-  <div class="ui icon input">
-    <input (keyup)="keyup.emit(searchTerm.value)" #searchTerm
-           class="prompt" type="text" placeholder="Suche...">
-    <i class="search icon"></i>
-  </div>
-  <div class="results transition" [ngClass]="{ visible: foundSubjects.length}">
-    <a href (click)="subjectSelected.emit(subject); false" class="result"
-       *ngFor="let subject of foundSubjects">
-      <div class="content">
-        <div class="title" >{{ subject.title }}</div>
-      </div>
+<div class="searchbox d-flex flex-column" [ngClass]="{ loading: isLoading }">
+  <input (keyup)="keyup.emit(searchTerm.value)" #searchTerm
+      class="form-control me-2 prompt" type="search" type="text" placeholder="Suche...">
+
+  <div class="list-group search-results" [ngClass]="{ visible: foundSubjects.length}">
+    <a *ngFor="let subject of foundSubjects" [routerLink]="[isTeacher ? './mySubjects' : '/subjects', subject.id]" 
+      class="list-group-item list-group-item-action result d-flex flex-column">
+      <span class="fs-6"><strong>{{ subject.title }}</strong></span>
+      <span class="fs-7">mit {{subject.user.firstName}} {{subject.user.lastName}}</span>
     </a>
   </div>
 </div>
+
+
+<!-- <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+        <button class="btn btn-outline-success" type="submit">Search</button> -->

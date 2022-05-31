@@ -1,8 +1,13 @@
-import {Component, EventEmitter, Output} from '@angular/core';
-import {ActivatedRoute, Router} from "@angular/router";
-import {AuthService} from "../shared/auth.service";
-import {Subject, User} from "../components/subject";
+import {Component, EventEmitter, OnInit, Output} from '@angular/core';
+import {AuthService, Response} from "../shared/auth.service";
+import { ActivatedRoute, Router } from "@angular/router";
+import {User} from "../components/subject";
+import {ProfileFactory} from "../components/profile-factory"
 import {FormBuilder, FormGroup} from "@angular/forms";
+import {Appointment} from "../components/appointment";
+import {SubjectFormErrorMessages} from "../subject-form/subject-form-error-messages";
+import {ProfileService} from "../shared/profile.service";
+import {Student} from "../components/student";
 
 
 @Component({
@@ -11,40 +16,63 @@ import {FormBuilder, FormGroup} from "@angular/forms";
   styles: [
   ]
 })
-export class ProfileComponent {
-  @Output() user = new EventEmitter<User>();
+export class ProfileComponent implements OnInit {
+  errors: { [key: string]: string } = {};
   userForm: FormGroup;
-  currentUser: User;
-  isUpdatingProfile = true;
+  currentUser: User | Student;
+  user = ProfileFactory.empty();
 
-  //private userService: userService
-  constructor(private fb: FormBuilder,private router: Router, private route: ActivatedRoute, private authService: AuthService) {
+
+  constructor(private fb: FormBuilder,
+              private authService: AuthService,
+              private profileService: ProfileService
+  ) {
     this.userForm = this.fb.group({});
 
   }
 
   ngOnInit(): void {
-
-    if(this.authService.isLoggedIn()){
       this.currentUser = this.authService.getCurrentUser();
-      console.log(this.currentUser);
-      this.user.emit(this.currentUser);
+      this.initProfileForm();
+  }
+
+  initProfileForm(){
+    this.userForm = this.fb.group({
+      id: this.currentUser.id,
+      firstName: this.currentUser.firstName,
+      lastName: this.currentUser.lastName,
+      email: this.currentUser.email,
+    });
+  }
+
+  submitForm(){
+    const user = ProfileFactory.fromObject(this.userForm.value);
+
+    let password = "";
+
+    if (password = prompt("Zum Aktualisieren bitte Passwort eingeben:")){
+      this.profileService.validatePw(password, user.id).subscribe(res => {
+        if (res != null && res != {} && res != undefined) {
+          this.profileService.update(user).subscribe(res => {
+
+            this.authService.login(this.authService.isLoggedInAsTeacher.value ? "teacher" : "student",
+              user.email,
+              password).subscribe(res => {
+
+              this.authService.setSessionStorage((res as Response).access_token);
+              this.authService.validateLoginStateByToken();
+              this.currentUser = this.authService.getCurrentUser();
+
+            })
+
+          })
+        }
+      })
+
+
+
     }
   }
-
-
-
-
-  isLoggedIn(){
-    return this.authService.isLoggedIn();
-  }
-
-  /*updateProfile(){
-
-  }*/
-
-
-
 
 
 }

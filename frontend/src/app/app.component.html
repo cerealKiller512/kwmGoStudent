@@ -1,78 +1,51 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
   <div class="container-fluid">
-    <ul class="navbar-nav">
-
-
-        <a class="nav-link dropdown-toggle" *ngIf="isLoggedIn()" routerLink="messages" routerLinkActive="active"
-          id="navbarDropdownMenuLink"
-
-        >
-          <i class="fas fa-bell"></i>
-          <span class="badge rounded-pill badge-notification bg-danger">1</span>
-        </a>
+    <a class="navbar-brand nav-link" routerLink="/"><img src="../assets/LogoGoStudent.png" /></a>
+    
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <a class="nav-link" routerLink="home" routerLinkActive="active">Home</a> <!--routerLinkActive: Wenn link active, dann klasse active-->
-
-        <a class="nav-link" *ngIf="!isTeacher" routerLink="categories" routerLinkActive="active">Kategorien</a>
-        <a class="nav-link" *ngIf="!isTeacher" routerLink="levels" routerLinkActive="active">Levels</a>
-        <a class="nav-link" *ngIf="!isTeacher" routerLink="subjects" routerLinkActive="active" >Angebote</a>
-
-        <a class="nav-link" *ngIf="isLoggedIn() && !isTeacher" [routerLink]="['studentAppointments', userId]" routerLinkActive="active">Meine Termine</a>
-
-        <a class="nav-link" *ngIf="isLoggedIn()" routerLink="profile" routerLinkActive="active">mein Profil</a>
-
-        <a class="nav-link" *ngIf="isLoggedIn() && isTeacher" routerLink="admin" routerLinkActive="active">Administration</a>
-
-        <a class="nav-link" *ngIf="isLoggedIn && isTeacher" routerLink="mySubjects" routerLinkActive="active">meine Angebote</a>
-
-
+    
+        <!-- <a class="nav-link" *ngIf="isLoggedIn && !isTeacher" routerLink="categories" routerLinkActive="active">Kategorien</a> -->
+        <!-- <a class="nav-link" *ngIf="isLoggedIn && !isTeacher" routerLink="levels" routerLinkActive="active">Levels</a> -->
+        <a class="nav-link" *ngIf="isLoggedIn && !isTeacher" routerLink="subjects" routerLinkActive="active" >Nachhilfe</a>
+    
+        <a class="nav-link" *ngIf="isLoggedIn && !isTeacher" routerLink="studentAppointments" routerLinkActive="active">Meine Termine</a>
+    
+        <a class="nav-link" *ngIf="isLoggedIn && isTeacher" routerLink="admin" routerLinkActive="active">Administration</a>    
+        <a class="nav-link" *ngIf="isLoggedIn && isTeacher" routerLink="mySubjects" routerLinkActive="active">meine Angebote</a>    
         <a class="nav-link" *ngIf="isLoggedIn && isTeacher" routerLink="bookedAppointments" routerLinkActive="active">Gebuchte Termine</a>
+        
+        <a class="nav-link" *ngIf="isLoggedIn" routerLink="profile" routerLinkActive="active">mein Profil</a>
+    
+        <a routerLink="login" routerLinkActive="active" class="nav-link">{{getLoginLabel()}}</a>
+      </ul>
 
-
-        <a routerLink="login" routerLinkActive="active"
-               class="nav-link">{{getLoginLabel()}}</a>
-
-
-
-
-         </ul>
-
+      <form>
+        <bs-search></bs-search>
+      </form>
+    
+      <a class="nav-link dropdown-toggle" *ngIf="isLoggedIn" routerLink="messages" routerLinkActive="active"
+        id="navbarDropdownMenuLink">
+        <i class="fas fa-bell"></i>
+        <span class="badge rounded-pill badge-notification bg-danger">1</span>
+      </a>
+    </div>
   </div>
-<!--<div class="ui {{isLoggedIn()?'six':'seven'}} item tabs menu">
-   <a *ngIf="isLoggedIn && isTeacher" routerLink="myRequests" routerLinkActive="active" class="navbar-brand">Anfragen</a>
-  <a *ngIf="isLoggedIn && isTeacher" routerLink="myAppointments" routerLinkActive="active" class="navbar-brand">meine Termine</a>
--->
-
-  <form class="form-inline">
-
-    <bs-search></bs-search></form>
-  <!--<ng-chat [adapter]="adapter" [userId]="userId"></ng-chat>-->
 </nav>
 
+<div class="content">
+  <router-outlet></router-outlet>
+</div>
 
 
-<router-outlet></router-outlet>
-
-<footer id="footer" class="bg-light text-center text-lg-start">
-
-  <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">
-    © 2022 Moser Lisa-Marie
-    <a class="text-dark" href="https://mdbootstrap.com/">Kommunikation, Wissen, Medien</a>
-  </div>
-  <!-- Copyright -->
+<footer class="footer bg-light d-flex flex-column align-items-center justify-content-center">
+    <p class="fs-5">© 2022 Moser Lisa-Marie</p>
+    <p>
+      <a class="text-dark" href="https://www.fh-ooe.at/campus-hagenberg/studiengaenge/bachelor/kommunikation-wissen-medien/">Kommunikation, Wissen, Medien</a>
+    </p>
 </footer>
-
-
-<!--<nav class="navbar navbar-light bg-light justify content-between">
-  <a routerLink="home" routerLinkActive="active" class="navbar-brand">Home</a>
-  <a routerLink="categories" routerLinkActive="active" class="navbar-brand">Kategorien</a>
-  <a routerLink="levels" routerLinkActive="active" class="navbar-brand">levels</a>
-  <a routerLink="subjects" routerLinkActive="active" class="navbar-brand">Angebote</a>
-  <a routerLink="admin" routerLinkActive="active" class="navbar-brand">Administration</a>
-  <a routerLink="login" routerLinkActive="active" class="navbar-brand">Login</a>
-  <a routerLink="profile" routerLinkActive="active" class="navbar-brand">mein Profil</a>
-  <form class="form-inline">
-    <bs-search></bs-search>
-
-</form>
-</nav>
-<router-outlet></router-outlet>-->

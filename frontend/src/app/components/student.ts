@@ -4,7 +4,7 @@ export class Student{
               public firstName:string,
               public lastName:string,
               public email:string,
-              public image?:string,
+              public image_url?:string,
               public address?:string,
               public phone?:string,
               public information?:string

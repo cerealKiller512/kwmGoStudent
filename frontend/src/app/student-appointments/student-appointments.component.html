@@ -1,19 +1,20 @@
-<div class="container d-grid">
-
-  <div *ngFor="let appointment of appointments">
-    <div *ngIf="appointment.booked == true && appointment.completed==false" >
-      <button  type="button"
-              class="btn btn-light border border-dark btn-lg">
-    <h3 class="btn-label">{{appointment.subject.title}}</h3>
-    <p class="text-secondary">{{appointment.user.firstName}} {{appointment.user.lastName}}</p>
-
-      <p class="text-secondary">Tag: {{appointment.day}}</p>
-      <p class="text-secondary">{{appointment.from}} - {{appointment.to}}</p>
-      <button class="btn btn-danger" (click)="completeAppointment(appointment)">Nachhilfe beenden</button>
-      </button>
-    </div>
-  <br/>
-    </div>
+<div class="container">
+  <h2>Meine Buchungen</h2>
+  <div class="container d-flex flex-wrap gap-2">
+    <ng-container *ngFor="let appointment of appointments">
+      <div class="card" *ngIf="!appointment.completed">
+        <div class="card-body">
+          <h5 class="card-title">{{appointment.subject.title}}</h5>
+          <p class="card-text d-flex flex-column">
+            <span><strong>Lehrer*in:</strong> {{appointment.user.firstName}} {{appointment.user.lastName}}</span>
+            <span><strong>Tag:</strong> {{appointment.day}}</span>
+            <span><strong>Uhrzeit:</strong> {{appointment.from}} - {{appointment.to}}</span>
+          </p>
+          <button class="btn btn-danger" (click)="completeAppointment(appointment)">Nachhilfe beenden</button>
+        </div>
+      </div>
+    </ng-container>
   </div>
+</div>
 
 

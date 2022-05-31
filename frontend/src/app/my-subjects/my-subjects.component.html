@@ -1,33 +1,38 @@
-<div class="container c-grid-3 mt-5">
-
-  <div *ngFor="let subject of subjects" type="button"
-  class="btn btn-light border border-dark"
-  [routerLink]="subject.id.toString()"
-  (click)="selectSubject(subject)">
-
-    <div [ngClass]="subject.icon">
-
-      <i [ngClass]="subject.icon"></i>
-
-    </div>
-    <div class="btn-label">
-      <b>{{subject.title}}</b>
-      <br>
-      <img class="d-inline-block img-fluid mb-4" width="50px" src="{{subject.user.image_url}}">
-    </div>
-    <div>
-
-      <p>{{subject.description}}</p>
-    </div>
-
-
-        <div *ngFor="let appointment of subject.appointments">
-          <h1>{{appointment.day}}</h1>
-          <p>{{appointment.from}}</p>
-          <p>{{appointment.to}}</p>
+<div class="container">
+  <div class="row mb-5">
+    <h2>Meine Nachhilfe Angebote</h2>
+  </div>
+  <div class="row gap-5" *ngIf="subjects.length > 0; else noSubjects">
+    <div class="card d-flex flex-column justify-content-between"
+      *ngFor="let subject of subjects" 
+      (click)="selectSubject(subject)" 
+      [routerLink]="subject.id.toString()"
+    >
+      <div class="floating-avatar">
+        <img src="{{subject.user.image_url}}">
+      </div>
+      <div class="card-header d-flex flex-wrap gap-2">
+        <span class="fs-4">{{subject.title}}</span>
+      </div>
+      <div class="card-body">
+        <p class="fs-6">{{subject.description}}</p>
+      </div>
+      <div class="card-footer d-flex align-items-center justify-content-between">
+        <div class="card-icon" [ngClass]="subject.icon">
+          <i [ngClass]="subject.icon"></i>
         </div>
-
+        <button class="btn btn-outline-dark"
+                 [routerLink]="subject.id.toString()"
+            (click)="selectSubject(subject)">Details</button>
+        <span>{{subject.price}}€/h</span>
+      </div>
+    </div>
   </div>
 
+  <ng-template #noSubjects>
+    <p>Aktuell sind keine Angebote verfügbar.</p>
+  </ng-template>
+
 </div>
+
 

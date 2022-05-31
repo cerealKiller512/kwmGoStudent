@@ -31,8 +31,6 @@ export class MySubjectsDetailsComponent implements OnInit {
     const params = this.route.snapshot.params; //snapshot der url -> mit params alle Parameter der Url
     this.subjectListService.getSingle(params['id']).subscribe(b =>{
       this.subject = b});
-    console.log(this.subject);
-    console.log(this.subject.appointments);
   }
 
   removeSubject(){

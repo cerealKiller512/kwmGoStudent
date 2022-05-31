@@ -24,20 +24,18 @@ export class MyAppointmentsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    if(this.authService.isLoggedIn()){
+    if(this.authService.validateLoginStateByToken()){
       this.currentUser = this.authService.getCurrentUser();
-      console.log(this.currentUser);
       this.user.emit(this.currentUser);
       this.appointmentService.getAll().subscribe(res => {
         this.appointments = res;
-        console.log("**=", this.appointments);
       });
     }
   }
 
 
   isLoggedIn(){
-    return this.authService.isLoggedIn();
+    return this.authService.validateLoginStateByToken();
   }
 
 }

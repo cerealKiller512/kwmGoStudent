@@ -1,45 +1,69 @@
-<div class="column">
-  <h1 class="ui header">{{subject.title}}</h1>
-  <h3 class="ui header">{{subject.description}}</h3>
-  <h3>{{subject.user.firstName}} {{subject.user.lastName}}</h3>
-  <img class="rounded-circle mt-5" width="150px" src="{{subject.user.image_url}}">
-  <div class="ui grid">
-    <div>
-      <h4>verfügbare Termine</h4>
-      <span *ngFor="let appointment of subject.appointments; last as l">
-        <ul class="list-group list-group-light list-group-small">
-          <li class="list-group-item col-md-2">
-             Tag: {{appointment.day}}
-          </li>
-          <li class="list-group-item col-md-2">
-           Von: {{appointment.from}}
-          </li>
-          <li class="list-group-item col-md-2">
-            Bis: {{appointment.to}}
-          </li>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-6 offset-md-1 d-flex gap-3">
+      <button class="btn btn-light border border-dark" routerLink="..">
+        <i class="fa-solid fa-home"></i> Zurück zur Übersicht
+      </button>
 
+      <button *ngIf="authService.isLoggedInSubject.value && authService.isLoggedInAsTeacher.value" class="btn btn-warning"
+        [routerLink]="['../../admin', subject?.id]">
+        <i class="fa-solid fa-edit"></i> Angebot bearbeiten
+      </button>
 
-        </ul>
-        <input *ngIf="authService.isLoggedIn && !authService.isLoggedInAsTeacher.value" type="checkbox">
-        <span *ngIf="!l"><br></span>
-           </span>
-      <br>
+      <button *ngIf="authService.isLoggedInSubject.value && authService.isLoggedInAsTeacher.value" class="btn btn-danger"
+              (click)="removeSubject()">
+              <i class="fa-solid fa-remove"></i> Angebot löschen
+      </button>
+    </div>
+  </div>
+
+  <hr />
+  
+  <div class="row">
+
+    <div class="col-md-8 offset-md-1">
+      <div class="row">
+        <h1>{{subject.title}}</h1>
+        <p>
+          {{subject.price}}€ / 60 Min
+        </p>
+        <p>
+          {{subject.description}}
+        </p>
+      </div>
+      <div class="row">
+        <div class="col-md-6 d-flex flex-column gap-2">
+          <h4>Verfügbare Termine</h4>
+          <div class="row" *ngFor="let appointment of subject.appointments; last as l">
+            <div class="col-md-8 p-2 d-flex flex-column border rounded border-dark" *ngIf="!appointment.booked">
+              <div class="area-day">Tag: {{appointment.day}}</div>
+              <div class="area_time">Uhrzeit: {{appointment.from}} - {{appointment.to}}</div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6 d-flex flex-column gap-2">
+          <h4>Gebuchte Termine</h4>
+          <div class="row" *ngFor="let appointment of subject.appointments; last as l">
+            <div class="col-md-8 p-2 d-flex flex-column border rounded border-dark" *ngIf="appointment.booked">
+              <div class="area-day">Tag: {{appointment.day}}</div>
+              <div class="area_time">Uhrzeit: {{appointment.from}} - {{appointment.to}}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-2">
+        <div class="card card-trainer">
+          <div class="" style="width: 100%; height: auto">
+            <img class="card-img-top rounded-circle" src="{{subject.user.image_url}}">
+          </div>
+          <div class="card-body">
+            <h4 class="card-title">Lehrer</h4>
+            <p class="card-text fs-5">Vorname: {{subject.user.firstName}}</p>
+            <p class="card-text fs-5">Nachname: {{subject.user.lastName}}</p>
+          </div>
+        </div>
     </div>
   </div>
 
 </div>
-
-<button class="btn btn-outline-dark" routerLink="/subjects">Zurück zur Übersicht</button>
-<button *ngIf="authService.isLoggedIn() && authService.isLoggedInAsTeacher.value"
-        (click)="removeSubject()" class="btn btn-outline-dark">
-  Angebot löschen
-</button>
-
-<button *ngIf="authService.isLoggedIn() && authService.isLoggedInAsTeacher.value"
-        [routerLink]="['../../admin', subject?.id]" class="btn btn-outline-dark">
-Angebot bearbeiten
-</button>
-
-
-
-

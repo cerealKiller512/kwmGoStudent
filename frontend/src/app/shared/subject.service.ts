@@ -35,7 +35,6 @@ export class SubjectService {
       "level_id": subject.level_id,
       "icon": "fa-solid fa-graduation-cap"
     };
-    console.log("=== ", body)
     return this.http.post(`${this.api}/subjects`, subject)
       .pipe(retry(3)).pipe(catchError(this.errorHandler));
   }

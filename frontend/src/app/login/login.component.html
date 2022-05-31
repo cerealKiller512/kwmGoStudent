@@ -1,4 +1,4 @@
-<div *ngIf="!isLoggedIn()">
+<div *ngIf="!isLoggedIn" class="container">
   <h1>Login</h1>
   <form  class="form-outline mb-4" [formGroup]="loginForm" >
     <div class="field">
@@ -20,10 +20,14 @@
     (loginForm.get('password')?.dirty || loginForm.get('password')?.touched)" class="ui negative message">
         Passwort ist verpflichtend </div>
     </div>
-    <button type="submit" (click)="login('teacher')" class="btn btn-primary btn-block" [disabled]="loginForm.invalid">Login als Lehrer</button>
-    <button type="submit" (click)="login('student')" class="btn btn-primary btn-block" [disabled]="loginForm.invalid">Login als Schüler</button>
+
+    <div class="btn-group">
+      <button type="submit" (click)="login('student')" class="btn btn-primary" [disabled]="loginForm.invalid">Anmelden als Student</button>
+      <button type="submit" (click)="login('teacher')" class="btn btn-outline-primary" [disabled]="loginForm.invalid">Anmelden als Lehrer</button>
+    </div>
   </form>
 </div>
-<div *ngIf="isLoggedIn()">
+
+<div *ngIf="isLoggedIn" class="container">
   <button type="button" class="btn btn-primary btn-block" (click)="logout()">Logout</button>
 </div>
