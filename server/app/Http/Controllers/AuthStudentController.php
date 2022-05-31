@@ -23,13 +23,6 @@ class AuthStudentController extends Controller
         return response()->json(\auth()->user());
     }
 
-    /*public function student(){
-        $credentials = \request(['email', 'password']);
-        if(! $token=\auth()->attempt($credentials)){
-            return response()->json(['error'=>'Unauthorized'], 401);
-        }
-        return $this->respondWithToken($token);
-    }*/
 
 
     public function logout(){

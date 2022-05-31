@@ -53,6 +53,7 @@ class Student extends Authenticatable implements JWTSubject
             'email' => $this->email,
             'firstName' => $this->firstName,
             'lastName' => $this->lastName,
+            'image_url' => $this->image_url,
             'isTeacher' => false]
         ];
     }

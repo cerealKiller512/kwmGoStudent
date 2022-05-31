@@ -65,17 +65,9 @@ class AppointmentController extends Controller
 
         return $returnObj;
 
-        //return $appointments;
+       ;
     }
 
-    /*public function getAppointmentsByUserId(int $user_id){
-        $appointments = Appointment::where('user_id', $user_id)
-            ->with(['subject'])
-            ->get();
-
-
-        return $appointments;
-    }*/
 
     /**
      * find appointment by given id
@@ -157,11 +149,7 @@ class AppointmentController extends Controller
       }
 
       return $result;
-        /*student_id: 1, /--> this.authService.currentUser
-        *  appointments: [ 1, 2, 3, ...] / ids of checked appointments
-        * }
-* foreach appointments as app -> update Appointment::find(app->id)
-*  set booked = true, set studentId = request["student_id"]*/
+
     }
 
     public function update(Request $request, int $id):JsonResponse{

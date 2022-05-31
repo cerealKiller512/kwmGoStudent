@@ -13,7 +13,6 @@ class UserTableSeeder extends Seeder
      */
     public function run()
     {
-        //test users
         $user = new \App\Models\User;
         $user->firstName= 'Donald';
         $user->lastName='Duck';

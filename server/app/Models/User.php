@@ -18,7 +18,7 @@ class User extends Authenticatable implements JWTSubject
      * @var array
      */
     protected $fillable = [
-        'firstName', 'lastName', 'email', 'password', 'phone', 'image_url', 'education', 'description'
+        'id', 'firstName', 'lastName', 'email', 'password', 'phone', 'image_url', 'education', 'description'
     ];
 
     /**
@@ -59,6 +59,7 @@ class User extends Authenticatable implements JWTSubject
             'email' => $this->email,
             'firstName' => $this->firstName,
             'lastName' => $this->lastName,
+            'image_url' => $this->image_url,
             'isTeacher' => true,
             'education' => $this->education,
             'description'=>$this->description],

@@ -13,17 +13,13 @@ use App\Http\Controllers\BeginTransaction;
 class SubjectController extends Controller
 {
     public function index(){
-        /* load all books and relations with eager loading,
-        which means "load all related objects"*/
+
 
         $subjects = Subject::with(['user'])->get();
         return $subjects;
     }
 
-    /*public function show(Subject $subject){
-        return view('subjects.show', compact('subject'));
 
-    }*/
 
     /**
      * find subject by given id
@@ -64,24 +60,26 @@ class SubjectController extends Controller
     /**
      * create new Subject
      */
-    public function save(Request $request) : JsonResponse{
+    public function save(Request $request)  {
         $request = $this->parseRequest($request);
-
         DB::beginTransaction();
         try{
             $subject = Subject::create($request->all());
 
             if(isset($request['appointments']) && is_array($request['appointments'])){
+                $persistAppointments = [];
                 foreach ($request['appointments'] as $appointment){
-                    $newAppointment = Appointment::firstOrNew(['day'=>$appointment['day'],
+
+
+                    $appointment = Appointment::firstOrNew([
+                        'day'=>$appointment['day'],
                         'from'=>$appointment['from'],
-                        'to'=>$appointment['to']]);
-                    $subject->appointments()->save($newAppointment);
+                        'to'=>$appointment['to']
+                    ]);
+                    $subject->appointments()->save($appointment);
                 }
+
             }
-
-            //save users ??????
-
             DB::commit();
             return response()->json($subject, 200);
         }
@@ -97,7 +95,7 @@ class SubjectController extends Controller
      */
 
     private function parseRequest(Request $request):Request{
-        //get date and convert it
+
         $date = new \DateTime($request->published);
         $request['published'] = $date;
         return $request;

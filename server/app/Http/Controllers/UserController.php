@@ -8,10 +8,13 @@ use Illuminate\Database\Eloquent;
 use Illuminate\Support\Facades\DB;
 use App\Models\Subject;
 use App\Models\User;
+use Illuminate\Support\Facades\Hash;
+use phpDocumentor\Reflection\Types\Boolean;
+use Psy\Util\Json;
+use Tymon\JWTAuth\JWTAuth;
 
 class UserController extends Controller
 {
-
     public function index(){
         $users = User::with(['subjects'])->get();
         return $users;
@@ -87,45 +90,28 @@ class UserController extends Controller
         return $request;
     }
 
-    public function update(Request $request, id $id):JsonResponse{
-        DB::beginTransaction();
+    public function update (Request $request, int $id) : JsonResponse {
+        $request = $this->parseRequest($request);
 
-        try{
-            $user = User::with(['subjects'])
-                ->where('id', $id)->first();
+        try {
+            $user = User::where('id', $id)->first();
 
-            if($user != null){
-                $request = $this->parseRequest($request);
+            if ($user != null) {
                 $user->update($request->all());
-
-                //delete old subjects
-
-                $user->subjects()->delete();
-
-                //save subjects
-                if(isset($request['subjects']) && is_array($request['subjects'])){
-                    foreach ($request['subjects'] as $subj){
-                        $subject = Subject::firstOrNew(['title'=>$subj['title']]);
-                        $user->subjects()->save($subject);
-                    }
-                }
-
-                $user->save();
             }
-
-            DB::commit();
-            $user1 = User::with(['subjects'])
-                ->where('id', $id)->first();
-            return response()->json($user1, 201);
-        }
-        catch (\Exception $e){
-            DB::rollBack();
-            return response()->json("updating users failed: ". $e->getMessage(), 420);
+            // return response()->json($user, 201);
+            return response()->json([
+                'access_token' => auth()->refresh(),
+                'token_type' => 'bearer',
+                'expires_in'=> \auth()->factory()->getTTL()*60
+            ]);
+        } catch (\Exception $e) {
+            return response()->json("updating user failed: " . $e->getMessage(), 420);
         }
     }
 
     /**
-     * returns 200 if users deleted successfully, throws exception if not
+     * returns 200 if user's deleted successfully, throws exception if not
      */
 
     public function delete(int $id):JsonResponse{
@@ -138,4 +124,15 @@ class UserController extends Controller
         return response()->json('users ('. $id. ') successfully deleted', 200);
     }
 
+
+    public function validatePassword(Request $request): JsonResponse {
+        $id = $request["id"];
+        $password = $request["password"];
+        $user = User::find($id);
+
+        if (Hash::check($password, $user->password)) {
+            return response()->json($user);
+        }
+        return response()->json(null, 420);
+    }
 }

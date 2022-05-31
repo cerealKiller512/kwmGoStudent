@@ -27,12 +27,11 @@ Route::group(['middleware' => ['api','assign.guard:users']], function() {
 });
 Route::group(['middleware' => ['api','assign.guard:students']], function() {
     Route::post('auth/login/student', [AuthController::class, 'login']);
+
 });
 
 
-//Route::middleware('auth:student')->get('/students', function (Request $request) {
-  //  return $request->student();
-//});
+
 
 /*-------------- SUBJECTS ----------------------*/
 
@@ -71,6 +70,7 @@ Route::get('users/search/{searchTerm}', [\App\Http\Controllers\UserController::c
 
 Route::group(['middleware' => ['api', 'auth.jwt']], function(){
     Route::post('users', [\App\Http\Controllers\UserController::class, 'save']);
+    Route::post('validatePw', [\App\Http\Controllers\UserController::class, 'validatePassword']);
     Route::put('users/{id}', [\App\Http\Controllers\UserController::class, 'update']);
     Route::delete('users/{id}', [\App\Http\Controllers\UserController::class, 'delete']);
     Route::post('auth/logout', [\App\Http\Controllers\AuthController::class, 'logout']);
@@ -153,16 +153,7 @@ Route::group(['middleware' => ['api', 'auth.jwt']], function(){
 
 });
 
-/*-----------------------------------My APPOINTMENTS------------------------*/
-//Route::get('myAppointments', [\App\Http\Controllers\AppointmentController::class, 'index']);
 
-
-//Route::group(['middleware' => ['api', 'auth.jwt']], function(){
-  //  Route::get('myAppointments/{id}', [\App\Http\Controllers\AppointmentController::class, 'getAppointmentsByUserId']);
-  //  Route::delete('myAppointments/{id}', [\App\Http\Controllers\AppointmentController::class, 'delete']);
-  //  Route::post('auth/logout', [\App\Http\Controllers\AuthController::class, 'logout']);
-
-//});
 
 Route::group(['middleware' => ['api', 'auth.jwt']], function(){
     Route::get('studentAppointments/{id}', [\App\Http\Controllers\AppointmentController::class, 'getAppointmentsByStudentId']);
@@ -232,22 +223,3 @@ Route::group(['middleware' => ['api', 'auth.jwt']], function(){
 //login with authentication User (Teacher)
 Route::post('auth/login', [AuthController::class, 'login']);
 
-
-//Route::post('auth/studentLogin', [AuthController::class, 'student']);
-
-//Route::post('auth/login', [\App\Http\Controllers\AuthController::class, 'studentLogin']);
-
-
-
-
-/**
- * Mögl. 1:
- * backend PUT: route setAppointmentsForUser
- * {
- *  student_id: 1, /--> this.authService.currentUser
- *  appointments: [ 1, 2, 3, ...] / ids of checked appointments
- * }
- * foreach appointments as app -> update Appointment::find(app->id)
- *  set booked = true, set studentId = request["student_id"]
- *
- */
